@@ -1,2 +1,10 @@
 [Oreveins]
 Common: Coal, Copper Ore, Tin Ore
+
+[Godbones]
+Common: Iron Ore
+Rare: Mithril Ore, Raw Adamantium
+
+[Forests]
+Common: Oak, Pine
+Rare: Ash, Fir

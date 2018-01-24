@@ -9,13 +9,13 @@ Copper Ore
 Tin Ore
 Iron Ore
 Mithril Ore
-Raw Adamantine
+Raw Adamantium
 
 [Stone]
 Granite
 Sandstone
 Marble
-Adamantine
+Adamantium
 
 [Wood]
 Oak

@@ -37,9 +37,18 @@
                 .Add(targetResource, targetQty)
             End If
 
-            'fill up remainder with common (1-4)
+            'fill up remainder with common (1-4) or rare (1-4)
             While qtyRemaining > 0
-                targetResource = GetRandom(Of String)(commons)
+                Dim targetList As List(Of String)
+                If commons.Count > 0 Then
+                    targetList = commons
+                ElseIf rares.Count > 0 Then
+                    targetList = rares
+                Else
+                    Throw New Exception("Insufficient resources in " & .Name & "; should have at least 3")
+                End If
+
+                targetResource = GetRandom(Of String)(targetList)
                 targetQty = rng.Next(1, 5)
                 If targetQty > qtyRemaining Then targetQty = qtyRemaining
                 qtyRemaining -= targetQty

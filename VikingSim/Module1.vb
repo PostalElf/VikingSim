@@ -20,8 +20,8 @@
         Dim newChild As Person = Person.Birth(newHouse.GetResidents("", "married male")(0), newHouse.GetResidents("", "married female")(0))
         newHouse.AddResident(newChild)
 
-        Dim naturalResources As NaturalResources = naturalResources.Construct("Oreveins")
-        Dim workplace As Workplace = workplace.Import("Lowmines", NaturalResources)
+        Dim naturalResources As NaturalResources = naturalResources.Construct("Godbones")
+        Dim workplace As Workplace = workplace.Import("Deepmines", naturalResources)
         settlement.AddBuilding(workplace)
         For n = 1 To 5
             Dim worker As Person = settlement.GetBestAffinityUnemployed(workplace.Occupation)
