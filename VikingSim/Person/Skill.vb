@@ -1,5 +1,6 @@
 ﻿Public Enum Skill
-    Fighting = 0
+    Vagrant = 0
+    Fighting
 
     Hunting
     Scouting

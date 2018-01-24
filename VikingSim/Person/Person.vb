@@ -60,7 +60,8 @@
 
 #Region "Constructors"
     Public Sub New()
-        For Each s In [Enum].GetValues(GetType(Skill))
+        For Each s As Skill In [Enum].GetValues(GetType(Skill))
+            If s = Skill.Vagrant Then Continue For
             SkillRanks.Add(s, 0)
             SkillAffinities.Add(s, 0)
             SkillXP.Add(s, 0)
@@ -145,15 +146,16 @@
 #End Region
 
 #Region "Skills"
-    Private ReadOnly Property Occupation As Skill
+    Public ReadOnly Property Occupation As Skill
         Get
-            If Workplace Is Nothing Then Return Skill.Fighting
-            Return Workplace.occupation
+            If Workplace Is Nothing Then Return Skill.Vagrant
+            Return Workplace.Occupation
         End Get
     End Property
     Private ReadOnly Property OccupationName As String
         Get
             Select Case Occupation
+                Case Skill.Vagrant : Return "Vagrant"
                 Case Skill.Fighting : Return "Fighter"
 
                 Case Skill.Hunting : Return "Hunter"
@@ -199,7 +201,12 @@
     End Function
 
     Private SkillAffinities As New Dictionary(Of Skill, Double)
-    Public ReadOnly Property SkillAffinityDescription(ByVal skill As Skill) As String
+    Public ReadOnly Property SkillAffinity(ByVal skill As Skill) As Double
+        Get
+            Return SkillAffinities(skill)
+        End Get
+    End Property
+    Private ReadOnly Property SkillAffinityDescription(ByVal skill As Skill) As String
         Get
             Select Case SkillAffinities(skill)
                 Case Is <= 1 : Return "Slow"
@@ -222,7 +229,12 @@
     End Function
 
     Private SkillRanks As New Dictionary(Of Skill, Integer)
-    Public ReadOnly Property SkillRankDescription(ByVal skill As Skill) As String
+    Public ReadOnly Property SkillRank(ByVal skill As Skill) As Integer
+        Get
+            Return SkillRanks(skill)
+        End Get
+    End Property
+    Private ReadOnly Property SkillRankDescription(ByVal skill As Skill) As String
         Get
             Select Case SkillRanks(skill)
                 Case 0 : Return "Untrained"

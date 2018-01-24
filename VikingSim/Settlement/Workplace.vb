@@ -57,6 +57,9 @@
     End Sub
     Public Function AddWorkerCheck(ByVal p As Person) As Boolean
         If Workers.Count + 1 > WorkerCapacity Then Return False
+        If p Is Nothing = False Then
+            'worker specific checks go here
+        End If
 
         Return True
     End Function

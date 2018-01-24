@@ -21,6 +21,8 @@
                         Case "married" : If r.IsMarried <> True Then yesToQuit = True
                         Case "male" : If r.Sex <> "Male" Then yesToQuit = True
                         Case "female" : If r.Sex <> "Female" Then yesToQuit = True
+                        Case "employed" : If r.Occupation = Skill.Vagrant Then yesToQuit = True
+                        Case "unemployed" : If r.Occupation <> Skill.Vagrant Then yesToQuit = True
                     End Select
                     If yesToQuit = True Then Exit For
                 Next

@@ -16,6 +16,30 @@
         Next
         Return total
     End Function
+    Public Function GetBestSkillUnemployed(ByVal skill As Skill) As Person
+        Dim residents As List(Of Person) = GetResidents("", "unemployed")
+        Dim bestFit As Person = Nothing
+        Dim bestSkill As Integer = -1
+        For Each r In residents
+            If r.SkillRank(skill) > bestSkill Then
+                bestSkill = r.SkillRank(skill)
+                bestFit = r
+            End If
+        Next
+        Return bestFit
+    End Function
+    Public Function GetBestAffinityUnemployed(ByVal skill As Skill) As Person
+        Dim residents As List(Of Person) = GetResidents("", "unemployed")
+        Dim bestFit As Person = Nothing
+        Dim bestAffinity As Double = -1
+        For Each r In residents
+            If r.skillaffinity(skill) > bestAffinity Then
+                bestAffinity = r.skillaffinity(skill)
+                bestFit = r
+            End If
+        Next
+        Return bestFit
+    End Function
     Public Function GetSingleCouple() As List(Of Person)
         Dim girls As List(Of Person) = GetResidents("", "single female")
         If girls.Count = 0 Then Return Nothing
@@ -42,6 +66,16 @@
         Buildings.Add(b)
         b.settlement = Me
     End Sub
+    Public Function GetEmployableWorkplaces() As List(Of Workplace)
+        Dim total As New List(Of Workplace)
+        For Each b In Buildings
+            If TypeOf b Is Workplace Then
+                Dim w As Workplace = CType(b, Workplace)
+                If w.AddWorkerCheck(Nothing) = True Then total.Add(w)
+            End If
+        Next
+        Return total
+    End Function
 
     Private Resources As New Dictionary(Of String, Integer)
     Public Sub AddResources(ByVal res As Dictionary(Of String, Integer), Optional ByVal remove As Boolean = False)

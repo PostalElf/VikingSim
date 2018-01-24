@@ -23,9 +23,11 @@
         Dim naturalResources As NaturalResources = naturalResources.Construct("Oreveins")
         Dim workplace As Workplace = workplace.Import("Lowmines", NaturalResources)
         settlement.AddBuilding(workplace)
-        newChild.ChangeWorkplace(workplace)
-        settlement.AddResources("Copper Ore", 100)
-        settlement.AddResources("Tin Ore", 100)
+        For n = 1 To 5
+            Dim worker As Person = settlement.GetBestAffinityUnemployed(workplace.Occupation)
+            worker.ChangeWorkplace(workplace)
+        Next
+
         For n = 1 To 100
             workplace.Tick()
         Next
