@@ -1,0 +1,8 @@
+D:\Visual Studio Projects\VikingSim\VikingSim\bin\Debug\VikingSim.exe
+D:\Visual Studio Projects\VikingSim\VikingSim\bin\Debug\VikingSim.pdb
+D:\Visual Studio Projects\VikingSim\VikingSim\bin\Debug\VikingSim.xml
+D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.Resources.resources
+D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.vbproj.GenerateResource.Cache
+D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.exe
+D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.xml
+D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.pdb

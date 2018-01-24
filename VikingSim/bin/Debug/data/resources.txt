@@ -1,0 +1,24 @@
+[Metal]
+Copper
+Bronze
+Steel
+
+[Ore]
+Coal
+Copper Ore
+Tin Ore
+Iron Ore
+Mithril Ore
+Raw Adamantine
+
+[Stone]
+Granite
+Sandstone
+Marble
+Adamantine
+
+[Wood]
+Oak
+Ash
+Pine
+Fir

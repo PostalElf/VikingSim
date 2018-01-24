@@ -1,0 +1,22 @@
+[Lowmines]
+Occupation: Mining
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Resource: Oreveins
+
+[Deepmines]
+Occupation: Mining
+Capacity: 3
+Labour: 100
+Efficiency: 0/1/2/3
+Resource: Godbones
+
+[Copper Smelter]
+Occupation: Smelting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Copper Ore, 1
+Cost: Tin Ore, 1
+Produce: Copper, 1
