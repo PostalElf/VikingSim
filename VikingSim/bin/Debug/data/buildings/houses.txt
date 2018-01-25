@@ -3,5 +3,7 @@ Capacity: 2
 Morale: -10
 
 [Longhouse]
+Buildtime: 100
+Buildcost: Oak, 5
 Capacity: 5
 Morale: 0

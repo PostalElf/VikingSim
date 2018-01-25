@@ -122,7 +122,7 @@
     End Function
 
     Private Shared AllResources As New Dictionary(Of String, List(Of String))
-    Private Resources As New Dictionary(Of String, Integer)
+    Private Resources As New ResourceDict
     Public Sub AddResources(ByVal res As ResourceDict, Optional ByVal remove As Boolean = False)
         For Each r In res.Keys
             If remove = True Then Resources(r) -= res(r) Else Resources(r) += res(r)
