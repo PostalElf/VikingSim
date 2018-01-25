@@ -72,6 +72,17 @@
         spouse.SpouseName = Name
         spouse.MoveHouse(newHouse)
     End Sub
+
+    Public Sub ConsoleReport()
+        Console.WriteLine(Name & " - " & Age & Sex.ToLower.First)
+        Console.WriteLine(" - Father:     " & FatherName)
+        Console.WriteLine(" - Mother:     " & MotherName)
+        If SpouseName <> "" Then
+            Console.WriteLine(" - Spouse:     " & SpouseName)
+            Console.WriteLine(" - Children:   " & ChildrenNames.Count)
+        End If
+        Console.WriteLine(" - Occupation: " & Occupation.ToString)
+    End Sub
 #End Region
 
 #Region "Constructors"

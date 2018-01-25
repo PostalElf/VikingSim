@@ -3,18 +3,21 @@
         Dim settlement As Settlement = BuildSettlement()
 
         Dim bMenu As New Dictionary(Of Integer, String)
-        bMenu.Add(1, "Marry Residents")
-        bMenu.Add(2, "Birth Resident")
-        bMenu.Add(3, "Add Building")
-        bMenu.Add(4, "Add Natural Resource")
+        bMenu.Add(1, "Review Residents")
+        bMenu.Add(11, "Marry Residents")
+        bMenu.Add(12, "Birth Resident")
+        bMenu.Add(13, "Add Building")
+        bMenu.Add(14, "Add Natural Resource")
 
         Dim doExit As Boolean = False
         While doExit = False
-            Select Case Menu.getListChoice(bMenu, 1)
-                Case -1 : doExit = False
-                Case 1 : MenuMarryResidents(settlement)
-                Case 2 : MenuAddBuilding(settlement)
-                Case 3 : MenuAddNaturalResource(settlement)
+            Select Case Menu.getListChoice(bMenu, 0, "Select option:")
+                Case 0, -1 : doExit = True
+                Case 1 : MenuReviewResidents(settlement)
+                Case 11 : MenuMarryResidents(settlement)
+                Case 12 : MenuBirthResident(settlement)
+                Case 13 : MenuAddBuilding(settlement)
+                Case 14 : MenuAddNaturalResource(settlement)
             End Select
         End While
     End Sub
@@ -34,6 +37,12 @@
         Return settlement
     End Function
 
+    Private Sub MenuReviewResidents(ByVal settlement As Settlement)
+        Dim selection As Person = Menu.getListChoice(Of Person)(settlement.GetResidents(""), 1, "Select resident:")
+        selection.ConsoleReport()
+        Console.ReadLine()
+        Console.Clear()
+    End Sub
     Private Sub MenuMarryResidents(ByVal settlement As Settlement)
         Dim men As List(Of Person) = settlement.GetResidents("", "single male")
         Dim women As List(Of Person) = settlement.GetResidents("", "single female")
@@ -49,6 +58,7 @@
         husband.Marry(wife, house)
         Console.WriteLine(husband.Name & " has married " & wife.Name & ".")
         Console.ReadLine()
+        Console.Clear()
     End Sub
     Private Sub MenuBirthResident(ByVal settlement As Settlement)
         Dim women As List(Of Person) = settlement.GetResidents("", "married female")
@@ -69,7 +79,7 @@
         Dim child As Person = Person.Birth(father, mother)
         Console.WriteLine(child.Name & " has been born to " & father.Name & " and " & mother.Name & ".")
         Console.ReadLine()
-
+        Console.Clear()
     End Sub
     Private Sub MenuAddBuilding(ByVal settlement As Settlement)
 
