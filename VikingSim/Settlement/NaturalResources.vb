@@ -1,11 +1,9 @@
 ﻿Public Class NaturalResources
-    Private Data As New Dictionary(Of String, Integer)
-    Public Name As String
-
+    Inherits ResourceDict
     Public Shared Function Construct(ByVal targetName As String) As NaturalResources
         Dim rawData As List(Of String) = ImportSquareBracketSelect("data/worldgen/naturalresources.txt", targetName)
 
-        Dim nr As New NaturalResources
+        Dim nr As New ResourceDict
         With nr
             .Name = targetName
 
@@ -56,32 +54,5 @@
             End While
         End With
         Return nr
-    End Function
-    Public Sub Add(ByVal key As String, ByVal value As Integer)
-        If Data.ContainsKey(key) = False Then Data.Add(key, 0)
-        Data.Item(key) += value
-    End Sub
-    Public Function Keys() As List(Of String)
-        Dim total As New List(Of String)
-        For Each k In Data.Keys
-            total.Add(k.ToString)
-        Next
-        Return total
-    End Function
-    Default Public Property Item(ByVal key As String) As Integer
-        Get
-            Return Data(key)
-        End Get
-        Set(ByVal value As Integer)
-            Data(key) = value
-        End Set
-    End Property
-    Public Overrides Function ToString() As String
-        Dim qtyList As New List(Of String)
-        For Each k In Keys()
-            qtyList.Add(k & " x" & Item(k))
-        Next
-
-        Return Name & " (" & ListToCommaString(qtyList) & ")"
     End Function
 End Class

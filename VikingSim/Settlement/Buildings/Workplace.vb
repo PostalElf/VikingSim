@@ -21,13 +21,13 @@
                         For n = 0 To ds.Count - 1
                             .LabourPerWorker.Add(n, ds(n))
                         Next
-                    Case "Cost" : ParseAddResource(entry, .ProductionCosts)
-                    Case "Produce" : ParseAddResource(entry, .ProductionResources)
+                    Case "Cost" : .ProductionCosts.ParsedAdd(entry)
+                    Case "Produce" : .ProducedResources.ParsedAdd(entry)
                     Case "Resource"
                         If naturalResources Is Nothing Then Throw New Exception("No natural resources provided for " & workplaceName)
                         If naturalResources.Name <> entry Then Throw New Exception("Natural resources mismatch: expected " & naturalResources.Name & " but got " & entry)
                         For Each r In naturalResources.Keys
-                            .ProductionResources.Add(r, naturalResources(r))
+                            .ProducedResources.Add(r, naturalResources(r))
                         Next
                     Case Else : .BaseImport(header, entry)
                 End Select
@@ -35,16 +35,9 @@
         End With
         Return workplace
     End Function
-    Private Shared Sub ParseAddResource(ByVal data As String, ByRef targetDictionary As Dictionary(Of String, Integer))
-        Dim ds As String() = data.Split(",")
-        Dim resType As String = ds(0).Trim
-        Dim qty As Integer = Convert.ToInt32(ds(1).Trim)
-
-        If targetDictionary.ContainsKey(resType) = False Then targetDictionary.Add(resType, 0)
-        targetDictionary(resType) += qty
-    End Sub
 #End Region
 
+#Region "Workers"
     Private Workers As New List(Of Person)
     Private WorkerCapacity As Integer
     Private _Occupation As Skill
@@ -72,13 +65,12 @@
         Workers.Remove(p)
     End Sub
 
+    Private Labour As Integer
     Private LabourThreshold As Integer
     Private LabourPerWorker As New Dictionary(Of Integer, Integer)
-    Private ProductionCosts As New Dictionary(Of String, Integer)
-    Private MayTakeSettlementResources As Boolean = True
+    Private ProductionCosts As New ResourceDict
+    Private ProducedResources As New ResourceDict
 
-    Private HasProductionCosts As Boolean
-    Private Labour As Integer
     Public Sub Tick()
         'attempt to take production costs if possible, otherwise exit sub
         If HasProductionCosts = False Then
@@ -95,7 +87,7 @@
         While Labour >= LabourThreshold
             'reduce labour and add product
             Labour -= LabourThreshold
-            Settlement.AddResources(ProductionResources)
+            Settlement.AddResources(ProducedResources)
 
             'take next batch of costs
             HasProductionCosts = TakeProductionCosts()
@@ -104,6 +96,11 @@
             If HasProductionCosts = False Then Labour = 0
         End While
     End Sub
+#End Region
+
+#Region "Production"
+    Private MayTakeSettlementResources As Boolean = True
+    Private HasProductionCosts As Boolean
     Private Function TakeProductionCosts() As Boolean
         If ProductionCosts.Keys.Count = 0 Then
             Return True
@@ -113,5 +110,5 @@
         End If
         Return False
     End Function
-    Private ProductionResources As New Dictionary(Of String, Integer)
+#End Region
 End Class

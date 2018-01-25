@@ -123,7 +123,7 @@
 
     Private Shared AllResources As New Dictionary(Of String, List(Of String))
     Private Resources As New Dictionary(Of String, Integer)
-    Public Sub AddResources(ByVal res As Dictionary(Of String, Integer), Optional ByVal remove As Boolean = False)
+    Public Sub AddResources(ByVal res As ResourceDict, Optional ByVal remove As Boolean = False)
         For Each r In res.Keys
             If remove = True Then Resources(r) -= res(r) Else Resources(r) += res(r)
         Next
@@ -131,7 +131,7 @@
     Public Sub AddResources(ByVal r As String, ByVal qty As Integer)
         Resources(r) += qty
     End Sub
-    Public Function CheckResources(ByVal res As Dictionary(Of String, Integer)) As Boolean
+    Public Function CheckResources(ByVal res As ResourceDict) As Boolean
         For Each r In res.Keys
             If Resources(r) < res(r) Then Return False
         Next

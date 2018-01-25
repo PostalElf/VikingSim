@@ -58,7 +58,7 @@ Module Common
         For Each r In rawSquareBracketList.Keys
             If r = targetName Then Return rawSquareBracketList(r)
         Next
-        Throw New Exception("Targetname " & targetName & " not found in " & pathname)
+        Return Nothing
     End Function
 
     Public Function GrabRandom(Of T)(ByRef sourceList As List(Of T)) As T
@@ -90,6 +90,14 @@ Module Common
         For n = 0 To str.Count - 1
             total &= str(n)
             If n <> str.Count - 1 Then total &= ", "
+        Next
+        Return total
+    End Function
+    Public Function CommaStringToList(ByVal str As String) As List(Of String)
+        Dim total As New List(Of String)
+        Dim ln As String() = str.Split(",")
+        For Each l In ln
+            total.Add(l.Trim)
         Next
         Return total
     End Function
