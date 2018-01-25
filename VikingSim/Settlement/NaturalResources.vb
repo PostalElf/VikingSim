@@ -3,7 +3,7 @@
     Public Shared Function Construct(ByVal targetName As String) As NaturalResources
         Dim rawData As List(Of String) = ImportSquareBracketSelect("data/worldgen/naturalresources.txt", targetName)
 
-        Dim nr As New ResourceDict
+        Dim nr As New NaturalResources
         With nr
             .Name = targetName
 

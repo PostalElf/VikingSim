@@ -100,11 +100,11 @@
         Buildings.Add(b)
         b.Settlement = Me
     End Sub
-    Public Function GetEmployableWorkplaces() As List(Of Workplace)
-        Dim total As New List(Of Workplace)
+    Public Function GetEmployableWorkplaces() As List(Of WorkplaceProducer)
+        Dim total As New List(Of WorkplaceProducer)
         For Each b In Buildings
-            If TypeOf b Is Workplace Then
-                Dim w As Workplace = CType(b, Workplace)
+            If TypeOf b Is WorkplaceProducer Then
+                Dim w As WorkplaceProducer = CType(b, WorkplaceProducer)
                 If w.AddWorkerCheck(Nothing) = True Then total.Add(w)
             End If
         Next

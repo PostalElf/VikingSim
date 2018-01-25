@@ -92,12 +92,15 @@
     <Compile Include="Person\WeaponTypes.vb" />
     <Compile Include="Common.vb" />
     <Compile Include="Settlement\Buildings\Building.vb" />
-    <Compile Include="Settlement\Buildings\BuildingProject.vb" />
+    <Compile Include="Settlement\Projects\BuildingProject.vb" />
     <Compile Include="Settlement\Buildings\House.vb" />
+    <Compile Include="Settlement\Buildings\Workplace.vb" />
+    <Compile Include="Settlement\Buildings\WorkplaceProjector.vb" />
     <Compile Include="Settlement\NaturalResources.vb" />
+    <Compile Include="Settlement\Projects\Project.vb" />
     <Compile Include="Settlement\Settlement.vb" />
     <Compile Include="Settlement\SettlementSite.vb" />
-    <Compile Include="Settlement\Buildings\Workplace.vb" />
+    <Compile Include="Settlement\Buildings\WorkplaceProducer.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

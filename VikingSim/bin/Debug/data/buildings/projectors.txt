@@ -1,0 +1,5 @@
+[Carpenter]
+Occupation: Carpentry
+Capacity: 5
+Efficiency: 1/2/3/4
+ProjectType: Building

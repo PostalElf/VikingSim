@@ -37,6 +37,16 @@
             End If
             child.MoveHouse(house)
         Next
+
+        Dim nr As NaturalResources = NaturalResources.Construct("Godbones")
+        Dim wp = WorkplaceProjector.Import("Carpenter")
+        settlement.AddBuilding(wp)
+        settlement.GetBestAffinityUnemployed(wp.Occupation).ChangeWorkplace(wp)
+        wp.AddProject("Deepmines", nr)
+        For n = 1 To 100
+            wp.Tick()
+        Next
+
         Return settlement
     End Function
 

@@ -1,44 +1,39 @@
 ﻿Public Class BuildingProject
+    Inherits Project
     Public Shared Function Import(ByVal targetName As String) As BuildingProject
         Dim BuildingType As String = "House"
         Dim rawData As List(Of String) = ImportSquareBracketSelect("data/buildings/houses.txt", targetName)
-        If rawData Is Nothing Then rawData = ImportSquareBracketSelect("data/buildings/workplaces.txt", targetName) : BuildingType = "Workplace"
+        If rawData Is Nothing Then rawData = ImportSquareBracketSelect("data/buildings/producers.txt", targetName) : BuildingType = "Producer"
+        If rawData Is Nothing Then rawData = ImportSquareBracketSelect("data/buildings/projectors.txt", targetName) : BuildingType = "Projector"
         If rawData Is Nothing Then Throw New Exception(targetName & " not found for BuildingProject.Import")
 
         Dim bp As New BuildingProject
         With bp
             .BuildingType = BuildingType
-            .BuildingName = targetName
+            .Name = targetName
+
             For Each line In rawData
                 Dim ln As String() = line.Split(":")
                 Dim header As String = ln(0).Trim
                 Dim entry As String = ln(1).Trim
                 Select Case header
-                    Case "Buildtime", "Time" : .BuildTime = Convert.ToInt32(entry)
-                    Case "Buildcost", "Build" : .ConstructionCosts.ParsedAdd(entry)
+                    Case "Resource" : .NaturalResourcesString = entry
+                    Case Else : .baseImport(header, entry)
                 End Select
             Next
         End With
         Return bp
     End Function
-    Public Function Tick(ByVal labour As Integer) As Boolean
-        'return true when completed
-        BuildTimeProgress += labour
-        If BuildTimeProgress >= BuildTime Then Return True
-
-        Return False
-    End Function
     Public Function Unpack() As Building
         Select Case BuildingType
-            Case "House" : Return House.Import(BuildingName)
-            Case "Workplace" : Return Workplace.Import(BuildingName)
+            Case "House" : Return House.Import(Name)
+            Case "Producer" : Return WorkplaceProducer.Import(Name, NaturalResources)
+            Case "Projector" : Return WorkplaceProjector.Import(Name)
             Case Else : Throw New Exception("Unrecgonised BuildingType in BuildingProject")
         End Select
     End Function
 
     Private BuildingType As String
-    Private BuildingName As String
-    Private BuildTime As Integer
-    Private BuildTimeProgress As Integer
-    Private ConstructionCosts As New ResourceDict
+    Private NaturalResourcesString As String
+    Public NaturalResources As NaturalResources
 End Class
