@@ -7,7 +7,7 @@
 
         Dim workplace As New Workplace
         With workplace
-            .Name = workplaceName
+            ._Name = workplaceName
             For Each line In rawData
                 Dim ln As String() = line.Split(":")
                 Dim header As String = ln(0).Trim

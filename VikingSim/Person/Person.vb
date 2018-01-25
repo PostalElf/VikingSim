@@ -32,8 +32,8 @@
     Private Age As Integer
 
     Private House As House
-    Private Sub MoveHouse(ByVal targetHouse As House)
-        House.RemoveResident(Me)
+    Public Sub MoveHouse(ByVal targetHouse As House)
+        If House Is Nothing = False Then House.RemoveResident(Me)
         House = targetHouse
         House.AddResident(Me)
     End Sub
@@ -75,13 +75,14 @@
 
     Public Sub ConsoleReport()
         Console.WriteLine(Name & " - " & Age & Sex.ToLower.First)
-        Console.WriteLine(" - Father:     " & FatherName)
-        Console.WriteLine(" - Mother:     " & MotherName)
+        Console.WriteLine("├ House:      " & House.Name)
+        Console.WriteLine("├ Father:     " & FatherName)
+        Console.WriteLine("├ Mother:     " & MotherName)
         If SpouseName <> "" Then
-            Console.WriteLine(" - Spouse:     " & SpouseName)
-            Console.WriteLine(" - Children:   " & ChildrenNames.Count)
+            Console.WriteLine("├ Spouse:     " & SpouseName)
+            Console.WriteLine("├ Children:   " & ChildrenNames.Count)
         End If
-        Console.WriteLine(" - Occupation: " & Occupation.ToString)
+        Console.WriteLine("├ Occupation: " & Occupation.ToString)
     End Sub
 #End Region
 
@@ -106,7 +107,6 @@
             If rng.Next(1, 3) = 1 Then ._Sex = "Male" Else ._Sex = "Female"
             .NameFirst = GrabRandomNameFirst(.Sex)
             .NameLast = GrabRandomNameLast(.Sex, father, mother)
-            .House = mother.House
             .FatherName = father.Name
             .MotherName = mother.Name
             father.ChildrenNames.Add(.Name)
@@ -130,11 +130,9 @@
         End With
         Return child
     End Function
-    Public Shared Function Ancestor(ByVal childSex As String, ByVal house As House) As Person
+    Public Shared Function Ancestor(ByVal childSex As String) As Person
         Dim child As New Person
         With child
-            .House = house
-
             If childSex = "Male" Then
                 .NameFirst = "Ask"
             ElseIf childSex = "Female" Then

@@ -1,5 +1,10 @@
 ﻿Public MustInherit Class Building
-    Protected Name As String
+    Protected _Name As String
+    Public ReadOnly Property Name As String
+        Get
+            Return _Name
+        End Get
+    End Property
     Public Settlement As Settlement
     Private _LandUsed As Integer = 5
     Public ReadOnly Property LandUsed As Integer

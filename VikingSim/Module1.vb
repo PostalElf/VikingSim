@@ -24,15 +24,18 @@
     Private Function BuildSettlement() As Settlement
         Dim site As SettlementSite = SettlementSite.Construct("Wooded")
         Dim settlement As Settlement = settlement.Construct(site)
-        Dim house As New House
-        settlement.AddBuilding(house)
 
-        Dim godfather As Person = Person.Ancestor("Male", house)
-        Dim godmother As Person = Person.Ancestor("Female", house)
+        Dim godfather As Person = Person.Ancestor("Male")
+        Dim godmother As Person = Person.Ancestor("Female")
+        Dim house As House = Nothing
 
         For n = 1 To 10
             Dim child As Person = Person.Birth(godfather, godmother)
-            house.AddResident(child)
+            If n Mod 2 <> 0 Then
+                house = house.Import("Hut")
+                settlement.AddBuilding(house)
+            End If
+            child.MoveHouse(house)
         Next
         Return settlement
     End Function

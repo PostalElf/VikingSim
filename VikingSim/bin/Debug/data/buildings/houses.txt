@@ -1,0 +1,7 @@
+[Hut]
+Capacity: 2
+Morale: -10
+
+[Longhouse]
+Capacity: 5
+Morale: 0
