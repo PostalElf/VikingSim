@@ -1,6 +1,5 @@
 ﻿Public Class ResourceDict
     Private Data As New Dictionary(Of String, Integer)
-    Public Name As String
 
     Public Sub Add(ByVal key As String, ByVal value As Integer)
         If Data.ContainsKey(key) = False Then Data.Add(key, 0)
@@ -39,6 +38,6 @@
             qtyList.Add(k & " x" & Item(k))
         Next
 
-        Return Name & " (" & ListToCommaString(qtyList) & ")"
+        Return ListToCommaString(qtyList)
     End Function
 End Class

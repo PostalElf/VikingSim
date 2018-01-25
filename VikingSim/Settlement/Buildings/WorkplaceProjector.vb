@@ -24,14 +24,14 @@
 
     Private Project As Project
     Private ProjectType As String
-    Public Sub AddProject(ByVal projectName As String, Optional ByVal naturalResources As NaturalResources = Nothing)
-        Select Case projectType
+    Public Sub AddProject(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
+        Select Case ProjectType
             Case "Building"
                 Project = BuildingProject.Import(projectName)
                 Dim p As BuildingProject = CType(Project, BuildingProject)
-                If p.NaturalResourcesString <> "" Then
-                    p.NaturalResources = naturalResources
-                    Settlement.RemoveLocation(p.NaturalResources)
+                If p.LocationString <> "" Then
+                    p.Location = location
+                    Settlement.RemoveLocation(location)
                 End If
         End Select
     End Sub

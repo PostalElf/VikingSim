@@ -17,7 +17,7 @@
                 Dim header As String = ln(0).Trim
                 Dim entry As String = ln(1).Trim
                 Select Case header
-                    Case "Resource" : .NaturalResourcesString = entry
+                    Case "Resource" : .LocationString = entry
                     Case Else : .baseImport(header, entry)
                 End Select
             Next
@@ -27,13 +27,13 @@
     Public Function Unpack() As Building
         Select Case BuildingType
             Case "House" : Return House.Import(Name)
-            Case "Producer" : Return WorkplaceProducer.Import(Name, NaturalResources)
+            Case "Producer" : Return WorkplaceProducer.Import(Name, Location)
             Case "Projector" : Return WorkplaceProjector.Import(Name)
             Case Else : Throw New Exception("Unrecgonised BuildingType in BuildingProject")
         End Select
     End Function
 
     Private BuildingType As String
-    Public NaturalResourcesString As String
-    Public NaturalResources As NaturalResources
+    Public LocationString As String
+    Public Location As NaturalResources
 End Class

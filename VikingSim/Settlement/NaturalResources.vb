@@ -5,9 +5,8 @@
         Dim rawData As List(Of String) = ImportSquareBracketSelect("data/worldgen/naturalresources.txt", targetName)
 
         Dim nr As New NaturalResources
+        nr.Name = targetName
         With nr.ResourceDict
-            .Name = targetName
-
             'populate drops
             Dim commons As New List(Of String)
             Dim rares As New List(Of String)
@@ -44,7 +43,7 @@
                 ElseIf rares.Count > 0 Then
                     targetList = rares
                 Else
-                    Throw New Exception("Insufficient resources in " & .Name & "; should have at least 3")
+                    Throw New Exception("Insufficient resources in " & targetName & "; should have at least 3")
                 End If
 
                 targetResource = GetRandom(Of String)(targetList)
@@ -57,4 +56,7 @@
         Return nr
     End Function
     Public ResourceDict As New ResourceDict
+    Public Overrides Function ToString() As String
+        Return Name & ": " & ResourceDict.ToString
+    End Function
 End Class

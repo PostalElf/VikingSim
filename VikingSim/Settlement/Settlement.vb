@@ -24,6 +24,13 @@
         If Locations.Contains(l) = False Then Throw New Exception("Settlement.Locations does not contain " & l.Name)
         Locations.Remove(l)
     End Sub
+    Public Function GetLocations(ByVal targetName As String) As List(Of SettlementLocation)
+        Dim total As New List(Of SettlementLocation)
+        For Each l In Locations
+            If l.Name = targetName Then total.Add(l)
+        Next
+        Return total
+    End Function
 
     Private LandTotal As Integer
     Private ReadOnly Property LandUsed As Integer

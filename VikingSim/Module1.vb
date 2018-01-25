@@ -22,7 +22,7 @@
         End While
     End Sub
     Private Function BuildSettlement() As Settlement
-        Dim site As SettlementSite = SettlementSite.Construct("Wooded")
+        Dim site As SettlementSite = SettlementSite.Construct("Hilly")
         Dim settlement As Settlement = settlement.Construct(site)
 
         Dim godfather As Person = Person.Ancestor("Male")
@@ -38,12 +38,10 @@
             child.MoveHouse(house)
         Next
 
-        Dim nr As NaturalResources = NaturalResources.Construct("Godbones")
-        settlement.AddLocation(nr)
         Dim wp = WorkplaceProjector.Import("Carpenter")
         settlement.AddBuilding(wp)
         settlement.GetBestAffinityUnemployed(wp.Occupation).ChangeWorkplace(wp)
-        wp.AddProject("Deepmines", nr)
+        wp.AddProject("Deepmines", settlement.GetLocations("Godbones")(0))
         For n = 1 To 200
             wp.Tick()
         Next
