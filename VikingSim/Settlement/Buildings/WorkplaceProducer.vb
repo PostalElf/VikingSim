@@ -2,7 +2,7 @@
     Inherits Workplace
 
 #Region "Constructors"
-    Public Shared Function Import(ByVal workplaceName As String, Optional ByVal naturalResources As NaturalResources = Nothing) As WorkplaceProducer
+    Public Shared Function Import(ByVal workplaceName As String, Optional ByVal location As SettlementLocation = Nothing) As WorkplaceProducer
         Dim rawData As List(Of String) = ImportSquareBracketSelect("data/buildings/producers.txt", workplaceName)
 
         Dim workplace As New WorkplaceProducer
@@ -17,10 +17,11 @@
                     Case "Cost" : .ProductionCosts.ParsedAdd(entry)
                     Case "Produce" : .ProducedResources.ParsedAdd(entry)
                     Case "Resource"
-                        If naturalResources Is Nothing Then Throw New Exception("No natural resources provided for " & workplaceName)
-                        If naturalResources.Name <> entry Then Throw New Exception("Natural resources mismatch: expected " & naturalResources.Name & " but got " & entry)
-                        For Each r In naturalResources.Keys
-                            .ProducedResources.Add(r, naturalResources(r))
+                        If location Is Nothing Then Throw New Exception("Location not provided when NaturalResources is required.")
+                        If TypeOf location Is NaturalResources = False Then Throw New Exception("NaturalResources expected in location.")
+                        Dim nr As NaturalResources = CType(location, NaturalResources)
+                        For Each r In nr.ResourceDict.Keys
+                            .ProducedResources.Add(r, nr.ResourceDict(r))
                         Next
                     Case Else : .WorkplaceImport(header, entry)
                 End Select

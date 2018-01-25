@@ -10,13 +10,21 @@
     Public Shared Function Construct(ByVal settlementSite As SettlementSite) As Settlement
         Dim settlement As New Settlement
         With settlement
-            .NaturalResources = settlementSite.NaturalResourceList
-            .LandTotal = 100 - (.NaturalResources.Count * 10)
+            .Locations = settlementSite.LocationList
+            .LandTotal = 100 - (.Locations.Count * 10)
         End With
         Return settlement
     End Function
 
-    Private NaturalResources As New List(Of NaturalResources)
+    Private Locations As New List(Of SettlementLocation)
+    Public Sub AddLocation(ByVal l As SettlementLocation)
+        Locations.Add(l)
+    End Sub
+    Public Sub RemoveLocation(ByVal l As SettlementLocation)
+        If Locations.Contains(l) = False Then Throw New Exception("Settlement.Locations does not contain " & l.Name)
+        Locations.Remove(l)
+    End Sub
+
     Private LandTotal As Integer
     Private ReadOnly Property LandUsed As Integer
         Get

@@ -1,10 +1,11 @@
 ﻿Public Class NaturalResources
-    Inherits ResourceDict
+    Inherits SettlementLocation
+
     Public Shared Function Construct(ByVal targetName As String) As NaturalResources
         Dim rawData As List(Of String) = ImportSquareBracketSelect("data/worldgen/naturalresources.txt", targetName)
 
         Dim nr As New NaturalResources
-        With nr
+        With nr.ResourceDict
             .Name = targetName
 
             'populate drops
@@ -55,4 +56,5 @@
         End With
         Return nr
     End Function
+    Public ResourceDict As New ResourceDict
 End Class

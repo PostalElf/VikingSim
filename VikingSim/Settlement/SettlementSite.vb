@@ -1,6 +1,6 @@
 ﻿Public Class SettlementSite
     Public Terrain As String
-    Public NaturalResourceList As New List(Of NaturalResources)
+    Public LocationList As New List(Of SettlementLocation)
     Public Shared Function Construct(Optional ByVal targetTerrain As String = "") As SettlementSite
         Dim site As New SettlementSite
         With site
@@ -23,7 +23,7 @@
                 If possibleResources.Count = 0 Then possibleResources.AddRange(terrainDict(.Terrain))
                 Dim resource As String = GrabRandom(Of String)(possibleResources)
 
-                .NaturalResourceList.Add(NaturalResources.Construct(resource))
+                .LocationList.Add(NaturalResources.Construct(resource))
             Next
         End With
         Return site

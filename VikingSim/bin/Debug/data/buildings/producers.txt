@@ -11,6 +11,7 @@ Capacity: 3
 Labour: 100
 Efficiency: 0/1/2/3
 Resource: Godbones
+Buildtime: 100
 
 [Copper Smelter]
 Occupation: Smelting

@@ -92,6 +92,7 @@
     <Compile Include="Person\WeaponTypes.vb" />
     <Compile Include="Common.vb" />
     <Compile Include="Settlement\Buildings\Building.vb" />
+    <Compile Include="Settlement\SettlementLocation.vb" />
     <Compile Include="Settlement\Projects\BuildingProject.vb" />
     <Compile Include="Settlement\Buildings\House.vb" />
     <Compile Include="Settlement\Buildings\Workplace.vb" />

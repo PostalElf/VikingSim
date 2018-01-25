@@ -39,11 +39,12 @@
         Next
 
         Dim nr As NaturalResources = NaturalResources.Construct("Godbones")
+        settlement.AddLocation(nr)
         Dim wp = WorkplaceProjector.Import("Carpenter")
         settlement.AddBuilding(wp)
         settlement.GetBestAffinityUnemployed(wp.Occupation).ChangeWorkplace(wp)
         wp.AddProject("Deepmines", nr)
-        For n = 1 To 100
+        For n = 1 To 200
             wp.Tick()
         Next
 

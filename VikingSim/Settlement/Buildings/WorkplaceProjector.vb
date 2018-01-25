@@ -29,7 +29,10 @@
             Case "Building"
                 Project = BuildingProject.Import(projectName)
                 Dim p As BuildingProject = CType(Project, BuildingProject)
-                p.NaturalResources = naturalResources
+                If p.NaturalResourcesString <> "" Then
+                    p.NaturalResources = naturalResources
+                    Settlement.RemoveLocation(p.NaturalResources)
+                End If
         End Select
     End Sub
     Public Overrides Sub Tick()

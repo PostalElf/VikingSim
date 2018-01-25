@@ -34,6 +34,6 @@
     End Function
 
     Private BuildingType As String
-    Private NaturalResourcesString As String
+    Public NaturalResourcesString As String
     Public NaturalResources As NaturalResources
 End Class
