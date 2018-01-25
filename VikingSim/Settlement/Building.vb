@@ -7,4 +7,10 @@
             Return _LandUsed
         End Get
     End Property
+
+    Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
+        Select Case header
+            Case "Land" : _LandUsed = Convert.ToInt32(entry)
+        End Select
+    End Sub
 End Class

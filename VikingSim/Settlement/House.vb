@@ -3,10 +3,24 @@
 
 #Region "Constructors"
     Private Shared HouseNumber As Integer = 1
-    Public Shared Function Construct(ByVal settlement As Settlement) As House
+    Public Shared Function Import(ByVal targetName As String, ByVal settlement As Settlement) As House
+        Dim data As List(Of String) = ImportSquareBracketSelect("data/buildings/houses.txt", targetName)
+        If data Is Nothing Then Throw New Exception("House type not found")
+
         Dim h As New House
         With h
-            .Name = "House #" & HouseNumber
+            .Name = targetName & " #" & HouseNumber
+            HouseNumber += 1
+
+            For Each line In data
+                Dim ln As String() = line.Split(":")
+                Dim header As String = ln(0).Trim
+                Dim entry As String = ln(1).Trim
+                Select Case header
+                    Case "Capacity" : .ResidentCapacity = Convert.ToInt32(entry)
+                    Case Else : .BaseImport(header, entry)
+                End Select
+            Next
         End With
 
         settlement.AddBuilding(h)

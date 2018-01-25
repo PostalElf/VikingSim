@@ -9,25 +9,27 @@
         With workplace
             .Name = workplaceName
             For Each line In rawData
-                Dim entry As String() = line.Split(":")
-                Dim data As String = entry(1).Trim
-                Select Case entry(0).Trim
-                    Case "Occupation" : ._Occupation = StringToEnum(Of Skill)(data)
-                    Case "Capacity" : .WorkerCapacity = Convert.ToInt32(data)
-                    Case "Labour" : .LabourThreshold = Convert.ToInt32(data)
+                Dim ln As String() = line.Split(":")
+                Dim header As String = ln(0).Trim
+                Dim entry As String = ln(1).Trim
+                Select Case header
+                    Case "Occupation" : ._Occupation = StringToEnum(Of Skill)(entry)
+                    Case "Capacity" : .WorkerCapacity = Convert.ToInt32(entry)
+                    Case "Labour" : .LabourThreshold = Convert.ToInt32(entry)
                     Case "Efficiency"
-                        Dim ds As String() = data.Split("/")
+                        Dim ds As String() = entry.Split("/")
                         For n = 0 To ds.Count - 1
                             .LabourPerWorker.Add(n, ds(n))
                         Next
-                    Case "Cost" : ParseAddResource(data, .ProductionCosts)
-                    Case "Produce" : ParseAddResource(data, .ProductionResources)
+                    Case "Cost" : ParseAddResource(entry, .ProductionCosts)
+                    Case "Produce" : ParseAddResource(entry, .ProductionResources)
                     Case "Resource"
                         If naturalResources Is Nothing Then Throw New Exception("No natural resources provided for " & workplaceName)
-                        If naturalResources.Name <> data Then Throw New Exception("Natural resources mismatch: expected " & naturalResources.Name & " but got " & data)
+                        If naturalResources.Name <> entry Then Throw New Exception("Natural resources mismatch: expected " & naturalResources.Name & " but got " & entry)
                         For Each r In naturalResources.Keys
                             .ProductionResources.Add(r, naturalResources(r))
                         Next
+                    Case Else : .BaseImport(header, entry)
                 End Select
             Next
         End With
