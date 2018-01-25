@@ -8,3 +8,7 @@ Rare: Mithril Ore, Raw Adamantium
 [Forests]
 Common: Oak, Pine
 Rare: Ash, Fir
+
+[Glades]
+Common: Hides, Meat
+Rare: Reagents

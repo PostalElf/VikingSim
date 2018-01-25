@@ -3,7 +3,7 @@
     Public Name As String
 
     Public Shared Function Construct(ByVal targetName As String) As NaturalResources
-        Dim rawData As List(Of String) = ImportSquareBracketSelect("data/naturalresources.txt", targetName)
+        Dim rawData As List(Of String) = ImportSquareBracketSelect("data/worldgen/naturalresources.txt", targetName)
 
         Dim nr As New NaturalResources
         With nr
@@ -77,6 +77,11 @@
         End Set
     End Property
     Public Overrides Function ToString() As String
-        Return Name & " (Count: " & Data.Keys.Count & ")"
+        Dim qtyList As New List(Of String)
+        For Each k In Keys()
+            qtyList.Add(k & " x" & Item(k))
+        Next
+
+        Return Name & " (" & ListToCommaString(qtyList) & ")"
     End Function
 End Class

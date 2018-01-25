@@ -1,0 +1,10 @@
+[Wooded]
+Forests
+Glades
+
+[Hilly]
+Oreveins
+Godbones
+
+[Swampy]
+Oreveins

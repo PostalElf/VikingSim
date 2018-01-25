@@ -40,13 +40,29 @@
     Private FatherName As String
     Private MotherName As String
     Private ChildrenNames As New List(Of String)
+    Public Function GetRelative(ByVal relationship As String) As Person
+        Select Case relationship.ToLower
+            Case "mother" : Return House.GetResident(MotherName)
+            Case "father" : Return House.GetResident(FatherName)
+            Case "spouse" : Return House.GetResident(SpouseName)
+            Case Else : Return Nothing
+        End Select
+    End Function
+    Public Function GetRelatives(ByVal relationship As String) As List(Of Person)
+        Dim total As New List(Of Person)
+        Select Case relationship.ToLower
+            Case "children"
+                For Each childName In ChildrenNames
+                    total.Add(House.GetResident(childName))
+                Next
+            Case "spouse", "couple"
+                total.Add(Me)
+                total.Add(House.GetResident(SpouseName))
+        End Select
+        Return total
+    End Function
 
     Private SpouseName As String
-    Public ReadOnly Property IsMarried As Boolean
-        Get
-            If SpouseName = "" Then Return False Else Return True
-        End Get
-    End Property
     Public Sub Marry(ByVal spouse As Person, ByVal newHouse As House)
         If spouse.Sex = Sex Then Exit Sub
 

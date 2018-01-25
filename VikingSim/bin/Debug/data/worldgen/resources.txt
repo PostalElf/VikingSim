@@ -22,3 +22,12 @@ Oak
 Ash
 Pine
 Fir
+
+[Food]
+Meat
+
+[Skin]
+Hides
+
+[Alchemy]
+Reagents

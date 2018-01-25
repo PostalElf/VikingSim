@@ -1,7 +1,21 @@
 ﻿Public Class House
     Inherits Building
 
+#Region "Constructors"
+    Private Shared HouseNumber As Integer = 1
+    Public Shared Function Construct(ByVal settlement As Settlement) As House
+        Dim h As New House
+        With h
+            .Name = "House #" & HouseNumber
+        End With
+
+        settlement.AddBuilding(h)
+        Return h
+    End Function
+#End Region
+
 #Region "Residents"
+    Private ResidentCapacity As Integer = 5
     Private Residents As New List(Of Person)
     Public Function GetResident(ByVal name As String) As Person
         For Each r In Residents
@@ -13,20 +27,20 @@
         Dim total As New List(Of Person)
         For Each r In Residents
             If name = "" OrElse r.Name = name Then
-                Dim yesToQuit As Boolean = False
+                Dim failedSelection As Boolean = False
                 Dim fs As String() = flags.Split(" ")
                 For Each f In fs
                     Select Case f.ToLower
-                        Case "single" : If r.IsMarried <> False Then yesToQuit = True
-                        Case "married" : If r.IsMarried <> True Then yesToQuit = True
-                        Case "male" : If r.Sex <> "Male" Then yesToQuit = True
-                        Case "female" : If r.Sex <> "Female" Then yesToQuit = True
-                        Case "employed" : If r.Occupation = Skill.Vagrant Then yesToQuit = True
-                        Case "unemployed" : If r.Occupation <> Skill.Vagrant Then yesToQuit = True
+                        Case "single", "unmarried" : If r.GetRelative("spouse") Is Nothing = False Then failedSelection = True
+                        Case "married" : If r.GetRelative("spouse") Is Nothing Then failedSelection = True
+                        Case "male", "men" : If r.Sex <> "Male" Then failedSelection = True
+                        Case "female", "women" : If r.Sex <> "Female" Then failedSelection = True
+                        Case "employed" : If r.Occupation = Skill.Vagrant Then failedSelection = True
+                        Case "unemployed" : If r.Occupation <> Skill.Vagrant Then failedSelection = True
                     End Select
-                    If yesToQuit = True Then Exit For
+                    If failedSelection = True Then Exit For
                 Next
-                If yesToQuit = True Then Continue For
+                If failedSelection = True Then Continue For
                 total.Add(r)
             End If
         Next
@@ -37,14 +51,20 @@
 
         Residents.Add(p)
     End Sub
+    Public Function AddResidentcheck(ByVal p As Person) As Boolean
+        If Residents.Count + 1 > ResidentCapacity Then Return False
+        If p Is Nothing = False Then
+            'person specific checks
+        End If
+
+        Return True
+    End Function
     Public Sub RemoveResident(ByVal p As Person)
         If Residents.Contains(p) = False Then Exit Sub
 
         Residents.Remove(p)
     End Sub
 #End Region
-
-    Private Name As String
 
     Public Overrides Function ToString() As String
         Return Name & " - " & Residents.Count

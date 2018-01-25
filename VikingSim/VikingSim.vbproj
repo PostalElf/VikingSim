@@ -69,6 +69,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -93,6 +94,7 @@
     <Compile Include="Settlement\House.vb" />
     <Compile Include="Settlement\NaturalResources.vb" />
     <Compile Include="Settlement\Settlement.vb" />
+    <Compile Include="Settlement\SettlementSite.vb" />
     <Compile Include="Settlement\Workplace.vb" />
   </ItemGroup>
   <ItemGroup>

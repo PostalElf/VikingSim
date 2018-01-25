@@ -77,4 +77,20 @@ Module Common
         Next
         Throw New Exception("StringToEnum: no match found for " & str)
     End Function
+    Public Function ListToCommaString(ByVal str As String()) As String
+        Dim total As String = ""
+        For n = 0 To str.Count - 1
+            total &= str(n)
+            If n <> str.Count - 1 Then total &= ", "
+        Next
+        Return total
+    End Function
+    Public Function ListToCommaString(ByVal str As List(Of String)) As String
+        Dim total As String = ""
+        For n = 0 To str.Count - 1
+            total &= str(n)
+            If n <> str.Count - 1 Then total &= ", "
+        Next
+        Return total
+    End Function
 End Module

@@ -3,10 +3,11 @@
 
 #Region "Constructors"
     Public Shared Function Import(ByVal workplaceName As String, Optional ByVal naturalResources As NaturalResources = Nothing) As Workplace
-        Dim rawData As List(Of String) = ImportSquareBracketSelect("data/workplaces.txt", workplaceName)
+        Dim rawData As List(Of String) = ImportSquareBracketSelect("data/buildings/workplaces.txt", workplaceName)
 
         Dim workplace As New Workplace
         With workplace
+            .Name = workplaceName
             For Each line In rawData
                 Dim entry As String() = line.Split(":")
                 Dim data As String = entry(1).Trim
@@ -68,8 +69,6 @@
 
         Workers.Remove(p)
     End Sub
-
-    Private Name As String
 
     Private LabourThreshold As Integer
     Private LabourPerWorker As New Dictionary(Of Integer, Integer)
