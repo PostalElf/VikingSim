@@ -4,7 +4,7 @@
 #Region "Constructors"
     Private Shared HouseNumber As Integer = 1
     Public Shared Function Import(ByVal targetName As String) As House
-        Dim data As List(Of String) = ImportSquareBracketSelect("data/buildings/houses.txt", targetName)
+        Dim data As List(Of String) = ImportSquareBracketSelect(sbHouses, targetName)
         If data Is Nothing Then Throw New Exception("House type not found")
 
         Dim h As New House

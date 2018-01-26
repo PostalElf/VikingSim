@@ -2,9 +2,9 @@
     Inherits Project
     Public Shared Function Import(ByVal targetName As String) As BuildingProject
         Dim BuildingType As String = "House"
-        Dim rawData As List(Of String) = ImportSquareBracketSelect("data/buildings/houses.txt", targetName)
-        If rawData Is Nothing Then rawData = ImportSquareBracketSelect("data/buildings/producers.txt", targetName) : BuildingType = "Producer"
-        If rawData Is Nothing Then rawData = ImportSquareBracketSelect("data/buildings/projectors.txt", targetName) : BuildingType = "Projector"
+        Dim rawData As List(Of String) = ImportSquareBracketSelect(sbHouses, targetName)
+        If rawData Is Nothing Then rawData = ImportSquareBracketSelect(sbproducers, targetName) : BuildingType = "Producer"
+        If rawData Is Nothing Then rawData = ImportSquareBracketSelect(sbprojectors, targetName) : BuildingType = "Projector"
         If rawData Is Nothing Then Throw New Exception(targetName & " not found for BuildingProject.Import")
 
         Dim bp As New BuildingProject

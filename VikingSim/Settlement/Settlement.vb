@@ -1,6 +1,6 @@
 ﻿Public Class Settlement
     Public Sub New()
-        If AllResources.Count = 0 Then AllResources = ImportSquareBracketList("data/worldgen/resources.txt")
+        If AllResources.Count = 0 Then AllResources = ImportSquareBracketList(sbResources)
         For Each resCategory In AllResources.Keys
             For Each r In AllResources(resCategory)
                 Resources.Add(r, 0)

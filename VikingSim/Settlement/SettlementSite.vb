@@ -5,7 +5,7 @@
         Dim site As New SettlementSite
         With site
             'roll terrain
-            Dim terrainDict As Dictionary(Of String, List(Of String)) = ImportSquareBracketList("data/worldgen/terrain.txt")
+            Dim terrainDict As Dictionary(Of String, List(Of String)) = ImportSquareBracketList(sbTerrain)
             If targetTerrain = "" Then
                 Dim terrainList As New List(Of String)
                 For Each t In terrainDict.Keys

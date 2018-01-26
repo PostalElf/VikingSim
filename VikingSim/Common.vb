@@ -2,6 +2,18 @@
 Module Common
     Public rng As New Random(3)
 
+#Region "Constants"
+    Public Const sbHouses As String = "data/buildings/houses.txt"
+    Public Const sbProducers As String = "data/buildings/producers.txt"
+    Public Const sbProjectors As String = "data/buildings/projectors.txt"
+    Public Const sbResources As String = "data/worldgen/resources.txt"
+    Public Const sbTerrain As String = "data/worldgen/terrain.txt"
+    Public Const sbNaturalResources As String = "data/worldgen/naturalresources.txt"
+
+    Public Const tlGirlNames As String = "data/girlFirstNames.txt"
+    Public Const tlMaleNames As String = "data/maleFirstNames.txt"
+#End Region
+
     Public Function FudgeRoll(Optional ByVal dice As Integer = 4) As Integer
         Dim total As Integer = 0
         For n = 1 To dice
@@ -51,6 +63,14 @@ Module Common
             'add last list
             If currentList.Count > 0 AndAlso currentHeader <> "" Then total.Add(currentHeader, currentList)
         End Using
+        Return total
+    End Function
+    Public Function ImportSquareBracketHeaders(ByVal pathname As String) As List(Of String)
+        Dim total As New List(Of String)
+        Dim rawSquareBracketList As Dictionary(Of String, List(Of String)) = ImportSquareBracketList(pathname)
+        For Each r In rawSquareBracketList.Keys
+            total.Add(r.ToString)
+        Next
         Return total
     End Function
     Public Function ImportSquareBracketSelect(ByVal pathname As String, ByVal targetName As String) As List(Of String)

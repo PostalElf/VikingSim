@@ -3,7 +3,7 @@
 
 #Region "Constructors"
     Public Shared Function Import(ByVal workplaceName As String, Optional ByVal location As SettlementLocation = Nothing) As WorkplaceProducer
-        Dim rawData As List(Of String) = ImportSquareBracketSelect("data/buildings/producers.txt", workplaceName)
+        Dim rawData As List(Of String) = ImportSquareBracketSelect(sbProducers, workplaceName)
 
         Dim workplace As New WorkplaceProducer
         With workplace

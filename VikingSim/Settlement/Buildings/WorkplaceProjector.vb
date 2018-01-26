@@ -1,7 +1,7 @@
 ﻿Public Class WorkplaceProjector
     Inherits Workplace
     Public Shared Function Import(ByVal workplaceName As String) As WorkplaceProjector
-        Dim rawData As List(Of String) = ImportSquareBracketSelect("data/buildings/projectors.txt", workplaceName)
+        Dim rawData As List(Of String) = ImportSquareBracketSelect(sbprojectors, workplaceName)
 
         Dim workplace As New WorkplaceProjector
         With workplace

@@ -2,22 +2,22 @@
     Sub Main()
         Dim settlement As Settlement = BuildSettlement()
 
-        Dim bMenu As New Dictionary(Of Integer, String)
-        bMenu.Add(1, "Review Residents")
-        bMenu.Add(11, "Marry Residents")
-        bMenu.Add(12, "Birth Resident")
-        bMenu.Add(13, "Add Building")
-        bMenu.Add(14, "Add Natural Resource")
+        Dim bMenu As New List(Of String)
+        bMenu.Add("Review Residents")
+        bMenu.Add("Marry Residents")
+        bMenu.Add("Birth Resident")
+        bMenu.Add("Add Building")
+        bMenu.Add("Add Natural Resource")
 
         Dim doExit As Boolean = False
         While doExit = False
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case 0, -1 : doExit = True
-                Case 1 : MenuReviewResidents(settlement)
-                Case 11 : MenuMarryResidents(settlement)
-                Case 12 : MenuBirthResident(settlement)
-                Case 13 : MenuAddBuilding(settlement)
-                Case 14 : MenuAddNaturalResource(settlement)
+                Case "Review Residents" : MenuReviewResidents(settlement)
+                Case "Marry Residents" : MenuMarryResidents(settlement)
+                Case "Birth Resident" : MenuBirthResident(settlement)
+                Case "Add Building" : MenuAddBuilding(settlement)
+                Case "Add Natural Resource" : MenuAddNaturalResource(settlement)
             End Select
         End While
     End Sub
@@ -94,7 +94,14 @@
         Console.Clear()
     End Sub
     Private Sub MenuAddBuilding(ByVal settlement As Settlement)
-
+        Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
+        Select Case choice
+            Case "House"
+                Dim houseNames As List(Of String) = ImportSquareBracketHeaders(sbHouses)
+                Dim houseName As String = Menu.getListChoice(houseNames, 1, "Select type of house:")
+                Dim b As House = House.Import(houseName)
+                settlement.AddBuilding(b)
+        End Select
     End Sub
     Private Sub MenuAddNaturalResource(ByVal settlement As Settlement)
 
