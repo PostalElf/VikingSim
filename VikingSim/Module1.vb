@@ -7,17 +7,18 @@
         bMenu.Add("Marry Residents")
         bMenu.Add("Birth Resident")
         bMenu.Add("Add Building")
-        bMenu.Add("Add Natural Resource")
+        bMenu.Add("Add Location")
 
         Dim doExit As Boolean = False
         While doExit = False
+            Console.Clear()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case 0, -1 : doExit = True
                 Case "Review Residents" : MenuReviewResidents(settlement)
                 Case "Marry Residents" : MenuMarryResidents(settlement)
                 Case "Birth Resident" : MenuBirthResident(settlement)
                 Case "Add Building" : MenuAddBuilding(settlement)
-                Case "Add Natural Resource" : MenuAddNaturalResource(settlement)
+                Case "Add Location" : MenuAddLocation(settlement)
             End Select
         End While
     End Sub
@@ -95,15 +96,34 @@
     End Sub
     Private Sub MenuAddBuilding(ByVal settlement As Settlement)
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
+        Dim p As BuildingProject = Nothing
         Select Case choice
             Case "House"
                 Dim houseNames As List(Of String) = ImportSquareBracketHeaders(sbHouses)
                 Dim houseName As String = Menu.getListChoice(houseNames, 1, "Select type of house:")
-                Dim b As House = House.Import(houseName)
-                settlement.AddBuilding(b)
+                p = BuildingProject.Import(houseName)
+            Case "Producer"
+                Dim producerNames As List(Of String) = ImportSquareBracketHeaders(sbProducers)
+                Dim producerName As String = Menu.getListChoice(producerNames, 1, "Select type of producer:")
+                p = BuildingProject.Import(producerName)
+            Case "Projector"
+                Dim projectorNames As List(Of String) = ImportSquareBracketHeaders(sbProjectors)
+                Dim projectorName As String = Menu.getListChoice(projectorNames, 1, "Select type of projector:")
+                p = BuildingProject.Import(projectorName)
+            Case Else : Throw New Exception("Invalid type of building.")
         End Select
+
+        If p.LocationString <> "" Then
+            Dim location As SettlementLocation = Menu.getListChoice(settlement.GetLocations(p.LocationString), 1)
+            p.Location = location
+        End If
+
+        Dim b As Building = p.Unpack
+        settlement.AddBuilding(b)
+        Console.WriteLine(b.Name & " added.")
+        Console.ReadLine()
     End Sub
-    Private Sub MenuAddNaturalResource(ByVal settlement As Settlement)
+    Private Sub MenuAddLocation(ByVal settlement As Settlement)
 
     End Sub
 End Module
