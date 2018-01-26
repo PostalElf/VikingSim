@@ -150,10 +150,10 @@
     Private Shared GirlFirstNames As New List(Of String)
     Private Shared Function GrabRandomNameFirst(ByVal childSex As String) As String
         If childSex = "Male" Then
-            If MaleFirstNames.Count = 0 Then MaleFirstNames = ImportTextList(tlMaleNames)
+            If MaleFirstNames.Count = 0 Then MaleFirstNames = IO.ImportTextList(IO.tlMaleNames)
             Return GrabRandom(Of String)(MaleFirstNames)
         ElseIf childSex = "Female" Then
-            If GirlFirstNames.Count = 0 Then GirlFirstNames = ImportTextList(tlGirlNames)
+            If GirlFirstNames.Count = 0 Then GirlFirstNames = IO.ImportTextList(IO.tlGirlNames)
             Return GrabRandom(Of String)(GirlFirstNames)
         Else
             Throw New Exception("Sex neither male nor female")

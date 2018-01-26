@@ -2,7 +2,7 @@
     Inherits SettlementLocation
 
     Public Shared Function Construct(ByVal targetName As String) As NaturalResources
-        Dim rawData As List(Of String) = ImportSquareBracketSelect(sbNaturalResources, targetName)
+        Dim rawData As List(Of String) = IO.ImportSquareBracketSelect(IO.sbNaturalResources, targetName)
 
         Dim nr As New NaturalResources
         nr.Name = targetName

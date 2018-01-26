@@ -1,6 +1,6 @@
 ﻿Public Class Settlement
     Public Sub New()
-        Dim allResources As Dictionary(Of String, List(Of String)) = ImportSquareBracketList(sbResources)
+        Dim allResources As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbResources)
         For Each resCategory In allResources.Keys
             For Each r In allResources(resCategory)
                 Resources.Add(r, 0)

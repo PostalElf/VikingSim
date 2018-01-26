@@ -1,9 +1,12 @@
 ﻿Module Module1
+    Public rng As New Random(3)
+
     Sub Main()
         Dim settlement As Settlement = BuildSettlement()
 
         Dim bMenu As New List(Of String)
         bMenu.Add("Review Settlement")
+        bMenu.Add("Review Buildings")
         bMenu.Add("Review Residents")
         bMenu.Add("Marry Residents")
         bMenu.Add("Birth Resident")
@@ -16,6 +19,7 @@
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case 0, -1 : doExit = True
                 Case "Review Settlement" : MenuReviewSettlement(settlement)
+                Case "Review Buildings" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
                 Case "Marry Residents" : MenuMarryResidents(settlement)
                 Case "Birth Resident" : MenuBirthResident(settlement)
@@ -55,6 +59,9 @@
     Private Sub MenuReviewSettlement(ByVal settlement As Settlement)
         settlement.ConsoleReport()
         Console.ReadLine()
+    End Sub
+    Private Sub MenuReviewBuildings(ByVal settlement As Settlement)
+
     End Sub
     Private Sub MenuReviewResidents(ByVal settlement As Settlement)
         Dim selection As Person = Menu.getListChoice(Of Person)(settlement.GetResidents(""), 1, "Select resident:")
@@ -105,15 +112,15 @@
         Dim p As BuildingProject = Nothing
         Select Case choice
             Case "House"
-                Dim houseNames As List(Of String) = ImportSquareBracketHeaders(sbHouses)
+                Dim houseNames As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbHouses)
                 Dim houseName As String = Menu.getListChoice(houseNames, 1, "Select type of house:")
                 p = BuildingProject.Import(houseName)
             Case "Producer"
-                Dim producerNames As List(Of String) = ImportSquareBracketHeaders(sbProducers)
+                Dim producerNames As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbProducers)
                 Dim producerName As String = Menu.getListChoice(producerNames, 1, "Select type of producer:")
                 p = BuildingProject.Import(producerName)
             Case "Projector"
-                Dim projectorNames As List(Of String) = ImportSquareBracketHeaders(sbProjectors)
+                Dim projectorNames As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbProjectors)
                 Dim projectorName As String = Menu.getListChoice(projectorNames, 1, "Select type of projector:")
                 p = BuildingProject.Import(projectorName)
             Case Else : Throw New Exception("Invalid type of building.")
