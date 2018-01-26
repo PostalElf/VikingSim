@@ -1,8 +1,8 @@
 ﻿Public Class Settlement
     Public Sub New()
-        If AllResources.Count = 0 Then AllResources = ImportSquareBracketList(sbResources)
-        For Each resCategory In AllResources.Keys
-            For Each r In AllResources(resCategory)
+        Dim allResources As Dictionary(Of String, List(Of String)) = ImportSquareBracketList(sbResources)
+        For Each resCategory In allResources.Keys
+            For Each r In allResources(resCategory)
                 Resources.Add(r, 0)
             Next
         Next
@@ -15,6 +15,13 @@
         End With
         Return settlement
     End Function
+
+    Private _Name As String
+    Public ReadOnly Property Name As String
+        Get
+            Return _Name
+        End Get
+    End Property
 
     Private Locations As New List(Of SettlementLocation)
     Public Sub AddLocation(ByVal l As SettlementLocation)
@@ -48,7 +55,7 @@
         End Get
     End Property
 
-    Public Function GetResidents(ByVal name As String, Optional ByVal flags As String = "")
+    Public Function GetResidents(ByVal name As String, Optional ByVal flags As String = "") As List(Of Person)
         Dim total As New List(Of Person)
         For Each h In Houses
             total.AddRange(h.GetResidents(name, flags))
@@ -136,7 +143,6 @@
         Return total
     End Function
 
-    Private Shared AllResources As New Dictionary(Of String, List(Of String))
     Private Resources As New ResourceDict
     Public Sub AddResources(ByVal res As ResourceDict, Optional ByVal remove As Boolean = False)
         For Each r In res.Keys
@@ -152,4 +158,17 @@
         Next
         Return True
     End Function
+
+    Public Sub ConsoleReport()
+        Console.WriteLine(Name)
+        Console.WriteLine("└ Residents: " & GetResidents("").Count)
+        Console.WriteLine("└ Buildings: " & Buildings.Count)
+        Dim landPercent As String = ((LandFree / LandTotal) * 100).ToString("0")
+        Console.WriteLine("└ Open Land: " & LandFree & "/" & LandTotal & " (" & landPercent & "%)")
+        Console.WriteLine("└ Resources: ")
+        For Each r In Resources.Keys
+            Dim value As Integer = Resources(r)
+            If value > 0 Then Console.WriteLine("  └ " & r & ": " & value)
+        Next
+    End Sub
 End Class

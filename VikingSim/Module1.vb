@@ -3,6 +3,7 @@
         Dim settlement As Settlement = BuildSettlement()
 
         Dim bMenu As New List(Of String)
+        bMenu.Add("Review Settlement")
         bMenu.Add("Review Residents")
         bMenu.Add("Marry Residents")
         bMenu.Add("Birth Resident")
@@ -14,6 +15,7 @@
             Console.Clear()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case 0, -1 : doExit = True
+                Case "Review Settlement" : MenuReviewSettlement(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
                 Case "Marry Residents" : MenuMarryResidents(settlement)
                 Case "Birth Resident" : MenuBirthResident(settlement)
@@ -50,6 +52,10 @@
         Return settlement
     End Function
 
+    Private Sub MenuReviewSettlement(ByVal settlement As Settlement)
+        settlement.ConsoleReport()
+        Console.ReadLine()
+    End Sub
     Private Sub MenuReviewResidents(ByVal settlement As Settlement)
         Dim selection As Person = Menu.getListChoice(Of Person)(settlement.GetResidents(""), 1, "Select resident:")
         selection.ConsoleReport()
@@ -114,8 +120,9 @@
         End Select
 
         If p.LocationString <> "" Then
-            Dim location As SettlementLocation = Menu.getListChoice(settlement.GetLocations(p.LocationString), 1)
+            Dim location As SettlementLocation = Menu.getListChoice(settlement.GetLocations(p.LocationString), 1, "Select location:")
             p.Location = location
+            settlement.RemoveLocation(location)
         End If
 
         Dim b As Building = p.Unpack
