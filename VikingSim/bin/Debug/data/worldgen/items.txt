@@ -1,0 +1,4 @@
+[Copper Pickaxe]
+Buildtime: 10
+Buildcost: Copper, 5
+Buildcost: Wood, 1
