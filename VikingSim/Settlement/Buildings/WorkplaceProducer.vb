@@ -49,6 +49,17 @@
         Return False
     End Function
 
+    Public Overrides Sub ConsoleReport()
+        Console.WriteLine(Name)
+        Console.WriteLine("└ History:   " & Creator & " in " & CreationDate.ToStringShort)
+        If ProductionCosts.count > 0 Then Console.WriteLine("└ Cost:      " & ProductionCosts.ToString)
+        If ProducedResources.Count > 0 Then Console.WriteLine("└ Produces:  " & ProducedResources.ToString)
+        Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
+        For Each r In Workers
+            Console.WriteLine("  └ " & r.Name)
+        Next
+        Console.WriteLine()
+    End Sub
     Public Overrides Sub Tick()
         'attempt to take production costs if possible, otherwise exit sub
         If HasProductionCosts = False Then

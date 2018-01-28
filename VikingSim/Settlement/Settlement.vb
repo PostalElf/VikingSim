@@ -23,6 +23,7 @@
         End Get
     End Property
 
+#Region "Settlement Site"
     Private Locations As New List(Of SettlementLocation)
     Public Sub AddLocation(ByVal l As SettlementLocation)
         Locations.Add(l)
@@ -54,7 +55,9 @@
             Return LandTotal - LandUsed
         End Get
     End Property
+#End Region
 
+#Region "Residents"
     Public Function GetResidents(ByVal name As String, Optional ByVal flags As String = "") As List(Of Person)
         Dim total As New List(Of Person)
         For Each h In Houses
@@ -107,7 +110,9 @@
         total.Add(boys)
         Return total
     End Function
+#End Region
 
+#Region "Buildings"
     Private Buildings As New List(Of Building)
     Private ReadOnly Property Houses As List(Of House)
         Get
@@ -122,32 +127,22 @@
         Buildings.Add(b)
         b.Settlement = Me
     End Sub
-    Public Function GetEmployableWorkplaces() As List(Of WorkplaceProducer)
-        Dim total As New List(Of WorkplaceProducer)
+    Public Function GetBuildings(Optional ByVal flags As String = "") As List(Of Building)
+        Dim total As New List(Of Building)
         For Each b In Buildings
-            If TypeOf b Is WorkplaceProducer Then
-                Dim w As WorkplaceProducer = CType(b, WorkplaceProducer)
-                If w.AddWorkerCheck(Nothing) = True Then total.Add(w)
-            End If
+            If b.CheckFlags(flags) = True Then total.Add(b)
         Next
         Return total
     End Function
-    Public Function GetEmptyHouses() As List(Of House)
-        Dim total As New List(Of House)
-        For Each b In Buildings
-            If TypeOf b Is House Then
-                Dim h As House = CType(b, House)
-                If h.AddResidentcheck(Nothing) = True Then total.Add(h)
-            End If
-        Next
-        Return total
-    End Function
+
     Public Sub Tick()
         For Each b In Buildings
-            b.tick()
+            b.Tick()
         Next
     End Sub
+#End Region
 
+#Region "Resources"
     Private Resources As New ResourceDict
     Public Sub AddResources(ByVal res As ResourceDict, Optional ByVal remove As Boolean = False)
         For Each r In res.Keys
@@ -163,6 +158,7 @@
         Next
         Return True
     End Function
+#End Region
 
     Public Sub ConsoleReport()
         Console.WriteLine(Name)

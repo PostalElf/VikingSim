@@ -40,12 +40,14 @@
             Dim child As Person = Person.Birth(godfather, godmother)
             If n Mod 2 <> 0 Then
                 house = house.Import("Hut")
+                house.SetHistory("Odin", World.TimeNow)
                 settlement.AddBuilding(house)
             End If
             child.MoveHouse(house)
         Next
 
         Dim wp = WorkplaceProjector.Import("Carpenter")
+        wp.SetHistory("Odin", World.TimeNow)
         settlement.AddBuilding(wp)
         settlement.GetBestAffinityUnemployed(wp.Occupation).ChangeWorkplace(wp)
         wp.AddProject("Deepmines", settlement.GetLocations("Godbones")(0))
@@ -61,7 +63,13 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuReviewBuildings(ByVal settlement As Settlement)
-
+        Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
+        Dim buildings As List(Of Building) = settlement.GetBuildings(choice)
+        Console.WriteLine()
+        Dim b As Building = Menu.getListChoice(buildings, 1, "Select building:")
+        Console.WriteLine()
+        b.ConsoleReport()
+        Console.ReadLine()
     End Sub
     Private Sub MenuReviewResidents(ByVal settlement As Settlement)
         Dim selection As Person = Menu.getListChoice(Of Person)(settlement.GetResidents(""), 1, "Select resident:")
@@ -73,7 +81,8 @@
         Dim men As List(Of Person) = settlement.GetResidents("", "single male")
         Dim women As List(Of Person) = settlement.GetResidents("", "single female")
         If men.Count = 0 OrElse women.Count = 0 Then Console.WriteLine("Insufficient singles!") : Console.ReadLine() : Exit Sub
-        Dim houses As List(Of House) = settlement.GetEmptyHouses()
+        Dim houses As List(Of Building) = settlement.GetBuildings("house space")
+        If houses.Count = 0 Then Console.WriteLine("No free house!") : Console.ReadLine() : Exit Sub
 
         Dim husband As Person = Menu.getListChoice(men, 1, "Select husband:")
         Console.WriteLine()
@@ -138,6 +147,11 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuAddLocation(ByVal settlement As Settlement)
-
+        Dim locationStrings As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbNaturalResources)
+        Dim locationString As String = Menu.getListChoice(locationStrings, 1, "Select location:")
+        Dim location As SettlementLocation = NaturalResources.Construct(locationString)
+        settlement.AddLocation(location)
+        Console.WriteLine(locationString & " added.")
+        Console.ReadLine()
     End Sub
 End Module

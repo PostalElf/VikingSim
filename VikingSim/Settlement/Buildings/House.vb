@@ -87,6 +87,15 @@
     End Sub
 #End Region
 
+    Public Overrides Sub ConsoleReport()
+        Console.WriteLine(Name)
+        Console.WriteLine("└ History:   " & Creator & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ Residents: " & Residents.Count & "/" & ResidentCapacity)
+        For Each r In Residents
+            Console.WriteLine("  └ " & r.Name)
+        Next
+        Console.WriteLine()
+    End Sub
     Public Overrides Function ToString() As String
         Return _Name & " - " & Residents.Count & "/" & ResidentCapacity
     End Function

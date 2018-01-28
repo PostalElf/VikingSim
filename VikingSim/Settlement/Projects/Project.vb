@@ -7,6 +7,7 @@
     End Sub
 
     Protected Name As String
+    Public Creator As String
     Protected BuildTime As Integer
     Protected BuildTimeProgress As Integer
     Protected ConstructionCosts As New ResourceDict

@@ -41,6 +41,9 @@
     Public Overrides Function ToString() As String
         Return "Week " & Week & ", Month " & Month & ", Year " & Year
     End Function
+    Public Function ToStringShort() As String
+        Return Week & "-" & Month & "-" & Year
+    End Function
     Shared Operator -(ByVal t1 As CalendarDate, ByVal t2 As CalendarDate) As CalendarDate
         Dim t1w As Integer = t1.GetWeeks
         Dim t2w As Integer = t2.GetWeeks

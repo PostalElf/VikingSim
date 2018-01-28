@@ -20,6 +20,9 @@
         Next
         Return total
     End Function
+    Public Function Count() As Integer
+        Return Data.Count
+    End Function
     Default Public Property Item(ByVal key As String) As Integer
         Get
             Return Data(key)

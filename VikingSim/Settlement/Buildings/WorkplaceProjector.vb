@@ -33,7 +33,18 @@
                     p.Location = location
                     Settlement.RemoveLocation(location)
                 End If
+                p.creator = Name
         End Select
+    End Sub
+
+    Public Overrides Sub ConsoleReport()
+        Console.WriteLine(Name)
+        Console.WriteLine("└ History:   " & Creator & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
+        For Each r In Workers
+            Console.WriteLine("  └ " & r.Name)
+        Next
+        Console.WriteLine()
     End Sub
     Public Overrides Sub Tick()
         If Project Is Nothing Then Exit Sub

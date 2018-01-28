@@ -25,12 +25,15 @@
         Return bp
     End Function
     Public Function Unpack() As Building
+        Dim b As Building
         Select Case BuildingType
-            Case "House" : Return House.Import(Name)
-            Case "Producer" : Return WorkplaceProducer.Import(Name, Location)
-            Case "Projector" : Return WorkplaceProjector.Import(Name)
+            Case "House" : b = House.Import(Name)
+            Case "Producer" : b = WorkplaceProducer.Import(Name, Location)
+            Case "Projector" : b = WorkplaceProjector.Import(Name)
             Case Else : Throw New Exception("Unrecgonised BuildingType in BuildingProject")
         End Select
+        b.SetHistory(Creator, World.TimeNow)
+        Return b
     End Function
 
     Private BuildingType As String
