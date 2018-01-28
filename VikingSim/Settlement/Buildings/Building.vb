@@ -13,6 +13,7 @@
         End Get
     End Property
     Private Inventory As New Inventory
+    Public MustOverride Sub Tick()
 
     Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
         Select Case header

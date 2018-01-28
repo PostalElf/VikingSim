@@ -77,9 +77,15 @@
 
         Residents.Remove(p)
     End Sub
-#End Region
 
     Private Morale As Integer
+
+    Public Overrides Sub Tick()
+        For Each r In Residents
+            r.Tick()
+        Next
+    End Sub
+#End Region
 
     Public Overrides Function ToString() As String
         Return _Name & " - " & Residents.Count & "/" & ResidentCapacity

@@ -69,6 +69,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalendarDate.vb" />
     <Compile Include="IO.vb" />
     <Compile Include="Menu.vb" />
     <Compile Include="Module1.vb" />
@@ -93,6 +94,8 @@
     <Compile Include="Person\WeaponTypes.vb" />
     <Compile Include="Common.vb" />
     <Compile Include="Settlement\Buildings\Building.vb" />
+    <Compile Include="Settlement\iHistorable.vb" />
+    <Compile Include="Settlement\Inventory.vb" />
     <Compile Include="Settlement\SettlementLocation.vb" />
     <Compile Include="Settlement\Projects\BuildingProject.vb" />
     <Compile Include="Settlement\Buildings\House.vb" />
@@ -103,6 +106,7 @@
     <Compile Include="Settlement\Settlement.vb" />
     <Compile Include="Settlement\SettlementSite.vb" />
     <Compile Include="Settlement\Buildings\WorkplaceProducer.vb" />
+    <Compile Include="World.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

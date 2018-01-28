@@ -142,6 +142,11 @@
         Next
         Return total
     End Function
+    Public Sub Tick()
+        For Each b In Buildings
+            b.tick()
+        Next
+    End Sub
 
     Private Resources As New ResourceDict
     Public Sub AddResources(ByVal res As ResourceDict, Optional ByVal remove As Boolean = False)

@@ -46,7 +46,5 @@
 
     Protected LabourPerWorker As New Dictionary(Of Integer, Integer)
     Protected ProductionCosts As New ResourceDict
-
-    Public MustOverride Sub Tick()
 #End Region
 End Class

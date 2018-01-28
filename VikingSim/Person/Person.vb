@@ -29,7 +29,15 @@
             Return _Sex
         End Get
     End Property
-    Private Age As Integer
+    Private BirthDate As CalendarDate
+    Private ReadOnly Property Age As Integer
+        Get
+            Return (BirthDate - World.TimeNow).Year
+        End Get
+    End Property
+    Public Sub Tick()
+        'TODO: add death related stuff
+    End Sub
 
     Public Inventory As New Inventory
 
