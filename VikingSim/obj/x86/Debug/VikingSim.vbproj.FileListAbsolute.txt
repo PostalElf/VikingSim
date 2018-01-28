@@ -6,3 +6,6 @@ D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.vbproj.Gen
 D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.exe
 D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.xml
 D:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.pdb
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.exe
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.xml
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.pdb

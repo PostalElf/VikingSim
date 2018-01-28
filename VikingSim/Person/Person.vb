@@ -31,6 +31,8 @@
     End Property
     Private Age As Integer
 
+    Public Inventory As New Inventory
+
     Private House As House
     Public Sub MoveHouse(ByVal targetHouse As House)
         If House Is Nothing = False Then House.RemoveResident(Me)
