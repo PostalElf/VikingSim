@@ -56,6 +56,22 @@
     Private FatherName As String
     Private MotherName As String
     Private ChildrenNames As New List(Of String)
+    Public Function CheckFlags(ByVal flags As String) As Boolean
+        Dim fs As String() = flags.Split(" ")
+        For Each f In fs
+            Select Case f.ToLower
+                Case "single", "unmarried" : If SpouseName <> "" Then Return False
+                Case "married" : If SpouseName = "" Then Return False
+                Case "male", "men" : If Sex <> "Male" Then Return False
+                Case "female", "women" : If Sex <> "Female" Then Return False
+                Case "child" : If Age >= 12 Then Return False
+                Case "adult" : If Age < 12 Then Return False
+                Case "employed" : If Occupation = Skill.Vagrant Then Return False
+                Case "unemployed" : If Occupation <> Skill.Vagrant Then Return False
+            End Select
+        Next
+        Return True
+    End Function
     Public Function GetRelative(ByVal relationship As String) As Person
         Select Case relationship.ToLower
             Case "mother" : Return House.GetResident(MotherName)

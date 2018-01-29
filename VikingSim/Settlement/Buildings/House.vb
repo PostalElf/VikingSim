@@ -40,21 +40,7 @@
         Dim total As New List(Of Person)
         For Each r In Residents
             If name = "" OrElse r.Name = name Then
-                Dim failedSelection As Boolean = False
-                Dim fs As String() = flags.Split(" ")
-                For Each f In fs
-                    Select Case f.ToLower
-                        Case "single", "unmarried" : If r.GetRelative("spouse") Is Nothing = False Then failedSelection = True
-                        Case "married" : If r.GetRelative("spouse") Is Nothing Then failedSelection = True
-                        Case "male", "men" : If r.Sex <> "Male" Then failedSelection = True
-                        Case "female", "women" : If r.Sex <> "Female" Then failedSelection = True
-                        Case "employed" : If r.Occupation = Skill.Vagrant Then failedSelection = True
-                        Case "unemployed" : If r.Occupation <> Skill.Vagrant Then failedSelection = True
-                    End Select
-                    If failedSelection = True Then Exit For
-                Next
-                If failedSelection = True Then Continue For
-                total.Add(r)
+                If r.CheckFlags(flags) = True Then total.Add(r)
             End If
         Next
         Return total
