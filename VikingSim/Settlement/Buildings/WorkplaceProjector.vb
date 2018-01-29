@@ -39,7 +39,7 @@
 
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
-        Console.WriteLine("└ History:   " & Creator & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ History:   " & CreatorName & " in " & CreationDate.ToStringShort)
         Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
         For Each r In Workers
             Console.WriteLine("  └ " & r.Name)

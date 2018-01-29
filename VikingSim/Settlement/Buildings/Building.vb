@@ -10,17 +10,17 @@
     End Property
 
     Public Sub SetHistory(ByVal cr As String, ByVal crdate As CalendarDate)
-        Creator = cr
+        CreatorName = cr
         CreationDate = New CalendarDate(crdate)
     End Sub
     Public Sub SetHistory(ByVal cr As Workplace, ByVal crdate As CalendarDate)
-        If cr Is Nothing Then Creator = "Odinsson" Else Creator = cr.GetBestWorker.Name
+        If cr Is Nothing Then CreatorName = "Odinsson" Else CreatorName = cr.GetBestWorker.Name
         CreationDate = New CalendarDate(crdate)
     End Sub
-    Protected Property Creator As String Implements iHistorable.Creator
+    Protected Property CreatorName As String Implements iHistorable.CreatorName
     Protected Property CreationDate As CalendarDate Implements iHistorable.CreationDate
     Protected Function HistoryReport() As String Implements iHistorable.HistoryReport
-        Return "Created by " & Creator & " at " & CreationDate.ToStringShort
+        Return "Created by " & CreatorName & " at " & CreationDate.ToStringShort
     End Function
 
     Public Function CheckFlags(ByVal flags As String) As Boolean

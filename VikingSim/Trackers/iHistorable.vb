@@ -1,5 +1,5 @@
 ﻿Public Interface iHistorable
     Property CreationDate As CalendarDate
-    Property Creator As String
+    Property CreatorName As String
     Function HistoryReport() As String
 End Interface

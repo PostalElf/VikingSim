@@ -51,7 +51,7 @@
 
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
-        Console.WriteLine("└ History:   " & Creator & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ History:   " & CreatorName & " in " & CreationDate.ToStringShort)
         If ProductionCosts.count > 0 Then Console.WriteLine("└ Cost:      " & ProductionCosts.ToString)
         If ProducedResources.Count > 0 Then Console.WriteLine("└ Produces:  " & ProducedResources.ToString)
         Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
