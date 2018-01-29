@@ -12,6 +12,7 @@
                 Dim entry As String = ln(1).Trim
                 Select Case header
                     Case "ProjectType" : .ProjectType = entry
+                    Case "ProjectSubtype" : .ProjectSubtype = entry
                     Case Else : .WorkplaceImport(header, entry)
                 End Select
             Next
@@ -24,6 +25,7 @@
 
     Private Project As Project
     Private ProjectType As String
+    Private ProjectSubtype As String
     Public Sub AddProject(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
         Select Case ProjectType
             Case "Building"
@@ -33,13 +35,29 @@
                     p.Location = location
                     Settlement.RemoveLocation(location)
                 End If
-                p.creator = Me
+                p.PayCost(Settlement)
+                p.Creator = Me
         End Select
     End Sub
+    Public Function AddProjectCheck(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
+        Select Case ProjectType
+            Case "Building"
+                If Project Is Nothing = False Then Return False
+                Dim p As BuildingProject = CType(BuildingProject.Import(projectName), BuildingProject)
+                If p Is Nothing Then Return False
+                If p.LocationString <> "" AndAlso location.Name <> p.LocationString Then Return False
+                If p.CheckType(ProjectType) = False Then Return False
+                If p.CheckCost(Settlement) = False Then Return False
+                Return True
+            Case Else
+                Throw New Exception("Unhandled ProjectType")
+        End Select
+    End Function
 
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
         Console.WriteLine("└ History:   " & CreatorName & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ Project:   " & ProjectSubtype & " " & ProjectType)
         Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
         For Each r In Workers
             Console.WriteLine("  └ " & r.Name)

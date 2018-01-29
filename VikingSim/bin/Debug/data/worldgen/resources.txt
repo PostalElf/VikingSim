@@ -12,12 +12,18 @@ Tin Ore
 Iron Ore
 Mithril Ore
 Raw Adamantium
+Gemstones
+Geodes
 
 [Stone]
 Granite
 Sandstone
 Marble
+Gritstone
+Clay
 Adamantium
+Hardstone
+Softstone
 
 [Wood]
 Oak
@@ -27,11 +33,20 @@ Fir
 Hardwood
 Softwood
 
+[Treasure]
+Jewels
+Ivory
+Crystals
+
 [Food]
 Meat
+Grain
+Fruits
+Bread
 
 [Skin]
 Hides
+Leather
 
 [Alchemy]
 Reagents

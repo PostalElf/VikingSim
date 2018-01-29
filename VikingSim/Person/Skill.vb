@@ -5,6 +5,7 @@
     Hunting
     Scouting
     Gathering
+    Tannery
 
     Mining
     Quarrying

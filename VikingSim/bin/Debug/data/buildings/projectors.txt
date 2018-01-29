@@ -3,3 +3,11 @@ Occupation: Carpentry
 Capacity: 5
 Efficiency: 1/2/3/4
 ProjectType: Building
+ProjectSubtype: Hardwood
+
+[Stoneshaper]
+Occupation: Sculpting
+Capacity: 5
+Efficiency: 1/2/3/4
+ProjectType: Building
+ProjectSubtype: Hardstone

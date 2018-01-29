@@ -18,6 +18,7 @@
                 Dim entry As String = ln(1).Trim
                 Select Case header
                     Case "Resource" : .LocationString = entry
+                    Case "Buildtype" : .BuildType = entry
                     Case Else : .baseImport(header, entry)
                 End Select
             Next

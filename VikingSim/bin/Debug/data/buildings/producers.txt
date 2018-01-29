@@ -6,6 +6,7 @@ Efficiency: 1/2/3/4
 Resource: Oreveins
 Buildtime: 100
 Buildcost: Hardwood, 3
+Buildtype: Simple
 
 [Deepmines]
 Occupation: Mining
@@ -15,24 +16,50 @@ Efficiency: 0/1/2/3
 Resource: Godbones
 Buildtime: 100
 Buildcost: Hardwood, 10
+Buildtype: Hardwood
 
 [Woodcutter]
-Occupation: Carpentry
-Capacity: 3
+Occupation: Logging
+Capacity: 5
 Labour: 100
 Efficiency: 1/2/3/4
 Resource: Forests
 Buildtime: 100
 Buildcost: Hardwood, 5
+Buildtype: Simple
 
 [Hunting Grounds]
 Occupation: Hunting
-Capacity: 3
+Capacity: 5
 Labour: 100
 Efficiency: 1/2/3/4
 Resource: Glades
 Buildtime: 100
 Buildcost: Hardwood, 5
+Buildtype: Simple
+
+[Quarry]
+Occupation: Quarrying
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Resource: Stonepits
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Simple
+
+[Nomad Tents]
+Occupation: Gathering
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Resource: Plains
+Buildtime: 100
+Buildcost: Hides, 5
+Buildcost: Hardwood, 1
+Buildtype: Simple
+
+
 
 [Copper Smelter]
 Occupation: Smelting
@@ -43,6 +70,7 @@ Cost: Copper Ore, 2
 Produce: Copper, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
+Buildtype: Hardwood
 
 [Tin Smelter]
 Occupation: Smelting
@@ -53,6 +81,7 @@ Cost: Tin Ore, 2
 Produce: Tin, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
+Buildtype: Hardwood
 
 [Bronze Smelter]
 Occupation: Smelting
@@ -64,6 +93,7 @@ Cost: Tin Ore, 1
 Produce: Bronze, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
+Buildtype: Hardwood
 
 [Iron Smelter]
 Occupation: Smelting
@@ -74,20 +104,22 @@ Cost: Iron Ore, 2
 Produce: Iron, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
+Buildtype: Hardwood
 
 [Steel Smelter]
 Occupation: Smelting
 Capacity: 3
 Labour: 100
 Efficiency: 0/1/2/3
-Cost: Iron Ore, 1
+Cost: Iron Ore, 2
 Cost: Coal, 3
 Produce: Steel, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
+Buildtype: Hardwood
 
 [Ash Lumbermill]
-Occupation: Carpentry
+Occupation: Logging
 Capacity: 4
 Labour: 100
 Efficiency: 1/2/3/4
@@ -96,9 +128,10 @@ Produce: Hardwood, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
+Buildtype: Hardwood
 
 [Oak Lumbermill]
-Occupation: Carpentry
+Occupation: Logging
 Capacity: 4
 Labour: 100
 Efficiency: 1/2/3/4
@@ -107,9 +140,10 @@ Produce: Hardwood, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
+Buildtype: Hardwood
 
 [Pine Lumbermill]
-Occupation: Carpentry
+Occupation: Logging
 Capacity: 4
 Labour: 100
 Efficiency: 1/2/3/4
@@ -118,9 +152,10 @@ Produce: Softwood, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
+Buildtype: Hardwood
 
 [Fir Lumbermill]
-Occupation: Carpentry
+Occupation: Logging
 Capacity: 4
 Labour: 100
 Efficiency: 1/2/3/4
@@ -129,3 +164,81 @@ Produce: Softwood, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
+Buildtype: Hardwood
+
+[Tannery]
+Occupation: Tannery
+Capacity: 3
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Hides, 3
+Produce: Leather, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Hardwood
+
+[Granite Workshop]
+Occupation: Sculpting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Granite, 2
+Produce: Hardstone, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Hardwood
+
+[Sandstone Workshop]
+Occupation: Sculpting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Sandstone, 2
+Produce: Softstone, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Hardwood
+
+[Marble Workshop]
+Occupation: Sculpting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Marble, 2
+Produce: Hardstone, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Hardwood
+
+[Gritstone Workshop]
+Occupation: Sculpting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Gritstone, 2
+Produce: Softstone, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Hardwood
+
+[Crystalier]
+Occupation: Sculpting
+Capacity: 3
+Labour: 100
+Efficiency: 0/1/2/3
+Cost: Geodes, 2
+Produce: Crystals, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Hardwood
+
+[Jeweller]
+Occupation: Sculpting
+Capacity: 3
+Labour: 100
+Efficiency: 0/1/2/3
+Cost: Gemstones, 2
+Produce: Jewels, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildtype: Hardwood
