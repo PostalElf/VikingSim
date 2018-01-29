@@ -29,6 +29,7 @@
             Return _Sex
         End Get
     End Property
+    Private Pregnancy As pregnancy
     Private BirthDate As CalendarDate
     Private ReadOnly Property Age As Integer
         Get
@@ -36,6 +37,11 @@
         End Get
     End Property
     Public Sub Tick()
+        If Pregnancy Is Nothing = False Then
+            Dim child As Person = Pregnancy.Tick()
+            If child Is Nothing = False Then child.MoveHouse(House)
+        End If
+
         'TODO: add death related stuff
     End Sub
 
@@ -115,6 +121,7 @@
         Dim child As New Person
         With child
             If rng.Next(1, 3) = 1 Then ._Sex = "Male" Else ._Sex = "Female"
+            .BirthDate = World.TimeNow
             .NameFirst = GrabRandomNameFirst(.Sex)
             .NameLast = GrabRandomNameLast(.Sex, father, mother)
             .FatherName = father.Name

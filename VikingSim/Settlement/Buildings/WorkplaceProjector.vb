@@ -33,7 +33,7 @@
                     p.Location = location
                     Settlement.RemoveLocation(location)
                 End If
-                p.creator = Name
+                p.creator = Me
         End Select
     End Sub
 

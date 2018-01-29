@@ -13,6 +13,10 @@
         Creator = cr
         CreationDate = New CalendarDate(crdate)
     End Sub
+    Public Sub SetHistory(ByVal cr As Workplace, ByVal crdate As CalendarDate)
+        If cr Is Nothing Then Creator = "Odinsson" Else Creator = cr.GetBestWorker.Name
+        CreationDate = New CalendarDate(crdate)
+    End Sub
     Protected Property Creator As String Implements iHistorable.Creator
     Protected Property CreationDate As CalendarDate Implements iHistorable.CreationDate
     Protected Function HistoryReport() As String Implements iHistorable.HistoryReport

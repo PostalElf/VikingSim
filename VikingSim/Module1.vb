@@ -2,9 +2,12 @@
     Public rng As New Random(3)
 
     Sub Main()
+        Dim world As New World
         Dim settlement As Settlement = BuildSettlement()
+        world.addsettlement(settlement)
 
         Dim bMenu As New List(Of String)
+        bMenu.Add("Tick")
         bMenu.Add("Review Settlement")
         bMenu.Add("Review Buildings")
         bMenu.Add("Review Residents")
@@ -18,6 +21,7 @@
             Console.Clear()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case 0, -1 : doExit = True
+                Case "Tick" : world.Tick()
                 Case "Review Settlement" : MenuReviewSettlement(settlement)
                 Case "Review Buildings" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)

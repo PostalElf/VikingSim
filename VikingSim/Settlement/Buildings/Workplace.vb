@@ -43,6 +43,17 @@
 
         Workers.Remove(p)
     End Sub
+    Public Function GetBestWorker() As Person
+        Dim bestWorker As Person = Nothing
+        Dim bestSkill As Integer = -1
+        For Each w In Workers
+            If w.SkillRank(Occupation) > bestSkill Then
+                bestWorker = w
+                bestSkill = w.SkillRank(Occupation)
+            End If
+        Next
+        Return bestWorker
+    End Function
 
     Protected LabourPerWorker As New Dictionary(Of Integer, Integer)
     Protected ProductionCosts As New ResourceDict

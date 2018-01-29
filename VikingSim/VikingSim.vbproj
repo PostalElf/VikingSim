@@ -69,7 +69,8 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Settlement\Item.vb" />
+    <Compile Include="Person\Pregnancy.vb" />
+    <Compile Include="Trackers\Inventory\Item.vb" />
     <Compile Include="Settlement\Projects\ItemProject.vb" />
     <Compile Include="Trackers\CalendarDate.vb" />
     <Compile Include="Dev\IO.vb" />
@@ -97,7 +98,7 @@
     <Compile Include="Dev\Common.vb" />
     <Compile Include="Settlement\Buildings\Building.vb" />
     <Compile Include="Trackers\iHistorable.vb" />
-    <Compile Include="Settlement\Inventory.vb" />
+    <Compile Include="Trackers\Inventory\Inventory.vb" />
     <Compile Include="Settlement\SettlementLocation.vb" />
     <Compile Include="Settlement\Projects\BuildingProject.vb" />
     <Compile Include="Settlement\Buildings\House.vb" />
