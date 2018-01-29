@@ -2,8 +2,15 @@
 Capacity: 2
 Morale: -10
 
+[Cottage]
+Buildtime: 100
+Buildcost: Hardwood, 10
+Capacity: 4
+Morale: 0
+
 [Longhouse]
 Buildtime: 100
-Buildcost: Oak, 5
+Buildcost: Hardwood, 10
+Buildcost: Softwood, 5
 Capacity: 5
-Morale: 0
+Morale: 10

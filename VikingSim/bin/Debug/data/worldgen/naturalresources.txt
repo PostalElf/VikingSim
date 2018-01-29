@@ -11,4 +11,6 @@ Rare: Ash, Fir
 
 [Glades]
 Common: Hides, Meat
-Rare: Reagents
+Rare: Reagents, Ivory
+
+[Stonepit]

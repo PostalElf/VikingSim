@@ -4,6 +4,8 @@ Capacity: 5
 Labour: 100
 Efficiency: 1/2/3/4
 Resource: Oreveins
+Buildtime: 100
+Buildcost: Hardwood, 3
 
 [Deepmines]
 Occupation: Mining
@@ -12,12 +14,118 @@ Labour: 100
 Efficiency: 0/1/2/3
 Resource: Godbones
 Buildtime: 100
+Buildcost: Hardwood, 10
+
+[Woodcutter]
+Occupation: Carpentry
+Capacity: 3
+Labour: 100
+Efficiency: 1/2/3/4
+Resource: Forests
+Buildtime: 100
+Buildcost: Hardwood, 5
+
+[Hunting Grounds]
+Occupation: Hunting
+Capacity: 3
+Labour: 100
+Efficiency: 1/2/3/4
+Resource: Glades
+Buildtime: 100
+Buildcost: Hardwood, 5
 
 [Copper Smelter]
 Occupation: Smelting
 Capacity: 5
 Labour: 100
 Efficiency: 1/2/3/4
+Cost: Copper Ore, 2
+Produce: Copper, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+
+[Tin Smelter]
+Occupation: Smelting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Tin Ore, 2
+Produce: Tin, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+
+[Bronze Smelter]
+Occupation: Smelting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
 Cost: Copper Ore, 1
 Cost: Tin Ore, 1
-Produce: Copper, 1
+Produce: Bronze, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+
+[Iron Smelter]
+Occupation: Smelting
+Capacity: 5
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Iron Ore, 2
+Produce: Iron, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+
+[Steel Smelter]
+Occupation: Smelting
+Capacity: 3
+Labour: 100
+Efficiency: 0/1/2/3
+Cost: Iron Ore, 1
+Cost: Coal, 3
+Produce: Steel, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+
+[Ash Lumbermill]
+Occupation: Carpentry
+Capacity: 4
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Ash, 1
+Produce: Hardwood, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildcost: Bronze, 2
+
+[Oak Lumbermill]
+Occupation: Carpentry
+Capacity: 4
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Oak, 1
+Produce: Hardwood, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildcost: Bronze, 2
+
+[Pine Lumbermill]
+Occupation: Carpentry
+Capacity: 4
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Pine, 1
+Produce: Softwood, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildcost: Bronze, 2
+
+[Fir Lumbermill]
+Occupation: Carpentry
+Capacity: 4
+Labour: 100
+Efficiency: 1/2/3/4
+Cost: Fir, 1
+Produce: Softwood, 1
+Buildtime: 100
+Buildcost: Hardwood, 5
+Buildcost: Bronze, 2
