@@ -39,7 +39,7 @@
     Public Sub Tick()
         If Pregnancy Is Nothing = False Then
             Dim child As Person = Pregnancy.Tick()
-            If child Is Nothing = False Then child.MoveHouse(House)
+            If child Is Nothing = False Then child.MoveHouse(House) : Pregnancy = Nothing
         End If
 
         'TODO: add death related stuff
