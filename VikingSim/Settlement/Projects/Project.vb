@@ -31,4 +31,8 @@
 
         Return False
     End Function
+    Public MustOverride Function Unpack()
+    Public Overrides Function ToString() As String
+        Return "Project - " & Name
+    End Function
 End Class

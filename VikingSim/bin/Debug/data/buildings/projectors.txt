@@ -31,8 +31,8 @@ LandUsed: 1
 Occupation: Carpentry
 Capacity: 3
 Efficiency: 10/20/30/40
-ProjectType: Item
-ProjectSubtype: Furniture
+ProjectType: Furniture
+ProjectSubtype: Softwood
 Buildtime: 1000
 Buildcost: Hardwood, 30
 Buildtype: Hardwood
@@ -42,8 +42,8 @@ LandUsed: 1
 Occupation: Sculpting
 Capacity: 3
 Efficiency: 10/20/30/40
-ProjectType: Item
-ProjectSubtype: Furniture
+ProjectType: Furniture
+ProjectSubtype: Softwood
 Buildtime: 1000
 Buildcost: Hardwood, 30
 Buildtype: Hardwood
@@ -53,8 +53,8 @@ LandUsed: 1
 Occupation: Smithing
 Capacity: 3
 Efficiency: 10/20/30/40
-ProjectType: Item
-ProjectSubtype: Gear
+ProjectType: Gear
+ProjectSubtype: Metal
 Buildtime: 1000
 Buildcost: Hardwood, 30
 Buildtype: Hardwood

@@ -1,4 +1,11 @@
 [Clay Pots]
 Morale: 5
-Buildtime: 10
+Buildtime: 100
+Buildtype: Pottery
 Buildcost: Clay, 1
+
+[Wooden Furniture]
+Morale: 50
+Buildtime: 10
+Buildtype: Softwood
+Buildcost: Softwood, 5

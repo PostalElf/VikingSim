@@ -36,7 +36,7 @@
         End With
         Return bp
     End Function
-    Public Function Unpack() As Building
+    Public Overrides Function Unpack()
         Dim b As Building
         Select Case BuildingType
             Case "House" : b = House.Import(Name)

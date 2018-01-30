@@ -37,16 +37,32 @@
                 End If
                 p.PayCost(Settlement)
                 p.Creator = Me
+
+            Case "Item"
+                Project = ItemProject.Import(projectName)
+                Dim p As ItemProject = CType(Project, ItemProject)
+                p.PayCost(Settlement)
+                p.Creator = Me
         End Select
     End Sub
     Public Function AddProjectCheck(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
+        If Project Is Nothing = False Then Return False
+
         Select Case ProjectType
             Case "Building"
                 If Project Is Nothing = False Then Return False
                 Dim p As BuildingProject = CType(BuildingProject.Import(projectName), BuildingProject)
                 If p Is Nothing Then Return False
                 If p.LocationString <> "" AndAlso location.Name <> p.LocationString Then Return False
-                If p.CheckType(ProjectType) = False Then Return False
+                If p.CheckType(ProjectSubtype) = False Then Return False
+                If p.CheckCost(Settlement) = False Then Return False
+                Return True
+
+            Case "Gear", "Furniture"
+                If Project Is Nothing = False Then Return False
+                Dim p As ItemProject = CType(ItemProject.Import(projectName), ItemProject)
+                If p Is Nothing Then Return False
+                If p.CheckType(ProjectSubtype) = False Then Return False
                 If p.CheckCost(Settlement) = False Then Return False
                 Return True
             Case Else
@@ -57,7 +73,9 @@
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
         Console.WriteLine("└ History:   " & CreatorName & " in " & CreationDate.ToStringShort)
-        Console.WriteLine("└ Project:   " & ProjectSubtype & " " & ProjectType)
+        Console.WriteLine("└ Works On:  " & ProjectSubtype & " " & ProjectType)
+        Console.Write("└ Project:   ")
+        If Project Is Nothing = False Then Console.WriteLine(Project.ToString) Else Console.WriteLine("-")
         Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
         For Each r In Workers
             Console.WriteLine("  └ " & r.Name)
@@ -73,10 +91,10 @@
         Next
 
         If Project.Tick(labour) = True Then
-            Select Case Project.GetType
-                Case GetType(BuildingProject)
-                    Dim p As BuildingProject = CType(Project, BuildingProject)
-                    Settlement.AddBuilding(p.Unpack())
+            Dim cp = Project.unpack()
+            Select Case cp.GetType
+                Case GetType(Building) : Settlement.AddBuilding(cp)
+                Case GetType(Gear), GetType(Furniture) : Settlement.AddItem(cp)
             End Select
 
             Project = Nothing

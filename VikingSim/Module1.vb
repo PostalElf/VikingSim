@@ -51,12 +51,19 @@
             child.MoveHouse(house)
         Next
 
+        Dim wpp = WorkplaceProjector.Import("Campfire")
+        wpp.SetHistory("Odin", World.TimeNow)
+        settlement.AddBuilding(wpp)
+        settlement.GetBestAffinityUnemployed(wpp.Occupation).ChangeWorkplace(wpp)
+        wpp.AddProjectCheck("Lowmines", settlement.GetLocations("Oreveins")(0))
+
         Dim wp = WorkplaceProjector.Import("Carpenter")
         wp.SetHistory("Odin", World.TimeNow)
         settlement.AddBuilding(wp)
         settlement.GetBestAffinityUnemployed(wp.Occupation).ChangeWorkplace(wp)
-        wp.AddProject("Deepmines", settlement.GetLocations("Godbones")(0))
-        For n = 1 To 200
+        wp.AddProjectCheck("Wooden Furniture")
+        wp.AddProject("Wooden Furniture")
+        For n = 1 To 10
             wp.Tick()
         Next
 
