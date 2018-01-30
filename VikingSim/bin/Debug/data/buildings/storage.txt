@@ -1,3 +1,64 @@
+[Copper Stores]
+LandUsed: 2
+Storage: Copper Ore, 40
+Storage: Copper, 40
+
+[Tin Stores]
+LandUsed: 1
+Storage: Tin Ore, 40
+Storage: Tin, 40
+
+[Bronze Stores]
+LandUsed: 1
+Storage: Bronze, 40
+
+[Iron Stores]
+LandUsed: 2
+Storage: Iron Ore, 40
+Storage: Iron, 40
+
+[Coal Stores]
+LandUsed: 1
+Storage: Coal, 40
+
+[Steel Stores]
+LandUsed: 1
+Storage: Steel, 40
+
+
+
+[Raw Stone Stores]
+LandUsed: 2
+Storage: Granite, 20
+Storage: Sandstone, 20
+Storage: Marble, 20
+Storage: Gritstone, 20
+
+[Clay Stores]
+LandUsed: 1
+Storage: Clay, 40
+
+[Stone Stores]
+LandUsed: 2
+Storage: Hardstone, 40
+Storage: Softstone, 40
+
+
+
+[Raw Wood Stores]
+LandUsed: 2
+Storage: Oak, 20
+Storage: Ash, 20
+Storage: Pine, 20
+Storage: Fir, 20
+
+[Wood Stores]
+LandUsed: 1
+Storage: Hardwood, 40
+Storage: Softwood, 40
+
+
+
 [Granary]
 LandUsed: 1
 Storage: Grain, 40

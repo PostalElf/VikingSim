@@ -1,13 +1,34 @@
-[Carpenter]
+[Town Hall]
 Occupation: Carpentry
 Capacity: 5
 Efficiency: 1/2/3/4
 ProjectType: Building
+ProjectSubtype: Simple
+
+[Builder]
+Occupation: Carpentry
+Capacity: 3
+Efficiency: 1/2/3/4
+ProjectType: Building
 ProjectSubtype: Hardwood
+
+[Carpenter]
+Occupation: Carpentry
+Capacity: 3
+Efficiency: 1/2/3/4
+ProjectType: Building
+ProjectSubtype: Softwood
 
 [Stoneshaper]
 Occupation: Sculpting
-Capacity: 5
+Capacity: 3
 Efficiency: 1/2/3/4
 ProjectType: Building
 ProjectSubtype: Hardstone
+
+[Sculptor]
+Occupation: Sculpting
+Capacity: 3
+Efficiency: 1/2/3/4
+ProjectType: Building
+ProjectSubtype: Softstone

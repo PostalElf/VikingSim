@@ -1,3 +1,8 @@
+[Clay Pots]
+Buildtime: 10
+Buildcost: Clay, 1
+
+
 [Copper Pickaxe]
 Buildtime: 10
 Buildcost: Copper, 5
