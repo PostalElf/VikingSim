@@ -7,6 +7,7 @@ Resource: Oreveins
 Buildtime: 100
 Buildcost: Hardwood, 3
 Buildtype: Simple
+LandUsed: 1
 
 [Deepmines]
 Occupation: Mining
@@ -17,6 +18,7 @@ Resource: Godbones
 Buildtime: 100
 Buildcost: Hardwood, 10
 Buildtype: Hardwood
+LandUsed: 1
 
 [Woodcutter]
 Occupation: Logging
@@ -27,6 +29,7 @@ Resource: Forests
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Simple
+LandUsed: 1
 
 [Hunting Grounds]
 Occupation: Hunting
@@ -37,6 +40,7 @@ Resource: Glades
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Simple
+LandUsed: 1
 
 [Quarry]
 Occupation: Quarrying
@@ -47,6 +51,7 @@ Resource: Stonepits
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Simple
+LandUsed: 1
 
 [Nomad Tents]
 Occupation: Gathering
@@ -58,6 +63,7 @@ Buildtime: 100
 Buildcost: Hides, 5
 Buildcost: Hardwood, 1
 Buildtype: Simple
+LandUsed: 1
 
 
 
@@ -71,6 +77,7 @@ Produce: Copper, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Tin Smelter]
 Occupation: Smelting
@@ -82,6 +89,7 @@ Produce: Tin, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Bronze Smelter]
 Occupation: Smelting
@@ -94,6 +102,7 @@ Produce: Bronze, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Iron Smelter]
 Occupation: Smelting
@@ -105,6 +114,7 @@ Produce: Iron, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Steel Smelter]
 Occupation: Smelting
@@ -117,6 +127,7 @@ Produce: Steel, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Ash Lumbermill]
 Occupation: Logging
@@ -129,6 +140,7 @@ Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
 Buildtype: Hardwood
+LandUsed: 1
 
 [Oak Lumbermill]
 Occupation: Logging
@@ -141,6 +153,7 @@ Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
 Buildtype: Hardwood
+LandUsed: 1
 
 [Pine Lumbermill]
 Occupation: Logging
@@ -153,6 +166,7 @@ Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
 Buildtype: Hardwood
+LandUsed: 1
 
 [Fir Lumbermill]
 Occupation: Logging
@@ -165,6 +179,7 @@ Buildtime: 100
 Buildcost: Hardwood, 5
 Buildcost: Bronze, 2
 Buildtype: Hardwood
+LandUsed: 1
 
 [Tannery]
 Occupation: Tannery
@@ -176,6 +191,7 @@ Produce: Leather, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Granite Workshop]
 Occupation: Sculpting
@@ -187,6 +203,7 @@ Produce: Hardstone, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Sandstone Workshop]
 Occupation: Sculpting
@@ -198,6 +215,7 @@ Produce: Softstone, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Marble Workshop]
 Occupation: Sculpting
@@ -209,6 +227,7 @@ Produce: Hardstone, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Gritstone Workshop]
 Occupation: Sculpting
@@ -220,6 +239,7 @@ Produce: Softstone, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Crystalier]
 Occupation: Sculpting
@@ -231,6 +251,7 @@ Produce: Crystals, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1
 
 [Jeweller]
 Occupation: Sculpting
@@ -242,3 +263,4 @@ Produce: Jewels, 1
 Buildtime: 100
 Buildcost: Hardwood, 5
 Buildtype: Hardwood
+LandUsed: 1

@@ -1,6 +1,7 @@
 ﻿Public Class IO
 #Region "Constants"
     Public Const sbHouses As String = "data/buildings/houses.txt"
+    Public Const sbStorage As String = "data/buildings/storage.txt"
     Public Const sbProducers As String = "data/buildings/producers.txt"
     Public Const sbProjectors As String = "data/buildings/projectors.txt"
     Public Const sbResources As String = "data/worldgen/resources.txt"

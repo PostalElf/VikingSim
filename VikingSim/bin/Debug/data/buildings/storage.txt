@@ -1,0 +1,12 @@
+[Granary]
+LandUsed: 1
+Storage: Grain, 40
+
+[Salting House]
+LandUsed: 1
+Storage: Meat, 40
+
+[Timberhouse]
+LandUsed: 1
+Storage: Hardwood, 40
+Storage: Softwood, 40

@@ -4,6 +4,7 @@
         For Each resCategory In allResources.Keys
             For Each r In allResources(resCategory)
                 Resources.Add(r, 0)
+                BaseResourceCapacity.Add(r, 20)
             Next
         Next
     End Sub
@@ -143,15 +144,26 @@
 #End Region
 
 #Region "Resources"
+    Private BaseResourceCapacity As New ResourceDict
     Private Resources As New ResourceDict
     Public Sub AddResources(ByVal res As ResourceDict, Optional ByVal remove As Boolean = False)
         For Each r In res.Keys
-            If remove = True Then Resources(r) -= res(r) Else Resources(r) += res(r)
+            If remove = True Then AddResources(r, -res(r)) Else AddResources(r, res(r))
         Next
     End Sub
     Public Sub AddResources(ByVal r As String, ByVal qty As Integer)
         Resources(r) += qty
+        If Resources(r) >= GetResourceCapacity(r) Then Resources(r) = GetResourceCapacity(r)
+        If Resources(r) < 0 Then Resources(r) = 0
     End Sub
+    Private Function GetResourceCapacity(ByVal r As String) As Integer
+        Dim total As Integer = BaseResourceCapacity(r)
+        Dim storages As List(Of Building) = GetBuildings("storage")
+        For Each storage In storages
+            total += CType(storage, Storage).GetCapacity(r)
+        Next
+        Return total
+    End Function
     Public Function CheckResources(ByVal res As ResourceDict) As Boolean
         For Each r In res.Keys
             If Resources(r) < res(r) Then Return False

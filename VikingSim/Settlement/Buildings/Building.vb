@@ -36,6 +36,8 @@
                 Case "projector" : If TypeOf Me Is WorkplaceProjector = False Then Return False
                 Case "employable" : If TypeOf Me Is Workplace AndAlso CType(Me, Workplace).AddWorkerCheck(Nothing) = False Then Return False
                 Case "unemployable" : If TypeOf Me Is Workplace AndAlso CType(Me, Workplace).AddWorkerCheck(Nothing) = True Then Return False
+
+                Case "storage" : If TypeOf Me Is Storage = False Then Return False
             End Select
         Next
         Return True
@@ -59,7 +61,7 @@
 
     Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
         Select Case header
-            Case "Land" : _LandUsed = Convert.ToInt32(entry)
+            Case "Land", "LandUsed" : _LandUsed = Convert.ToInt32(entry)
         End Select
     End Sub
 End Class
