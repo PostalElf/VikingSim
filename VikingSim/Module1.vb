@@ -2,6 +2,7 @@
     Public rng As New Random(3)
 
     Sub Main()
+        Console.SetWindowSize(100, 45)
         Dim world As New World
         Dim settlement As Settlement = BuildSettlement()
         world.addsettlement(settlement)
@@ -82,12 +83,12 @@
         Console.Clear()
     End Sub
     Private Sub MenuMarryResidents(ByVal settlement As Settlement)
-        Dim men As List(Of Person) = settlement.GetResidents("", "single male")
-        Dim women As List(Of Person) = settlement.GetResidents("", "single female")
-        If men.Count = 0 OrElse women.Count = 0 Then Console.WriteLine("Insufficient singles!") : Console.ReadLine() : Exit Sub
         Dim houses As List(Of Building) = settlement.GetBuildings("house space")
         If houses.Count = 0 Then Console.WriteLine("No free house!") : Console.ReadLine() : Exit Sub
 
+        Dim men As List(Of Person) = settlement.GetResidents("", "single male")
+        Dim women As List(Of Person) = settlement.GetResidents("", "single female")
+        If men.Count = 0 OrElse women.Count = 0 Then Console.WriteLine("Insufficient singles!") : Console.ReadLine() : Exit Sub
         Dim husband As Person = Menu.getListChoice(men, 1, "Select husband:")
         Console.WriteLine()
         Dim wife As Person = Menu.getListChoice(women, 1, "Select wife:")
@@ -111,10 +112,10 @@
         For n = 0 To women.Count - 1
             couples.Add(women(n).Name & " & " & men(n).Name)
         Next
-        Dim selection As Integer = Menu.getListChoice(couples, 1, "Select couple:")
+        Dim s As Integer = Menu.getListChoiceIndex(couples, 1, "Select couple:")
 
-        Dim father As Person = men(selection)
-        Dim mother As Person = women(selection)
+        Dim father As Person = men(s)
+        Dim mother As Person = women(s)
         Dim child As Person = Person.Birth(father, mother)
         Console.WriteLine(child.Name & " has been born to " & father.Name & " and " & mother.Name & ".")
         Console.ReadLine()
@@ -123,24 +124,22 @@
     Private Sub MenuAddBuilding(ByVal settlement As Settlement)
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
         Dim p As BuildingProject = Nothing
+        Dim names As List(Of String)
+
         Select Case choice
-            Case "House"
-                Dim houseNames As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbHouses)
-                Dim houseName As String = Menu.getListChoice(houseNames, 1, "Select type of house:")
-                p = BuildingProject.Import(houseName)
-            Case "Producer"
-                Dim producerNames As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbProducers)
-                Dim producerName As String = Menu.getListChoice(producerNames, 1, "Select type of producer:")
-                p = BuildingProject.Import(producerName)
-            Case "Projector"
-                Dim projectorNames As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbProjectors)
-                Dim projectorName As String = Menu.getListChoice(projectorNames, 1, "Select type of projector:")
-                p = BuildingProject.Import(projectorName)
+            Case "House" : names = IO.ImportSquareBracketHeaders(IO.sbHouses)
+            Case "Producer" : names = IO.ImportSquareBracketHeaders(IO.sbProducers)
+            Case "Projector" : names =  IO.ImportSquareBracketHeaders(IO.sbProjectors)
             Case Else : Throw New Exception("Invalid type of building.")
         End Select
 
+        Dim buildingName As String = Menu.getListChoice(names, 1, "Select building:")
+        If buildingName = "" Then Exit Sub
+        p = BuildingProject.Import(buildingName)
+
         If p.LocationString <> "" Then
             Dim location As SettlementLocation = Menu.getListChoice(settlement.GetLocations(p.LocationString), 1, "Select location:")
+            If location Is Nothing Then Console.WriteLine("Requires location: " & p.LocationString) : Console.ReadLine() : Exit Sub
             p.Location = location
             settlement.RemoveLocation(location)
         End If

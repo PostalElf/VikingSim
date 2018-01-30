@@ -97,6 +97,31 @@
 
         Return Nothing
     End Function
+    Friend Shared Function getListChoiceIndex(Of T)(ByVal objList As List(Of T), ByVal indent As Integer, Optional ByVal str As String = "", Optional ByVal prompt As String = "> ") As Integer
+        If objList.Count = 0 Then Return Nothing
+        If objList.Count = 1 Then Return 0
+
+        Dim ind As String = vbSpace(indent)
+        If str <> "" Then Console.WriteLine(str)
+
+        For n = 0 To objList.Count - 1
+            Console.WriteLine(ind & n + 1 & ") " & objList(n).ToString)
+        Next
+
+        While True
+            Console.WriteLine()
+            Console.Write(ind & prompt)
+            Dim input As String = Console.ReadLine
+            If IsNumeric(input) = False Then Console.WriteLine(vbCrLf & "Invalid input!") : Continue While
+            If input = Nothing Then Return -1
+            Dim inputNum As Integer = CInt(input)
+
+            Dim realNum As Integer = inputNum - 1
+            If realNum > objList.Count - 1 Then Console.WriteLine(vbCrLf & "Invalid input!") : Continue While
+            Return realNum
+        End While
+        Return -1
+    End Function
 
     Friend Shared Function confirmChoice(ByVal indent As Integer, Optional ByVal str As String = "Are you sure? ") As Boolean
         Dim ind As String = vbSpace(indent)
