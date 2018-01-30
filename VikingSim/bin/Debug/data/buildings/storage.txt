@@ -1,73 +1,115 @@
 [Copper Stores]
-LandUsed: 2
-Storage: Copper Ore, 40
-Storage: Copper, 40
+Storage: Copper Ore, 400
+Storage: Copper, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
+LandUsed: 1
 
 [Tin Stores]
+Storage: Tin Ore, 400
+Storage: Tin, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Tin Ore, 40
-Storage: Tin, 40
 
 [Bronze Stores]
+Storage: Bronze, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Bronze, 40
 
 [Iron Stores]
+Storage: Iron Ore, 400
+Storage: Iron, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 2
-Storage: Iron Ore, 40
-Storage: Iron, 40
 
 [Coal Stores]
+Storage: Coal, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Coal, 40
 
 [Steel Stores]
+Storage: Steel, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Steel, 40
 
 
 
 [Raw Stone Stores]
+Storage: Granite, 200
+Storage: Sandstone, 200
+Storage: Marble, 200
+Storage: Gritstone, 200
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 2
-Storage: Granite, 20
-Storage: Sandstone, 20
-Storage: Marble, 20
-Storage: Gritstone, 20
 
 [Clay Stores]
+Storage: Clay, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Clay, 40
 
 [Stone Stores]
+Storage: Hardstone, 400
+Storage: Softstone, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 2
-Storage: Hardstone, 40
-Storage: Softstone, 40
 
 
 
 [Raw Wood Stores]
+Storage: Oak, 200
+Storage: Ash, 200
+Storage: Pine, 200
+Storage: Fir, 200
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 2
-Storage: Oak, 20
-Storage: Ash, 20
-Storage: Pine, 20
-Storage: Fir, 20
 
 [Wood Stores]
+Storage: Hardwood, 400
+Storage: Softwood, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Hardwood, 40
-Storage: Softwood, 40
 
 
 
 [Granary]
+Storage: Grain, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Grain, 40
 
 [Salting House]
+Storage: Meat, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Meat, 40
 
 [Timberhouse]
+Storage: Hardwood, 400
+Storage: Softwood, 400
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
 LandUsed: 1
-Storage: Hardwood, 40
-Storage: Softwood, 40

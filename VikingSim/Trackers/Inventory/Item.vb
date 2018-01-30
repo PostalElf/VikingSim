@@ -21,4 +21,6 @@
         Console.WriteLine(Name)
         Console.WriteLine("└ History: " & CreatorName & ", " & CreationDate.ToStringShort)
     End Sub
+
+    Public MustOverride Function GetBonus(ByVal k As String) As Integer
 End Class

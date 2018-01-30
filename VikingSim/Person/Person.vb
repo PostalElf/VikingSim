@@ -37,15 +37,22 @@
         End Get
     End Property
     Public Sub Tick()
-        If Pregnancy Is Nothing = False Then
-            Dim child As Person = Pregnancy.Tick()
-            If child Is Nothing = False Then child.MoveHouse(House) : Pregnancy = Nothing
+        If Sex = "Female" Then
+            If Pregnancy Is Nothing = False Then
+                Dim child As Person = Pregnancy.Tick()
+                If child Is Nothing = False Then child.MoveHouse(House) : Pregnancy = Nothing
+            ElseIf SpouseName <> "" Then
+                'TODO: add sexy times
+            End If
         End If
 
         'TODO: add death related stuff
     End Sub
 
     Public Inventory As New Inventory
+    Public Function GetInventoryBonus(ByVal occ As String) As Integer
+        Return Inventory.GetBonus(occ)
+    End Function
 
     Private House As House
     Public Sub MoveHouse(ByVal targetHouse As House)

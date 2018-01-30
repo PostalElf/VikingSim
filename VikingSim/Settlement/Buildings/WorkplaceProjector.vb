@@ -69,7 +69,7 @@
 
         Dim labour As Integer = 0
         For Each p In Workers
-            labour += LabourPerWorker(p.PerformWork)
+            labour += LabourPerWorker(p.PerformWork) + p.GetInventoryBonus(Occupation)
         Next
 
         If Project.Tick(labour) = True Then

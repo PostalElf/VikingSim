@@ -69,7 +69,7 @@
 
         'add labour
         For Each p In Workers
-            Labour += LabourPerWorker(p.PerformWork)
+            Labour += LabourPerWorker(p.PerformWork) + p.GetInventoryBonus(Occupation)
         Next
 
         'check if labour threshold met

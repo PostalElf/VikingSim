@@ -2,3 +2,23 @@
 Buildtime: 10
 Buildcost: Copper, 5
 Buildcost: Wood, 1
+Efficiency: Mining, 1
+
+[Bronze Pickaxe]
+Buildtime: 10
+Buildcost: Bronze, 5
+Buildcost: Wood, 1
+Efficiency: Mining, 2
+
+[Iron Pickaxe]
+Buildtime: 10
+Buildcost: Iron, 5
+Buildcost: Wood, 1
+Efficiency: Mining, 3
+
+[Steel Pickaxe]
+Buildtime: 10
+Buildcost: Steel, 5
+Buildcost: Wood, 1
+Efficiency: Mining, 5
+

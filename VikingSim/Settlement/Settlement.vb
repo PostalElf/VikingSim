@@ -4,7 +4,7 @@
         For Each resCategory In allResources.Keys
             For Each r In allResources(resCategory)
                 Resources.Add(r, 0)
-                BaseResourceCapacity.Add(r, 20)
+                BaseResourceCapacity.Add(r, 200)
             Next
         Next
     End Sub

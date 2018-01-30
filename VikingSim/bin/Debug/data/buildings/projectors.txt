@@ -1,41 +1,61 @@
-[Town Hall]
+[Campfire]
 Occupation: Carpentry
 Capacity: 5
-Efficiency: 1/2/3/4
+Efficiency: 10/20/30/40
 ProjectType: Building
 ProjectSubtype: Simple
 
 [Builder]
 Occupation: Carpentry
 Capacity: 3
-Efficiency: 1/2/3/4
+Efficiency: 10/20/30/40
 ProjectType: Building
 ProjectSubtype: Hardwood
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Simple
+LandUsed: 1
 
 [Stoneshaper]
 Occupation: Sculpting
 Capacity: 3
-Efficiency: 1/2/3/4
+Efficiency: 10/20/30/40
 ProjectType: Building
 ProjectSubtype: Hardstone
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
+LandUsed: 1
 
 [Carpenter]
 Occupation: Carpentry
 Capacity: 3
-Efficiency: 1/2/3/4
+Efficiency: 10/20/30/40
 ProjectType: Item
 ProjectSubtype: Furniture
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
+LandUsed: 1
 
 [Sculptor]
 Occupation: Sculpting
 Capacity: 3
-Efficiency: 1/2/3/4
+Efficiency: 10/20/30/40
 ProjectType: Item
 ProjectSubtype: Furniture
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
+LandUsed: 1
 
 [Blacksmith]
 Occupation: Smithing
 Capacity: 3
-Efficiency: 1/2/3/4
+Efficiency: 10/20/30/40
 ProjectType: Item
 ProjectSubtype: Gear
+Buildtime: 1000
+Buildcost: Hardwood, 30
+Buildtype: Hardwood
+LandUsed: 1

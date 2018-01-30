@@ -1,67 +1,67 @@
 [Lowmines]
 Occupation: Mining
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
+Labour: 1000
+Efficiency: 10/20/30/40
 Resource: Oreveins
-Buildtime: 100
-Buildcost: Hardwood, 3
+Buildtime: 1000
+Buildcost: Hardwood, 30
 Buildtype: Simple
 LandUsed: 1
 
 [Deepmines]
 Occupation: Mining
 Capacity: 3
-Labour: 100
-Efficiency: 0/1/2/3
+Labour: 1000
+Efficiency: 0/10/20/30
 Resource: Godbones
-Buildtime: 100
-Buildcost: Hardwood, 10
+Buildtime: 1000
+Buildcost: Hardwood, 100
 Buildtype: Hardwood
 LandUsed: 1
 
 [Woodcutter]
 Occupation: Logging
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
+Labour: 1000
+Efficiency: 10/20/30/40
 Resource: Forests
-Buildtime: 100
-Buildcost: Hardwood, 5
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Simple
 LandUsed: 1
 
 [Hunting Grounds]
 Occupation: Hunting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
+Labour: 1000
+Efficiency: 10/20/30/40
 Resource: Glades
-Buildtime: 100
-Buildcost: Hardwood, 5
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Simple
 LandUsed: 1
 
 [Quarry]
 Occupation: Quarrying
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
+Labour: 1000
+Efficiency: 10/20/30/40
 Resource: Stonepits
-Buildtime: 100
-Buildcost: Hardwood, 5
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Simple
 LandUsed: 1
 
 [Nomad Tents]
 Occupation: Gathering
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
+Labour: 1000
+Efficiency: 10/20/30/40
 Resource: Plains
-Buildtime: 100
-Buildcost: Hides, 5
-Buildcost: Hardwood, 1
+Buildtime: 1000
+Buildcost: Hides, 50
+Buildcost: Hardwood, 10
 Buildtype: Simple
 LandUsed: 1
 
@@ -70,197 +70,197 @@ LandUsed: 1
 [Copper Smelter]
 Occupation: Smelting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Copper Ore, 2
-Produce: Copper, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Copper Ore, 20
+Produce: Copper, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Tin Smelter]
 Occupation: Smelting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Tin Ore, 2
-Produce: Tin, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Tin Ore, 20
+Produce: Tin, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Bronze Smelter]
 Occupation: Smelting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Copper Ore, 1
-Cost: Tin Ore, 1
-Produce: Bronze, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Copper Ore, 10
+Cost: Tin Ore, 10
+Produce: Bronze, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Iron Smelter]
 Occupation: Smelting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Iron Ore, 2
-Produce: Iron, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Iron Ore, 20
+Produce: Iron, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Steel Smelter]
 Occupation: Smelting
 Capacity: 3
-Labour: 100
-Efficiency: 0/1/2/3
-Cost: Iron Ore, 2
-Cost: Coal, 3
-Produce: Steel, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 0/10/20/30
+Cost: Iron Ore, 20
+Cost: Coal, 30
+Produce: Steel, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Ash Lumbermill]
 Occupation: Logging
 Capacity: 4
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Ash, 1
-Produce: Hardwood, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
-Buildcost: Bronze, 2
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Ash, 10
+Produce: Hardwood, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 20
 Buildtype: Hardwood
 LandUsed: 1
 
 [Oak Lumbermill]
 Occupation: Logging
 Capacity: 4
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Oak, 1
-Produce: Hardwood, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
-Buildcost: Bronze, 2
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Oak, 10
+Produce: Hardwood, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 20
 Buildtype: Hardwood
 LandUsed: 1
 
 [Pine Lumbermill]
 Occupation: Logging
 Capacity: 4
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Pine, 1
-Produce: Softwood, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
-Buildcost: Bronze, 2
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Pine, 10
+Produce: Softwood, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 20
 Buildtype: Hardwood
 LandUsed: 1
 
 [Fir Lumbermill]
 Occupation: Logging
 Capacity: 4
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Fir, 1
-Produce: Softwood, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
-Buildcost: Bronze, 2
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Fir, 10
+Produce: Softwood, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 20
 Buildtype: Hardwood
 LandUsed: 1
 
 [Tannery]
 Occupation: Tannery
 Capacity: 3
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Hides, 3
-Produce: Leather, 1
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Hides, 30
+Produce: Leather, 10
 Buildtime: 100
-Buildcost: Hardwood, 5
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Granite Workshop]
 Occupation: Sculpting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Granite, 2
-Produce: Hardstone, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Granite, 20
+Produce: Hardstone, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Sandstone Workshop]
 Occupation: Sculpting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Sandstone, 2
-Produce: Softstone, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Sandstone, 20
+Produce: Softstone, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Marble Workshop]
 Occupation: Sculpting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Marble, 2
-Produce: Hardstone, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Marble, 20
+Produce: Hardstone, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Gritstone Workshop]
 Occupation: Sculpting
 Capacity: 5
-Labour: 100
-Efficiency: 1/2/3/4
-Cost: Gritstone, 2
-Produce: Softstone, 1
+Labour: 1000
+Efficiency: 10/20/30/40
+Cost: Gritstone, 20
+Produce: Softstone, 10
 Buildtime: 100
-Buildcost: Hardwood, 5
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Crystalier]
 Occupation: Sculpting
 Capacity: 3
-Labour: 100
-Efficiency: 0/1/2/3
-Cost: Geodes, 2
-Produce: Crystals, 1
+Labour: 1000
+Efficiency: 0/10/20/30
+Cost: Geodes, 20
+Produce: Crystals, 10
 Buildtime: 100
-Buildcost: Hardwood, 5
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1
 
 [Jeweller]
 Occupation: Sculpting
 Capacity: 3
-Labour: 100
-Efficiency: 0/1/2/3
-Cost: Gemstones, 2
-Produce: Jewels, 1
-Buildtime: 100
-Buildcost: Hardwood, 5
+Labour: 1000
+Efficiency: 0/10/20/30
+Cost: Gemstones, 20
+Produce: Jewels, 10
+Buildtime: 1000
+Buildcost: Hardwood, 50
 Buildtype: Hardwood
 LandUsed: 1

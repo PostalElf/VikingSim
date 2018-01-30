@@ -25,14 +25,14 @@
             Dim targetResource As String = GrabRandom(Of String)(commons)
             Dim targetQty As Integer = rng.Next(3, 7)
             Dim qtyRemaining As Integer = 10 - targetQty
-            .Add(targetResource, targetQty)
+            .Add(targetResource, targetQty * 10)
 
             'pick a rare (1-3) resource next
             If rares.Count > 0 Then
                 targetResource = GrabRandom(Of String)(rares)
                 targetQty = rng.Next(1, 4)
                 qtyRemaining -= targetQty
-                .Add(targetResource, targetQty)
+                .Add(targetResource, targetQty * 10)
             End If
 
             'fill up remainder with common (1-4) or rare (1-4)
@@ -50,7 +50,7 @@
                 targetQty = rng.Next(1, 5)
                 If targetQty > qtyRemaining Then targetQty = qtyRemaining
                 qtyRemaining -= targetQty
-                .Add(targetResource, targetQty)
+                .Add(targetResource, targetQty * 10)
             End While
         End With
         Return nr

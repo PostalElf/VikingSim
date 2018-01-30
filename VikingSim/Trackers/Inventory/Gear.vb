@@ -13,11 +13,23 @@
                 Dim entry As String = split(1).Trim
 
                 Select Case header
+                    Case "Efficiency"
+                        Dim s As String() = entry.Split(",")
+                        Dim occ As String = split(0).Trim
+                        Dim value As Integer = Convert.ToInt32(split(1).Trim)
+                        If .Bonuses.ContainsKey(occ) = False Then .Bonuses.Add(occ, 0)
+                        .Bonuses(occ) += value
 
                     Case Else : .BaseImport(header, entry)
                 End Select
             Next
         End With
         Return gear
+    End Function
+
+    Private Bonuses As New Dictionary(Of String, Integer)
+    Public Overrides Function GetBonus(ByVal occupation As String) As Integer
+        If Bonuses.ContainsKey(occupation) = False Then Return 0
+        Return Bonuses(occupation)
     End Function
 End Class
