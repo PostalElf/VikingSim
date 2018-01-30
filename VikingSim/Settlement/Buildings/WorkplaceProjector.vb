@@ -28,8 +28,15 @@
     Private ProjectSubtype As String
     Public Sub AddProject(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
         Select Case ProjectType
+            Case "Building" : AddProject(BuildingProject.Import(projectName), location)
+            Case "Item" : AddProject(ItemProject.Import(projectName), location)
+        End Select
+    End Sub
+    Public Sub AddProject(ByVal pProject As Project, Optional ByVal location As SettlementLocation = Nothing)
+        Project = pProject
+
+        Select Case ProjectType
             Case "Building"
-                Project = BuildingProject.Import(projectName)
                 Dim p As BuildingProject = CType(Project, BuildingProject)
                 If p.LocationString <> "" Then
                     p.Location = location
@@ -39,19 +46,29 @@
                 p.Creator = Me
 
             Case "Item"
-                Project = ItemProject.Import(projectName)
                 Dim p As ItemProject = CType(Project, ItemProject)
                 p.PayCost(Settlement)
                 p.Creator = Me
         End Select
+
+        'immediately add projects with no buildtime
+        If pProject.Tick(0) = True Then Tick()
     End Sub
     Public Function AddProjectCheck(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
+        Select Case ProjectType
+            Case "Building" : Return AddProjectCheck(BuildingProject.Import(projectName), location)
+            Case "Gear", "Furniture" : Return AddProjectCheck(ItemProject.Import(projectName), location)
+            Case Else : Throw New Exception("Unhandled ProjectType")
+        End Select
+    End Function
+    Public Function AddProjectCheck(ByVal pProject As Project, Optional ByVal location As SettlementLocation = Nothing)
         If Project Is Nothing = False Then Return False
 
         Select Case ProjectType
             Case "Building"
                 If Project Is Nothing = False Then Return False
-                Dim p As BuildingProject = CType(BuildingProject.Import(projectName), BuildingProject)
+                If pProject Is Nothing Then Return False
+                Dim p As BuildingProject = TryCast(pProject, BuildingProject)
                 If p Is Nothing Then Return False
                 If p.LocationString <> "" AndAlso location.Name <> p.LocationString Then Return False
                 If p.CheckType(ProjectSubtype) = False Then Return False
@@ -60,7 +77,8 @@
 
             Case "Gear", "Furniture"
                 If Project Is Nothing = False Then Return False
-                Dim p As ItemProject = CType(ItemProject.Import(projectName), ItemProject)
+                If pProject Is Nothing Then Return False
+                Dim p As ItemProject = TryCast(pProject, ItemProject)
                 If p Is Nothing Then Return False
                 If p.CheckType(ProjectSubtype) = False Then Return False
                 If p.CheckCost(Settlement) = False Then Return False
@@ -93,7 +111,7 @@
         If Project.Tick(labour) = True Then
             Dim cp = Project.unpack()
             Select Case cp.GetType
-                Case GetType(Building) : Settlement.AddBuilding(cp)
+                Case GetType(House), GetType(WorkplaceProducer), GetType(WorkplaceProjector), GetType(Storage) : Settlement.AddBuilding(cp)
                 Case GetType(Gear), GetType(Furniture) : Settlement.AddItem(cp)
             End Select
 

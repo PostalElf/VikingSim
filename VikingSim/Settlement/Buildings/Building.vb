@@ -39,8 +39,9 @@
                 Case "workplace" : If TypeOf Me Is Workplace = False Then Return False
                 Case "producer" : If TypeOf Me Is WorkplaceProducer = False Then Return False
                 Case "projector" : If TypeOf Me Is WorkplaceProjector = False Then Return False
-                Case "employable" : If TypeOf Me Is Workplace AndAlso CType(Me, Workplace).AddWorkerCheck(Nothing) = False Then Return False
-                Case "unemployable" : If TypeOf Me Is Workplace AndAlso CType(Me, Workplace).AddWorkerCheck(Nothing) = True Then Return False
+                Case "employed" : If TypeOf Me Is Workplace = False OrElse CType(Me, Workplace).GetBestWorker Is Nothing Then Return False
+                Case "employable" : If TypeOf Me Is Workplace = False OrElse CType(Me, Workplace).AddWorkerCheck(Nothing) = False Then Return False
+                Case "unemployable" : If TypeOf Me Is Workplace = False OrElse CType(Me, Workplace).AddWorkerCheck(Nothing) = True Then Return False
 
                 Case "storage" : If TypeOf Me Is Storage = False Then Return False
             End Select

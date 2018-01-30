@@ -51,11 +51,16 @@
             child.MoveHouse(house)
         Next
 
+
+        settlement.AddResources("Hardwood", 100)
+        settlement.AddResources("Softwood", 100)
+
         Dim wpp = WorkplaceProjector.Import("Campfire")
         wpp.SetHistory("Odin", World.TimeNow)
         settlement.AddBuilding(wpp)
         settlement.GetBestAffinityUnemployed(wpp.Occupation).ChangeWorkplace(wpp)
         wpp.AddProjectCheck("Lowmines", settlement.GetLocations("Oreveins")(0))
+        wpp.AddProject("Lowmines", settlement.GetLocations("Oreveins")(0))
 
         Dim wp = WorkplaceProjector.Import("Carpenter")
         wp.SetHistory("Odin", World.TimeNow)
@@ -63,8 +68,10 @@
         settlement.GetBestAffinityUnemployed(wp.Occupation).ChangeWorkplace(wp)
         wp.AddProjectCheck("Wooden Furniture")
         wp.AddProject("Wooden Furniture")
-        For n = 1 To 10
+
+        For n = 1 To 100
             wp.Tick()
+            wpp.Tick()
         Next
 
         Return settlement
@@ -148,12 +155,18 @@
             Dim location As SettlementLocation = Menu.getListChoice(settlement.GetLocations(p.LocationString), 1, "Select location:")
             If location Is Nothing Then Console.WriteLine("Requires location: " & p.LocationString) : Console.ReadLine() : Exit Sub
             p.Location = location
-            settlement.RemoveLocation(location)
         End If
 
-        Dim b As Building = p.Unpack
-        settlement.AddBuilding(b)
-        Console.WriteLine(b.Name & " added.")
+        Dim projectors As List(Of Building) = settlement.GetBuildings("projector")
+        For n = projectors.Count - 1 To 0 Step -1
+            Dim proj As WorkplaceProjector = projectors(n)
+            If proj.AddProjectCheck(p, p.Location) = False Then projectors.RemoveAt(n)
+        Next
+        If projectors.Count = 0 Then Console.WriteLine("No projector can take on this project.") : Console.ReadLine() : Exit Sub
+
+        Dim projector As WorkplaceProjector = Menu.getListChoice(projectors, 1, "Select projector:")
+        projector.AddProject(p, p.Location)
+        Console.WriteLine(buildingName & " project added to " & projector.Name & ".")
         Console.ReadLine()
     End Sub
     Private Sub MenuAddLocation(ByVal settlement As Settlement)
