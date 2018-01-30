@@ -71,6 +71,8 @@
   <ItemGroup>
     <Compile Include="Person\Pregnancy.vb" />
     <Compile Include="Settlement\Buildings\Storage.vb" />
+    <Compile Include="Trackers\Inventory\Furniture.vb" />
+    <Compile Include="Trackers\Inventory\Gear.vb" />
     <Compile Include="Trackers\Inventory\Item.vb" />
     <Compile Include="Settlement\Projects\ItemProject.vb" />
     <Compile Include="Trackers\CalendarDate.vb" />

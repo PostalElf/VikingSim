@@ -135,7 +135,7 @@
 
         Dim buildingName As String = Menu.getListChoice(names, 1, "Select building:")
         If buildingName = "" Then Exit Sub
-        p = BuildingProject.Import(buildingName)
+        p = BuildingProject.Import(buildingName, choice)
 
         If p.LocationString <> "" Then
             Dim location As SettlementLocation = Menu.getListChoice(settlement.GetLocations(p.LocationString), 1, "Select location:")

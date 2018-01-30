@@ -1,14 +1,11 @@
-﻿Public Class Item
+﻿Public MustInherit Class Item
     Implements iHistorable
 
-    Public Shared Function Import(ByVal targetName As String) As Item
-        Dim rawData As List(Of String) = IO.ImportSquareBracketSelect(IO.sbItems, targetName)
-        Dim item As New Item
-        With item
-            .Name = targetName
-        End With
-        Return item
-    End Function
+    Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
+        Select Case header
+
+        End Select
+    End Sub
 
     Public Name As String
     Public Property CreatorName As String Implements iHistorable.CreatorName
