@@ -1,3 +1,4 @@
 [Clay Pots]
+Morale: 5
 Buildtime: 10
 Buildcost: Clay, 1

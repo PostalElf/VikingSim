@@ -7,9 +7,15 @@
         If Items.Contains(item) = False Then Exit Sub
         Items.Remove(item)
     End Sub
+    Public Sub DumpItems(ByVal settlement As Settlement)
+        For n = Items.Count - 1 To 0 Step -1
+            settlement.additem(Items(n))
+            Items.RemoveAt(n)
+        Next
+    End Sub
     Public Function CheckItem(ByVal item As Item) As Boolean
         For Each i In Items
-            If i.name = item.name Then Return True
+            If i.Name = item.Name Then Return True
         Next
         Return False
     End Function
@@ -28,4 +34,5 @@
         Next
         Return total
     End Function
+
 End Class

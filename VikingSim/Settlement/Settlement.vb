@@ -1,4 +1,5 @@
 ﻿Public Class Settlement
+#Region "Constructors"
     Public Sub New()
         Dim allResources As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbResources)
         For Each resCategory In allResources.Keys
@@ -16,13 +17,32 @@
         End With
         Return settlement
     End Function
+#End Region
 
+#Region "Personal Identifiers"
     Private _Name As String
     Public ReadOnly Property Name As String
         Get
             Return _Name
         End Get
     End Property
+
+    Public Overrides Function ToString() As String
+        Return _Name
+    End Function
+    Public Sub ConsoleReport()
+        Console.WriteLine(Name)
+        Console.WriteLine("└ Residents: " & GetResidents("").Count)
+        Console.WriteLine("└ Buildings: " & Buildings.Count)
+        Dim landPercent As String = ((LandFree / LandTotal) * 100).ToString("0")
+        Console.WriteLine("└ Open Land: " & LandFree & "/" & LandTotal & " (" & landPercent & "%)")
+        Console.WriteLine("└ Resources: ")
+        For Each r In Resources.Keys
+            Dim value As Integer = Resources(r)
+            If value > 0 Then Console.WriteLine("  └ " & r & ": " & value)
+        Next
+    End Sub
+#End Region
 
 #Region "Settlement Site"
     Private Locations As New List(Of SettlementLocation)
@@ -83,8 +103,8 @@
         Dim bestFit As Person = Nothing
         Dim bestAffinity As Double = -1
         For Each r In residents
-            If r.skillaffinity(skill) > bestAffinity Then
-                bestAffinity = r.skillaffinity(skill)
+            If r.SkillAffinity(skill) > bestAffinity Then
+                bestAffinity = r.SkillAffinity(skill)
                 bestFit = r
             End If
         Next
@@ -128,6 +148,12 @@
         Buildings.Add(b)
         b.Settlement = Me
     End Sub
+    Public Sub RemoveBuilding(ByVal b As Building)
+        If Buildings.Contains(b) = False Then Exit Sub
+        b.Inventory.dumpitems(Me)
+        b.Settlement = Nothing
+        Buildings.Remove(b)
+    End Sub
     Public Function GetBuildings(Optional ByVal flags As String = "") As List(Of Building)
         Dim total As New List(Of Building)
         For Each b In Buildings
@@ -170,18 +196,11 @@
         Next
         Return True
     End Function
+
+    Private Inventory As New Inventory
+    Public Sub AddItem(ByVal item As Item)
+        Inventory.AddItem(item)
+    End Sub
 #End Region
 
-    Public Sub ConsoleReport()
-        Console.WriteLine(Name)
-        Console.WriteLine("└ Residents: " & GetResidents("").Count)
-        Console.WriteLine("└ Buildings: " & Buildings.Count)
-        Dim landPercent As String = ((LandFree / LandTotal) * 100).ToString("0")
-        Console.WriteLine("└ Open Land: " & LandFree & "/" & LandTotal & " (" & landPercent & "%)")
-        Console.WriteLine("└ Resources: ")
-        For Each r In Resources.Keys
-            Dim value As Integer = Resources(r)
-            If value > 0 Then Console.WriteLine("  └ " & r & ": " & value)
-        Next
-    End Sub
 End Class

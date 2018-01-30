@@ -1,5 +1,10 @@
 ﻿Public MustInherit Class Building
     Implements iHistorable
+    Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
+        Select Case header
+            Case "Land", "LandUsed" : _LandUsed = Convert.ToInt32(entry)
+        End Select
+    End Sub
 
 #Region "Personal Identifiers"
     Protected _Name As String
@@ -56,12 +61,7 @@
     End Property
 #End Region
 
-    Private Inventory As New Inventory
-    Public MustOverride Sub Tick()
+    Public Inventory As New Inventory
 
-    Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
-        Select Case header
-            Case "Land", "LandUsed" : _LandUsed = Convert.ToInt32(entry)
-        End Select
-    End Sub
+    Public MustOverride Sub Tick()
 End Class
