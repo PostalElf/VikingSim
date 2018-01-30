@@ -7,8 +7,8 @@
     Public Const sbResources As String = "data/worldgen/resources.txt"
     Public Const sbTerrain As String = "data/worldgen/terrain.txt"
     Public Const sbNaturalResources As String = "data/worldgen/naturalresources.txt"
-    Public Const sbGear As String = "data/worldgen/gear.txt"
-    Public Const sbFurniture As String = "data/worldgen/furniture.txt"
+    Public Const sbGear As String = "data/items/gear.txt"
+    Public Const sbFurniture As String = "data/items/furniture.txt"
 
     Public Const tlGirlNames As String = "data/girlFirstNames.txt"
     Public Const tlMaleNames As String = "data/maleFirstNames.txt"
