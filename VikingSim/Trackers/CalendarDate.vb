@@ -2,6 +2,11 @@
     Public Year As Integer = 1
     Public Month As Integer = 1
     Public Week As Integer = 1
+    Public ReadOnly Property Season As String
+        Get
+            If Month >= 7 AndAlso Month <= 12 Then Return "Winter" Else Return "Spring"
+        End Get
+    End Property
 
     Const WeeksInMonth As Integer = 4
     Const MonthsInYear As Integer = 12
@@ -42,7 +47,7 @@
         Return "Week " & Week & ", Month " & Month & ", Year " & Year
     End Function
     Public Function ToStringShort() As String
-        Return Week & "-" & Month & "-" & Year
+        Return Season & " " & Year
     End Function
     Shared Operator -(ByVal t1 As CalendarDate, ByVal t2 As CalendarDate) As CalendarDate
         Dim t1w As Integer = t1.GetWeeks

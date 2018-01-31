@@ -30,12 +30,16 @@
         End Get
     End Property
     Private Pregnancy As pregnancy
+
     Private BirthDate As CalendarDate
     Private ReadOnly Property Age As Integer
         Get
             Return (BirthDate - World.TimeNow).Year
         End Get
     End Property
+    Private Const AgeMarriage As Integer = 16
+    Private Const AgeLabour As Integer = 12
+    Private Const AgeApprentice As Integer = 6
     Public Sub Tick()
         If Sex = "Female" Then
             If Pregnancy Is Nothing = False Then
@@ -67,14 +71,13 @@
         Dim fs As String() = flags.Split(" ")
         For Each f In fs
             Select Case f.ToLower
-                Case "single", "unmarried" : If SpouseName <> "" Then Return False
+                Case "single", "unmarried" : If Age >= AgeMarriage AndAlso SpouseName <> "" Then Return False
                 Case "married" : If SpouseName = "" Then Return False
                 Case "male", "men" : If Sex <> "Male" Then Return False
                 Case "female", "women" : If Sex <> "Female" Then Return False
-                Case "child" : If Age >= 12 Then Return False
-                Case "adult" : If Age < 12 Then Return False
                 Case "employed" : If Occupation = Skill.Vagrant Then Return False
-                Case "unemployed" : If Occupation <> Skill.Vagrant Then Return False
+                Case "apprenticable" : If Age < AgeApprentice OrElse Age >= AgeLabour Then Return False
+                Case "employable" : If Age >= AgeLabour AndAlso Occupation <> Skill.Vagrant Then Return False
             End Select
         Next
         Return True

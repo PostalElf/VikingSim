@@ -71,8 +71,8 @@
                 Dim p As BuildingProject = TryCast(pProject, BuildingProject)
                 If p Is Nothing Then Return False
                 If p.LocationString <> "" AndAlso location.Name <> p.LocationString Then Return False
-                If p.CheckType(ProjectSubtype) = False Then Return False
-                If p.CheckCost(Settlement) = False Then Return False
+                If p.CheckBuildType(ProjectSubtype) = False Then Return False
+                If p.CheckBuildCost(Settlement) = False Then Return False
                 Return True
 
             Case "Gear", "Furniture"
@@ -80,8 +80,8 @@
                 If pProject Is Nothing Then Return False
                 Dim p As ItemProject = TryCast(pProject, ItemProject)
                 If p Is Nothing Then Return False
-                If p.CheckType(ProjectSubtype) = False Then Return False
-                If p.CheckCost(Settlement) = False Then Return False
+                If p.CheckBuildType(ProjectSubtype) = False Then Return False
+                If p.CheckBuildCost(Settlement) = False Then Return False
                 Return True
             Case Else
                 Throw New Exception("Unhandled ProjectType")
@@ -90,7 +90,7 @@
 
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
-        Console.WriteLine("└ History:   " & CreatorName & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
         Console.WriteLine("└ Works On:  " & ProjectSubtype & " " & ProjectType)
         Console.Write("└ Project:   ")
         If Project Is Nothing = False Then Console.WriteLine(Project.ToString) Else Console.WriteLine("-")

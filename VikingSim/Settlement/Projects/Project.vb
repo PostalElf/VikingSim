@@ -14,10 +14,10 @@
     Protected BuildTimeProgress As Integer
     Protected ConstructionCosts As New ResourceDict
 
-    Public Function CheckType(ByVal type As String) As Boolean
+    Public Function CheckBuildType(ByVal type As String) As Boolean
         Return BuildType = type
     End Function
-    Public Function CheckCost(ByVal settlement As Settlement) As Boolean
+    Public Function CheckBuildCost(ByVal settlement As Settlement) As Boolean
         Return settlement.CheckResources(ConstructionCosts)
     End Function
     Public Sub PayCost(ByVal settlement As Settlement)
@@ -33,6 +33,7 @@
     End Function
     Public MustOverride Function Unpack()
     Public Overrides Function ToString() As String
-        Return "Project - " & Name
+        Dim buildTimePercent As Integer = BuildTimeProgress / BuildTime * 100
+        Return Name & " (" & buildTimePercent & "%)"
     End Function
 End Class

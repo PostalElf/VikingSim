@@ -42,6 +42,7 @@
         If Workers.Contains(p) = False Then Exit Sub
 
         Workers.Remove(p)
+        If Workers.Count = 0 Then Apprentices.Clear()
     End Sub
     Public Function GetBestWorker() As Person
         Dim bestWorker As Person = Nothing
@@ -54,6 +55,23 @@
         Next
         Return bestWorker
     End Function
+
+    Protected Apprentices As New List(Of Person)
+    Private Const ApprenticeCapacity As Integer = 1
+    Public Sub AddApprentice(ByVal p As Person)
+        Apprentices.Add(p)
+    End Sub
+    Public Function AddApprenticeCheck(ByVal p As Person) As Boolean
+        If p.CheckFlags("apprenticable") = False Then Return False
+        If Apprentices.Count + 1 > ApprenticeCapacity Then Return False
+        If Workers.Count = 0 Then Return False
+
+        Return True
+    End Function
+    Public Sub RemoveApprentice(ByVal p As Person)
+        If Apprentices.Contains(p) = False Then Exit Sub
+        Apprentices.Remove(p)
+    End Sub
 
     Protected LabourPerWorker As New Dictionary(Of Integer, Integer)
     Protected ProductionCosts As New ResourceDict

@@ -75,7 +75,7 @@
 
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
-        Console.WriteLine("└ History:   " & CreatorName & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
         Console.WriteLine("└ Residents: " & Residents.Count & "/" & ResidentCapacity)
         For Each r In Residents
             Console.WriteLine("  └ " & r.Name)

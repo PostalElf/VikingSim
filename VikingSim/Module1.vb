@@ -21,8 +21,8 @@
         While doExit = False
             Console.Clear()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
-                Case 0, -1 : doExit = True
-                Case "Tick" : world.Tick()
+                Case 0, -1 : world.Tick()
+                Case "Tick" : MenuTick(world)
                 Case "Review Settlement" : MenuReviewSettlement(settlement)
                 Case "Review Buildings" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
@@ -77,21 +77,30 @@
         Return settlement
     End Function
 
+    Private Sub MenuTick(ByVal world As World)
+        Dim num As Integer = Menu.getNumInput(0, 1, 100, "Select number of ticks: ")
+        For n = 1 To num
+            World.Tick()
+        Next
+    End Sub
     Private Sub MenuReviewSettlement(ByVal settlement As Settlement)
         settlement.ConsoleReport()
         Console.ReadLine()
     End Sub
     Private Sub MenuReviewBuildings(ByVal settlement As Settlement)
+        Console.WriteLine()
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
         Dim buildings As List(Of Building) = settlement.GetBuildings(choice)
         Console.WriteLine()
         Dim b As Building = Menu.getListChoice(buildings, 1, "Select building:")
+        If b Is Nothing Then Exit Sub
         Console.WriteLine()
         b.ConsoleReport()
         Console.ReadLine()
     End Sub
     Private Sub MenuReviewResidents(ByVal settlement As Settlement)
         Dim selection As Person = Menu.getListChoice(Of Person)(settlement.GetResidents(""), 1, "Select resident:")
+        If selection Is Nothing Then Exit Sub
         selection.ConsoleReport()
         Console.ReadLine()
         Console.Clear()

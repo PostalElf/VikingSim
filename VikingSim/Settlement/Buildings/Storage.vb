@@ -29,7 +29,7 @@
 
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
-        Console.WriteLine("└ History: " & CreatorName & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ Made By: " & CreatorName & " in " & CreationDate.ToStringShort)
         For Each s In Capacity.Keys
             Console.WriteLine("└ Storage: " & s & " " & Capacity(s))
         Next

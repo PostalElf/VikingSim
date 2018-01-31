@@ -87,7 +87,7 @@
         Return total
     End Function
     Public Function GetBestSkillUnemployed(ByVal skill As Skill) As Person
-        Dim residents As List(Of Person) = GetResidents("", "unemployed")
+        Dim residents As List(Of Person) = GetResidents("", "employable")
         Dim bestFit As Person = Nothing
         Dim bestSkill As Integer = -1
         For Each r In residents
@@ -99,7 +99,7 @@
         Return bestFit
     End Function
     Public Function GetBestAffinityUnemployed(ByVal skill As Skill) As Person
-        Dim residents As List(Of Person) = GetResidents("", "unemployed")
+        Dim residents As List(Of Person) = GetResidents("", "employable")
         Dim bestFit As Person = Nothing
         Dim bestAffinity As Double = -1
         For Each r In residents
@@ -163,7 +163,8 @@
     End Function
 
     Public Sub Tick()
-        For Each b In Buildings
+        For n = Buildings.Count - 1 To 0 Step -1
+            Dim b As Building = Buildings(n)
             b.Tick()
         Next
     End Sub
