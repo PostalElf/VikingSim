@@ -36,6 +36,10 @@
         Console.WriteLine("└ Buildings: " & Buildings.Count)
         Dim landPercent As String = ((LandFree / LandTotal) * 100).ToString("0")
         Console.WriteLine("└ Open Land: " & LandFree & "/" & LandTotal & " (" & landPercent & "%)")
+        Console.WriteLine("└ Locations: ")
+        For Each l In Locations
+            Console.WriteLine("  └ " & l.ToString)
+        Next
         Console.WriteLine("└ Resources: ")
         For Each r In Resources.Keys
             Dim value As Integer = Resources(r)
