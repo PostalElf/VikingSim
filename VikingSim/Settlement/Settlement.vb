@@ -152,6 +152,11 @@
         Buildings.Add(b)
         b.Settlement = Me
     End Sub
+    Public Function AddBuildingCheck(ByVal b As Building) As Boolean
+        If LandUsed + b.LandUsed > LandTotal Then Return False
+
+        Return True
+    End Function
     Public Sub RemoveBuilding(ByVal b As Building)
         If Buildings.Contains(b) = False Then Exit Sub
         b.Inventory.dumpitems(Me)

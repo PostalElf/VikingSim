@@ -90,6 +90,7 @@
     Private Sub MenuReviewBuildings(ByVal settlement As Settlement)
         Console.WriteLine()
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
+        If choice = "" Then Exit Sub
         Dim buildings As List(Of Building) = settlement.GetBuildings(choice)
         Console.WriteLine()
         Dim b As Building = Menu.getListChoice(buildings, 1, "Select building:")

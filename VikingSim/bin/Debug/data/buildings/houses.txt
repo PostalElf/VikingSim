@@ -1,19 +1,22 @@
 [Hut]
+LandUsed: 1
 Capacity: 2
 Morale: -10
 Buildtype: Simple
 
 [Cottage]
+LandUsed: 1
+Capacity: 3
+Morale: 0
 Buildtime: 100
 Buildtype: Hardwood
 Buildcost: Hardwood, 10
-Capacity: 4
-Morale: 0
 
 [Longhouse]
-Buildtime: 100
-Buildtype: Hardwood
-Buildcost: Hardwood, 10
-Buildcost: Softwood, 5
+LandUsed: 1
 Capacity: 5
 Morale: 10
+Buildtime: 100
+Buildtype: Hardwood
+Buildcost: Hardwood, 15
+Buildcost: Softwood, 5
