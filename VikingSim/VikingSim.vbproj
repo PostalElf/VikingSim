@@ -69,6 +69,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alert.vb" />
     <Compile Include="Person\Pregnancy.vb" />
     <Compile Include="Settlement\Buildings\Storage.vb" />
     <Compile Include="Trackers\Inventory\Furniture.vb" />
