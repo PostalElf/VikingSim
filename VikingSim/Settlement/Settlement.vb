@@ -170,13 +170,6 @@
         Next
         Return total
     End Function
-
-    Public Sub Tick()
-        For n = Buildings.Count - 1 To 0 Step -1
-            Dim b As Building = Buildings(n)
-            b.Tick()
-        Next
-    End Sub
 #End Region
 
 #Region "Resources"
@@ -206,11 +199,34 @@
         Next
         Return True
     End Function
+    Public Function CheckResources(ByVal r As String, ByVal qty As Integer) As Boolean
+        If Resources.ContainsKey(r) = False Then Return False
+        If Resources(r) <= qty Then Return False
+
+        Return True
+    End Function
 
     Private Inventory As New Inventory
     Public Sub AddItem(ByVal item As Item)
         Inventory.AddItem(item)
     End Sub
 #End Region
+
+    Private _IsStarving As Boolean = False
+    Public ReadOnly Property IsStarving As Boolean
+        Get
+            Return _IsStarving
+        End Get
+    End Property
+    Public Sub Tick()
+        Dim residentCount As Integer = GetResidents("").Count
+        AddResources("Food", -residentCount)
+        If Resources("Food") = 0 Then _IsStarving = True
+
+        For n = Buildings.Count - 1 To 0 Step -1
+            Dim b As Building = Buildings(n)
+            b.Tick()
+        Next
+    End Sub
 
 End Class
