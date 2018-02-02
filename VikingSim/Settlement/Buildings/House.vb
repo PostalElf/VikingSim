@@ -82,6 +82,11 @@
     Private HouseMorale As Integer
     Private ReadOnly Property Morale As Integer
         Get
+            'shortcircuit for starvation at flat -10
+            If IsStarving = True Then Return -20
+
+
+            'total morale sources
             Dim total As Integer = HouseMorale
             total += FoodMorale
 
@@ -116,8 +121,13 @@
 
     Public Overrides Sub Tick()
         'check for starvation, then remove resources regardless (<0 handled in resourcedict.remove)
-        If Settlement.CheckResources(FoodEaten) = False Then IsStarving = True Else IsStarving = False
-        Settlement.AddResources(FoodEaten, True)
+        If FoodEaten.Keys.Count > 0 Then
+            If Settlement.CheckResources(FoodEaten) = False Then IsStarving = True Else IsStarving = False
+            Settlement.AddResources(FoodEaten, True)
+        Else
+            IsStarving = True
+        End If
+
 
         For Each r In Residents
             r.Tick()
