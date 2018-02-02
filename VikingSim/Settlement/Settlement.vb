@@ -212,17 +212,7 @@
     End Sub
 #End Region
 
-    Private _IsStarving As Boolean = False
-    Public ReadOnly Property IsStarving As Boolean
-        Get
-            Return _IsStarving
-        End Get
-    End Property
     Public Sub Tick()
-        Dim residentCount As Integer = GetResidents("").Count
-        AddResources("Food", -residentCount)
-        If Resources("Food") = 0 Then _IsStarving = True
-
         For n = Buildings.Count - 1 To 0 Step -1
             Dim b As Building = Buildings(n)
             b.Tick()

@@ -18,12 +18,27 @@
                 Dim entry As String = ln(1).Trim
                 Select Case header
                     Case "Capacity" : .ResidentCapacity = Convert.ToInt32(entry)
-                    Case "Morale" : .Morale = Convert.ToInt32(entry)
+                    Case "Morale" : .HouseMorale = Convert.ToInt32(entry)
                     Case Else : .BaseImport(header, entry)
                 End Select
             Next
         End With
         Return h
+    End Function
+#End Region
+
+#Region "Personal Identifiers"
+    Public Overrides Sub ConsoleReport()
+        Console.WriteLine(Name)
+        Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
+        Console.WriteLine("└ Residents: " & Residents.Count & "/" & ResidentCapacity)
+        For Each r In Residents
+            Console.WriteLine("  └ " & r.Name)
+        Next
+        Console.WriteLine()
+    End Sub
+    Public Overrides Function ToString() As String
+        Return _Name & " - " & Residents.Count & "/" & ResidentCapacity
     End Function
 #End Region
 
@@ -64,25 +79,48 @@
         Residents.Remove(p)
     End Sub
 
-    Private Morale As Integer
+    Private HouseMorale As Integer
+    Private ReadOnly Property Morale As Integer
+        Get
+            Dim total As Integer = HouseMorale
+            total += FoodMorale
+
+            Return total
+        End Get
+    End Property
+#End Region
+
+#Region "Food"
+    Private IsStarving As Boolean = False
+    Private FoodEaten As New ResourceDict
+    Public Sub AddFoodEaten(ByVal r As String, ByVal qty As Integer)
+        If ResourceDict.GetCategory(r) <> "Food" Then Exit Sub
+        FoodEaten.Add(r, qty)
+    End Sub
+    Public Sub RemoveFoodEaten(ByVal r As String, ByVal qty As Integer)
+        If FoodEaten.ContainsKey(r) = False Then Exit Sub
+
+        FoodEaten(r) -= qty
+        If FoodEaten(r) <= 0 Then FoodEaten.RemoveKey(r)
+    End Sub
+    Private ReadOnly Property FoodMorale As Integer
+        Get
+            Dim total As Integer = -10
+            For Each f In FoodEaten.Keys
+                total += FoodEaten(f) * 5
+            Next
+            Return total
+        End Get
+    End Property
+#End Region
 
     Public Overrides Sub Tick()
+        'check for starvation, then remove resources regardless (<0 handled in resourcedict.remove)
+        If Settlement.CheckResources(FoodEaten) = False Then IsStarving = True Else IsStarving = False
+        Settlement.AddResources(FoodEaten, True)
+
         For Each r In Residents
             r.Tick()
         Next
     End Sub
-#End Region
-
-    Public Overrides Sub ConsoleReport()
-        Console.WriteLine(Name)
-        Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
-        Console.WriteLine("└ Residents: " & Residents.Count & "/" & ResidentCapacity)
-        For Each r In Residents
-            Console.WriteLine("  └ " & r.Name)
-        Next
-        Console.WriteLine()
-    End Sub
-    Public Overrides Function ToString() As String
-        Return _Name & " - " & Residents.Count & "/" & ResidentCapacity
-    End Function
 End Class

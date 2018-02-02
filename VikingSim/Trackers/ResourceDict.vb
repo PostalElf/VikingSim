@@ -1,5 +1,15 @@
 ﻿Public Class ResourceDict
     Private Data As New Dictionary(Of String, Integer)
+    Public Shared Function GetCategory(ByVal key As String) As String
+        Dim allResources As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbResources)
+        For Each k In allResources.Keys
+            For Each klist In allResources(k)
+                If klist.Contains(key) Then Return k
+            Next
+        Next
+        Return Nothing
+    End Function
+
 
     Public Sub Add(ByVal key As String, ByVal value As Integer)
         If Data.ContainsKey(key) = False Then Data.Add(key, 0)
@@ -12,6 +22,9 @@
 
         Add(key, value)
     End Sub
+    Public Sub RemoveKey(ByVal key As String)
+        Data.Remove(key)
+    End Sub
 
     Public Function Keys() As List(Of String)
         Dim total As New List(Of String)
@@ -19,6 +32,9 @@
             total.Add(k.ToString)
         Next
         Return total
+    End Function
+    Public Function ContainsKey(ByVal key As String) As Boolean
+        Return Keys.Contains(key)
     End Function
     Public Function Count() As Integer
         Return Data.Count
@@ -31,9 +47,6 @@
             Data(key) = value
         End Set
     End Property
-    Public Function ContainsKey(ByVal key As String) As Boolean
-        Return Keys.Contains(key)
-    End Function
 
     Public Overrides Function ToString() As String
         Dim qtyList As New List(Of String)
