@@ -11,8 +11,8 @@
         Next
     End Sub
 
-    Public Shared Alerts As New Dictionary(Of Integer, List(Of Alert))
     Public Shared AlertsShown As New Dictionary(Of Integer, Boolean)
+    Private Shared Alerts As New Dictionary(Of Integer, List(Of Alert))
     Private Shared AlertsColour As New Dictionary(Of Integer, ConsoleColor)
     Private Const DefaultForegroundColor As ConsoleColor = ConsoleColor.Gray
     Private Const AlertPriorityMin As Integer = 1
@@ -21,7 +21,7 @@
         Dim alert As New Alert(ref, priority, str)
         Alerts(priority).Add(alert)
     End Sub
-    Private Sub ConsoleReport()
+    Public Sub AlertConsoleReport()
         For n = AlertPriorityMin To AlertPriorityMax
             If AlertsShown(n) = True Then
                 Console.ForegroundColor = AlertsColour(n)
@@ -46,7 +46,5 @@
         For Each Settlement In Settlements
             Settlement.tick()
         Next
-
-        If Alerts.Count > 0 Then ConsoleReport()
     End Sub
 End Class

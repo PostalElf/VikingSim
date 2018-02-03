@@ -47,6 +47,7 @@
                 house = house.Import("Hut")
                 house.SetHistory("Odin", World.TimeNow)
                 settlement.AddBuilding(house)
+                house.AddFoodEaten("Bread", 1)
             End If
             child.MoveHouse(house)
         Next
@@ -54,6 +55,7 @@
 
         settlement.AddResources("Hardwood", 100)
         settlement.AddResources("Softwood", 100)
+        settlement.AddResources("Bread", 100)
 
         Dim wpp = WorkplaceProjector.Import("Campfire")
         wpp.SetHistory("Odin", World.TimeNow)
@@ -82,6 +84,8 @@
         For n = 1 To num
             World.Tick()
         Next
+        world.AlertConsoleReport()
+        Console.ReadLine()
     End Sub
     Private Sub MenuReviewSettlement(ByVal settlement As Settlement)
         settlement.ConsoleReport()

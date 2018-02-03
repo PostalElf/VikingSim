@@ -56,4 +56,11 @@
 
         Return ListToCommaString(qtyList)
     End Function
+    Public Shared Operator *(ByVal rd As ResourceDict, ByVal qty As Integer) As ResourceDict
+        Dim total As New ResourceDict
+        For Each k In rd.Keys
+            total.Add(k, rd(k) * qty)
+        Next
+        Return total
+    End Operator
 End Class

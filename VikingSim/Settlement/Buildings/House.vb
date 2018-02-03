@@ -122,8 +122,9 @@
     Public Overrides Sub Tick()
         'check for starvation, then remove resources regardless (<0 handled in resourcedict.remove)
         If FoodEaten.Keys.Count > 0 Then
-            If Settlement.CheckResources(FoodEaten) = False Then IsStarving = True Else IsStarving = False
-            Settlement.AddResources(FoodEaten, True)
+            Dim trueFoodEaten As ResourceDict = FoodEaten * Residents.Count
+            If Settlement.CheckResources(trueFoodEaten) = False Then IsStarving = True Else IsStarving = False
+            Settlement.AddResources(trueFoodEaten, True)
         Else
             IsStarving = True
         End If
