@@ -114,6 +114,7 @@
                 Case GetType(House), GetType(WorkplaceProducer), GetType(WorkplaceProjector), GetType(Storage) : Settlement.AddBuilding(cp)
                 Case GetType(Gear), GetType(Furniture) : Settlement.AddItem(cp)
             End Select
+            World.AddAlert(Me, 2, Name & " has finished production: " & Project.ToString)
 
             Project = Nothing
         End If

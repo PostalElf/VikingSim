@@ -17,6 +17,10 @@
     Private Const DefaultForegroundColor As ConsoleColor = ConsoleColor.Gray
     Private Const AlertPriorityMin As Integer = 1
     Private Const AlertPriorityMax As Integer = 3
+    Public Shared Sub AddAlert(ByVal ref As Object, ByVal priority As Integer, ByVal str As String)
+        Dim alert As New Alert(ref, priority, str)
+        Alerts(priority).Add(alert)
+    End Sub
     Private Sub ConsoleReport()
         For n = AlertPriorityMin To AlertPriorityMax
             If AlertsShown(n) = True Then
@@ -25,6 +29,7 @@
                     Console.WriteLine(a.Report)
                 Next
             End If
+            Alerts(n).Clear()
         Next
         Console.ForegroundColor = DefaultForegroundColor
     End Sub

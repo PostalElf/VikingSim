@@ -127,7 +127,7 @@
         Else
             IsStarving = True
         End If
-
+        If IsStarving = True Then World.AddAlert(Me, 3, Name & " is starving!")
 
         For Each r In Residents
             r.Tick()

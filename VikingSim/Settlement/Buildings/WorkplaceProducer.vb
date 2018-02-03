@@ -66,9 +66,11 @@
             'reduce labour and add product
             Labour -= LabourThreshold
             Settlement.AddResources(ProducedResources)
+            World.AddAlert(Me, 2, Name & " has completed production: " & ProducedResources.ToString)
 
             'take next batch of costs
             HasProductionCosts = TakeProductionCosts()
+            If HasProductionCosts = False Then World.AddAlert(Me, 2, Name & " does not have enough resources to continue production.")
 
             'reduce excess labour to 0 if productioncosts not met
             If HasProductionCosts = False Then Labour = 0
