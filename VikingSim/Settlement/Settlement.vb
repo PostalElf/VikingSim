@@ -9,9 +9,10 @@
             Next
         Next
     End Sub
-    Public Shared Function Construct(ByVal settlementSite As SettlementSite) As Settlement
+    Public Shared Function Construct(ByVal settlementSite As SettlementSite, Optional ByVal name As String = "") As Settlement
         Dim settlement As New Settlement
         With settlement
+            If name <> "" Then ._Name = name
             .Locations = settlementSite.LocationList
             .LandTotal = 100 - (.Locations.Count * 10)
         End With
@@ -49,18 +50,18 @@
 #End Region
 
 #Region "Settlement Site"
-    Private Locations As New List(Of SettlementLocation)
-    Public Sub AddLocation(ByVal l As SettlementLocation)
+    Private Locations As New List(Of String)
+    Public Sub AddLocation(ByVal l As String)
         Locations.Add(l)
     End Sub
-    Public Sub RemoveLocation(ByVal l As SettlementLocation)
-        If Locations.Contains(l) = False Then Throw New Exception("Settlement.Locations does not contain " & l.Name)
+    Public Sub RemoveLocation(ByVal l As String)
+        If Locations.Contains(l) = False Then Throw New Exception("Settlement.Locations does not contain " & l)
         Locations.Remove(l)
     End Sub
-    Public Function GetLocations(ByVal targetName As String) As List(Of SettlementLocation)
-        Dim total As New List(Of SettlementLocation)
+    Public Function GetLocations(ByVal targetName As String) As List(Of String)
+        Dim total As New List(Of String)
         For Each l In Locations
-            If l.Name = targetName Then total.Add(l)
+            If l = targetName Then total.Add(l)
         Next
         Return total
     End Function

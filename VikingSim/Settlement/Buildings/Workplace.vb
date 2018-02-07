@@ -38,6 +38,20 @@
 
         Return True
     End Function
+    Public Sub AddWorkerBestAffinity(Optional ByVal n As Integer = 1)
+        For x = 1 To n
+            Dim bestWorker As Person = Settlement.GetBestAffinityUnemployed(Occupation)
+            If AddWorkerCheck(bestWorker) = False Then Exit Sub
+            bestWorker.ChangeWorkplace(Me)
+        Next
+    End Sub
+    Public Sub AddWorkerBestSkill(Optional ByVal n As Integer = 1)
+        For x = 1 To n
+            Dim bestWorker As Person = Settlement.GetBestSkillUnemployed(Occupation)
+            If AddWorkerCheck(bestWorker) = False Then Exit Sub
+            bestWorker.ChangeWorkplace(Me)
+        Next
+    End Sub
     Public Sub RemoveWorker(ByVal p As Person)
         If Workers.Contains(p) = False Then Exit Sub
 

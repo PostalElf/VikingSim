@@ -34,8 +34,8 @@
         End While
     End Sub
     Private Function BuildSettlement() As Settlement
-        Dim site As SettlementSite = SettlementSite.Construct("Hilly")
-        Dim settlement As Settlement = settlement.Construct(site)
+        Dim site As SettlementSite = SettlementSite.Construct(New List(Of String) From {"Hills", "Elderwoods", "Forest"})
+        Dim settlement As Settlement = settlement.Construct(site, "Askton")
 
         Dim godfather As Person = Person.Ancestor("Male")
         Dim godmother As Person = Person.Ancestor("Female")
@@ -60,19 +60,21 @@
         Dim wpp = WorkplaceProjector.Import("Campfire")
         wpp.SetHistory("Odin", World.TimeNow)
         settlement.AddBuilding(wpp)
-        settlement.GetBestAffinityUnemployed(wpp.Occupation).ChangeWorkplace(wpp)
-        wpp.AddProjectCheck("Lowmines", settlement.GetLocations("Oreveins")(0))
-        wpp.AddProject("Lowmines", settlement.GetLocations("Oreveins")(0))
+        wpp.AddWorkerBestAffinity()
+        wpp.AddProjectCheck("Builder")
+        wpp.AddProject("Builder")
+        For n = 1 To 75
+            wpp.Tick()
+        Next
 
-        Dim wp = WorkplaceProjector.Import("Carpenter")
-        wp.SetHistory("Odin", World.TimeNow)
-        settlement.AddBuilding(wp)
-        settlement.GetBestAffinityUnemployed(wp.Occupation).ChangeWorkplace(wp)
-        wp.AddProjectCheck("Wooden Furniture")
-        wp.AddProject("Wooden Furniture")
-
-        For n = 1 To 100
-            wp.Tick()
+        Dim wp As WorkplaceProjector = Nothing
+        For Each w In settlement.GetBuildings("workplace")
+            If w.Name = "Builder" Then wp = w : Exit For
+        Next
+        wp.AddWorkerBestAffinity()
+        wp.AddProjectCheck("Carpenter")
+        wp.AddProject("Carpenter")
+        For n = 1 To 75
             wpp.Tick()
         Next
 
@@ -165,16 +167,16 @@
         If buildingName = "" Then Exit Sub
         p = BuildingProject.Import(buildingName, choice)
 
-        If p.LocationString <> "" Then
-            Dim location As SettlementLocation = Menu.getListChoice(settlement.GetLocations(p.LocationString), 1, "Select location:")
-            If location Is Nothing Then Console.WriteLine("Requires location: " & p.LocationString) : Console.ReadLine() : Exit Sub
+        If p.Location <> "" Then
+            Dim location As String = Menu.getListChoice(settlement.GetLocations(p.Location), 1, "Select location:")
+            If location Is Nothing Then Console.WriteLine("Requires location: " & p.Location) : Console.ReadLine() : Exit Sub
             p.Location = location
         End If
 
         Dim projectors As List(Of Building) = settlement.GetBuildings("projector")
         For n = projectors.Count - 1 To 0 Step -1
             Dim proj As WorkplaceProjector = projectors(n)
-            If proj.AddProjectCheck(p, p.Location) = False Then projectors.RemoveAt(n)
+            If proj.AddProjectCheck(p) = False Then projectors.RemoveAt(n)
         Next
         If projectors.Count = 0 Then Console.WriteLine("No projector can take on this project.") : Console.ReadLine() : Exit Sub
 
@@ -184,10 +186,9 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuAddLocation(ByVal settlement As Settlement)
-        Dim locationStrings As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbNaturalResources)
+        Dim locationStrings As List(Of String) = IO.ImportSquareBracketHeaders(IO.sbTerrain)
         Dim locationString As String = Menu.getListChoice(locationStrings, 1, "Select location:")
-        Dim location As SettlementLocation = NaturalResources.Construct(locationString)
-        settlement.AddLocation(location)
+        settlement.AddLocation(locationString)
         Console.WriteLine(locationString & " added.")
         Console.ReadLine()
     End Sub

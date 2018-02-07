@@ -2,7 +2,7 @@
     Inherits Workplace
 
 #Region "Constructors"
-    Public Shared Function Import(ByVal workplaceName As String, Optional ByVal location As SettlementLocation = Nothing) As WorkplaceProducer
+    Public Shared Function Import(ByVal workplaceName As String) As WorkplaceProducer
         Dim rawData As List(Of String) = IO.ImportSquareBracketSelect(IO.sbProducers, workplaceName)
 
         Dim workplace As New WorkplaceProducer
@@ -16,13 +16,6 @@
                     Case "Labour" : .LabourThreshold = Convert.ToInt32(entry)
                     Case "Cost" : .ProductionCosts.ParsedAdd(entry)
                     Case "Produce" : .ProducedResources.ParsedAdd(entry)
-                    Case "Resource"
-                        If location Is Nothing Then Throw New Exception("Location not provided when NaturalResources is required.")
-                        If TypeOf location Is NaturalResources = False Then Throw New Exception("NaturalResources expected in location.")
-                        Dim nr As NaturalResources = CType(location, NaturalResources)
-                        For Each r In nr.ResourceDict.Keys
-                            .ProducedResources.Add(r, nr.ResourceDict(r))
-                        Next
                     Case Else : .WorkplaceImport(header, entry)
                 End Select
             Next

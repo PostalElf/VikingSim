@@ -1,4 +1,5 @@
-﻿Public Class IO
+﻿<DebuggerStepThrough()>
+Public Class IO
 #Region "Constants"
     Public Const sbHouses As String = "data/buildings/houses.txt"
     Public Const sbStorage As String = "data/buildings/storage.txt"
@@ -6,7 +7,6 @@
     Public Const sbProjectors As String = "data/buildings/projectors.txt"
     Public Const sbResources As String = "data/worldgen/resources.txt"
     Public Const sbTerrain As String = "data/worldgen/terrain.txt"
-    Public Const sbNaturalResources As String = "data/worldgen/naturalresources.txt"
     Public Const sbGear As String = "data/items/gear.txt"
     Public Const sbFurniture As String = "data/items/furniture.txt"
 

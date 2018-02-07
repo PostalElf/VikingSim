@@ -1,11 +1,26 @@
-[Wooded]
-Forests
-Glades
+[Forest]
+Fir Woodcutter
+Pine Woodcutter
+Foraging Hut
+Herbarium
 
-[Hilly]
-Oreveins
-Godbones
-Stonepits
+[Elderwoods]
+Oak Woodcutter
+Ash Woodcutter
+Hunting Lodge
 
-[Swampy]
-Oreveins
+[Hills]
+Copper Mines
+Tin Mines
+Coal Mines
+Granite Quarry
+
+[Godbones]
+Iron Mines
+Mithril Mines
+Adamantine Mines
+Marble Quarry
+
+[River]
+Ironfishery
+Deepfishery

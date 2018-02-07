@@ -12,7 +12,7 @@
                 Dim entry As String = ln(1).Trim
                 Select Case header
                     Case "ProjectType" : .ProjectType = entry
-                    Case "ProjectSubtype" : .ProjectSubtype = entry
+                    Case "ProjectBuildtype" : .ProjectBuildtype = entry
                     Case Else : .WorkplaceImport(header, entry)
                 End Select
             Next
@@ -25,20 +25,20 @@
 
     Private Project As Project
     Private ProjectType As String
-    Private ProjectSubtype As String
-    Public Sub AddProject(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
+    Private ProjectBuildtype As String
+    Public Sub AddProject(ByVal projectName As String, Optional ByVal location As String = Nothing)
         Select Case ProjectType
             Case "Building" : AddProject(BuildingProject.Import(projectName), location)
             Case "Item" : AddProject(ItemProject.Import(projectName), location)
         End Select
     End Sub
-    Public Sub AddProject(ByVal pProject As Project, Optional ByVal location As SettlementLocation = Nothing)
+    Public Sub AddProject(ByVal pProject As Project, Optional ByVal location As String = Nothing)
         Project = pProject
 
         Select Case ProjectType
             Case "Building"
                 Dim p As BuildingProject = CType(Project, BuildingProject)
-                If p.LocationString <> "" Then
+                If p.Location <> "" Then
                     p.Location = location
                     Settlement.RemoveLocation(location)
                 End If
@@ -54,14 +54,14 @@
         'immediately add projects with no buildtime
         If pProject.Tick(0) = True Then Tick()
     End Sub
-    Public Function AddProjectCheck(ByVal projectName As String, Optional ByVal location As SettlementLocation = Nothing)
+    Public Function AddProjectCheck(ByVal projectName As String)
         Select Case ProjectType
-            Case "Building" : Return AddProjectCheck(BuildingProject.Import(projectName), location)
-            Case "Gear", "Furniture" : Return AddProjectCheck(ItemProject.Import(projectName), location)
+            Case "Building" : Return AddProjectCheck(BuildingProject.Import(projectName))
+            Case "Gear", "Furniture" : Return AddProjectCheck(ItemProject.Import(projectName))
             Case Else : Throw New Exception("Unhandled ProjectType")
         End Select
     End Function
-    Public Function AddProjectCheck(ByVal pProject As Project, Optional ByVal location As SettlementLocation = Nothing)
+    Public Function AddProjectCheck(ByVal pProject As Project)
         If Project Is Nothing = False Then Return False
 
         Select Case ProjectType
@@ -70,8 +70,8 @@
                 If pProject Is Nothing Then Return False
                 Dim p As BuildingProject = TryCast(pProject, BuildingProject)
                 If p Is Nothing Then Return False
-                If p.LocationString <> "" AndAlso location.Name <> p.LocationString Then Return False
-                If p.CheckBuildType(ProjectSubtype) = False Then Return False
+                If p.Location <> "" AndAlso Settlement.GetLocations(p.Location).Count = 0 Then Return False
+                If p.CheckBuildType(ProjectBuildtype) = False Then Return False
                 If p.CheckBuildCost(Settlement) = False Then Return False
                 Return True
 
@@ -80,7 +80,7 @@
                 If pProject Is Nothing Then Return False
                 Dim p As ItemProject = TryCast(pProject, ItemProject)
                 If p Is Nothing Then Return False
-                If p.CheckBuildType(ProjectSubtype) = False Then Return False
+                If p.CheckBuildType(ProjectBuildtype) = False Then Return False
                 If p.CheckBuildCost(Settlement) = False Then Return False
                 Return True
             Case Else
@@ -91,7 +91,7 @@
     Public Overrides Sub ConsoleReport()
         Console.WriteLine(Name)
         Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
-        Console.WriteLine("└ Works On:  " & ProjectSubtype & " " & ProjectType)
+        Console.WriteLine("└ Works On:  " & ProjectBuildtype & " " & ProjectType)
         Console.Write("└ Project:   ")
         If Project Is Nothing = False Then Console.WriteLine(Project.ToString) Else Console.WriteLine("-")
         Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)

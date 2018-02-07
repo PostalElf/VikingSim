@@ -1,52 +1,37 @@
-[Metal]
-Copper
-Tin
-Bronze
-Iron
-Steel
+[Wood]
+Fir
+Pine
+Ash
+Oak
 
-[Ore]
-Coal
+[Lumber]
+Hardwood
+Softwood
+
+[Food]
+Fruit
+Meat
+Grain
+Bread
+
+[Organics]
+Herbs
+Livestock
+Hides
+Ironfish
+Deepfish
+
+[Ores]
 Copper Ore
 Tin Ore
 Iron Ore
 Mithril Ore
-Raw Adamantium
-Gemstones
-Geodes
+Raw Adamantine
+Coal
 
 [Stone]
 Granite
-Sandstone
 Marble
+Sandstone
 Gritstone
 Clay
-Adamantium
-Hardstone
-Softstone
-
-[Wood]
-Oak
-Ash
-Pine
-Fir
-Hardwood
-Softwood
-
-[Treasure]
-Jewels
-Ivory
-Crystals
-
-[Food]
-Meat
-Grain
-Fruits
-Bread
-
-[Skin]
-Hides
-Leather
-
-[Alchemy]
-Reagents

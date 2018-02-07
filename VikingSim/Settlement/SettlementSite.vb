@@ -1,30 +1,25 @@
 ﻿Public Class SettlementSite
     Public Terrain As String
-    Public LocationList As New List(Of SettlementLocation)
-    Public Shared Function Construct(Optional ByVal targetTerrain As String = "") As SettlementSite
+    Public LocationList As New List(Of String)
+    Public Shared Function Construct(Optional ByVal locations As List(Of String) = Nothing) As SettlementSite
         Dim site As New SettlementSite
         With site
-            'roll terrain
-            Dim terrainDict As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbTerrain)
-            If targetTerrain = "" Then
-                Dim terrainList As New List(Of String)
-                For Each t In terrainDict.Keys
-                    terrainList.Add(t)
+            If locations Is Nothing Then
+                Dim locationDict As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbTerrain)
+                Dim locationKeys As New List(Of String)
+                For Each k In locationDict.Keys
+                    locationKeys.Add(k)
                 Next
-                .Terrain = GetRandom(Of String)(terrainList)
+
+                'roll 2-5 locations
+                Dim numLocations As Integer = rng.Next(2, 6)
+                For n = 1 To numLocations
+                    Dim location As String = GetRandom(Of String)(locationKeys)
+                    .LocationList.Add(location)
+                Next
             Else
-                .Terrain = targetTerrain
+                .LocationList.AddRange(locations)
             End If
-
-            'add 2-6 resources
-            Dim count As Integer = rng.Next(2, 7)
-            Dim possibleResources As New List(Of String)
-            For n = 0 To count
-                If possibleResources.Count = 0 Then possibleResources.AddRange(terrainDict(.Terrain))
-                Dim resource As String = GrabRandom(Of String)(possibleResources)
-
-                .LocationList.Add(NaturalResources.Construct(resource))
-            Next
         End With
         Return site
     End Function
