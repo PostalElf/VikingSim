@@ -57,26 +57,32 @@
         settlement.AddResources("Softwood", 100)
         settlement.AddResources("Bread", 100)
 
-        Dim wpp = WorkplaceProjector.Import("Campfire")
-        wpp.SetHistory("Odin", World.TimeNow)
-        settlement.AddBuilding(wpp)
-        wpp.AddWorkerBestAffinity()
-        wpp.AddProjectCheck("Builder")
-        wpp.AddProject("Builder")
+        Dim campfire = WorkplaceProjector.Import("Campfire")
+        campfire.SetHistory("Odin", World.TimeNow)
+        settlement.AddBuilding(campfire)
+        campfire.AddWorkerBestAffinity()
+        campfire.AddProjectCheck("Builder")
+        campfire.AddProject("Builder")
         For n = 1 To 75
-            wpp.Tick()
+            campfire.Tick()
         Next
 
-        Dim wp As WorkplaceProjector = settlement.GetBuildings("workplace name=builder")(0)
-        wp.AddWorkerBestAffinity()
-        wp.AddProjectCheck("Carpenter")
-        wp.AddProject("Carpenter")
-        For n = 1 To 75
-            wpp.Tick()
-        Next
+        AddProject(settlement, "Campfire", "Carpenter")
 
         Return settlement
     End Function
+    Private Sub AddProject(ByVal settlement As Settlement, ByVal projectorName As String, ByVal projectName As String)
+        projectorName = projectorName.Replace(" ", "+")
+        Dim wp As WorkplaceProjector = settlement.GetBuildings("projector name=" & projectorName)(0)
+        If wp Is Nothing Then Exit Sub
+
+        If wp.GetBestWorker Is Nothing Then wp.AddWorkerBestAffinity()
+        If wp.AddProjectCheck(projectName) = False Then Exit Sub
+        wp.AddProject(projectName)
+        For n = 1 To 75
+            wp.Tick()
+        Next
+    End Sub
 
     Private Sub MenuTick(ByVal world As World)
         Dim num As Integer = Menu.getNumInput(0, 1, 100, "Select number of ticks: ")
