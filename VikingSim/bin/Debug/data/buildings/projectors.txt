@@ -1,5 +1,5 @@
 [Campfire]
-Land: 5
+Land: 1
 Occupation: Carpentry
 Capacity: 3
 Efficiency: 1/2/3/4
@@ -9,7 +9,7 @@ ProjectBuildtype: Simple
 [Builder]
 Buildtime: 100
 Buildtype: Simple
-Land: 5
+Land: 1
 Occupation: Carpentry
 Capacity: 3
 Efficiency: 1/2/3/4
@@ -19,7 +19,7 @@ ProjectBuildtype: Hardwood
 [Carpenter]
 Buildtime: 100
 Buildtype: Hardwood
-Land: 5
+Land: 1
 Occupation: Carpentry
 Capacity: 3
 Efficiency: 1/2/3/4

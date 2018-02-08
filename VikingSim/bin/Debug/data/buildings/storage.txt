@@ -1,0 +1,51 @@
+[Wood Stores]
+Land: 2
+Buildtime: 100
+Buildcost: Hardwood, 40
+Buildtype: Hardwood
+Storage: Oak, 200
+Storage: Fir, 200
+Storage: Ash, 200
+Storage: Pine, 200
+
+[Lumber Stores]
+Land: 2
+Buildtime: 100
+Buildcost: Hardwood, 40
+Buildtype: Hardwood
+Storage: Softwood, 400
+Storage: Hardwood, 400
+
+[Salting House]
+Land: 1
+Buildtime: 100
+Buildcost: Hardwood, 20
+Buildcost: Softwood, 10
+Buildtype: Hardwood
+Storage: Meat, 400
+
+[Granary]
+Land: 1
+Buildtime: 100
+Buildcost: Hardwood, 20
+Buildcost: Softwood, 10
+Buildtype: Hardwood
+Storage: Grain, 400
+
+[Ore Stores]
+Land: 2
+Buildtime: 100
+Buildcost: Hardwood, 20
+Buildtype: Hardwood
+Storage: Copper Ore, 200
+Storage: Iron Ore, 200
+Storage: Tin Ore, 200
+Storage: Mithril Ore, 200
+
+[Copper Stores]
+Land: 1
+Buildtime: 100
+Buildcost: Hardwood, 20
+Buildtype: Hardwood
+Storage: Copper, 200
+

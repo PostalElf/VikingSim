@@ -1,5 +1,4 @@
 [Hut]
-LandUsed: 1
 Capacity: 2
 Morale: -10
 Buildtype: Simple

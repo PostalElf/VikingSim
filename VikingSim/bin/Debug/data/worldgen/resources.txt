@@ -14,24 +14,32 @@ Meat
 Grain
 Bread
 
-[Organics]
+[Organic]
 Herbs
 Livestock
 Hides
 Ironfish
 Deepfish
 
-[Ores]
+[Ore]
 Copper Ore
 Tin Ore
 Iron Ore
 Mithril Ore
-Raw Adamantine
 Coal
 
+[Metal]
+Copper
+Bronze
+Iron
+Steel
+Mithril
+
 [Stone]
+Clay
 Granite
 Marble
 Sandstone
 Gritstone
-Clay
+Raw Adamantine
+Adamantine

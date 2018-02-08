@@ -1,26 +1,31 @@
-[Forest]
-Fir Woodcutter
-Pine Woodcutter
-Foraging Hut
-Herbarium
+[Old]
+Elderwoods
+Godbones
 
-[Elderwoods]
-Oak Woodcutter
-Ash Woodcutter
-Hunting Lodge
+[Tundra]
+Forest
+Hills
 
-[Hills]
-Copper Mines
-Tin Mines
-Coal Mines
-Granite Quarry
+[Wetland]
+River
+Marsh
 
-[Godbones]
-Iron Mines
-Mithril Mines
-Adamantine Mines
-Marble Quarry
+[Mountains]
+Godbones
+Hills
 
-[River]
-Ironfishery
-Deepfishery
+[Rapids]
+Hills
+River
+
+[Glade]
+River
+Elderwoods
+
+[Sunken]
+Elderwoods
+Marsh
+
+[Peat]
+Forest
+Marsh

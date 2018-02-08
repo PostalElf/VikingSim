@@ -2,7 +2,7 @@
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildtype: Hardwood
-Land: 5
+Land: 1
 Occupation: Logging
 Capacity: 3
 Efficiency: 1/2/3/4
@@ -10,11 +10,23 @@ Labour: 100
 Produce: Fir, 10
 Resource: Forest
 
+[Fir Lumbermill]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 10
+Land: 1
+Occupation: Logging
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Fir, 10
+Produce: Hardwood, 10
+
 [Pine Woodcutter]
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildtype: Hardwood
-Land: 5
+Land: 1
 Occupation: Logging
 Capacity: 3
 Efficiency: 1/2/3/4
@@ -22,11 +34,71 @@ Labour: 100
 Produce: Pine, 10
 Resource: Forest
 
+[Pine Lumbermill]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 10
+Land: 1
+Occupation: Logging
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Pine, 10
+Produce: Softwood, 10
+
+[Ash Woodcutter]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Logging
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Produce: Ash, 10
+Resource: Forest
+
+[Ash Lumbermill]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 10
+Land: 1
+Occupation: Logging
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Ash, 10
+Produce: Softwood, 10
+
+[Oak Woodcutter]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Logging
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Produce: Oak, 10
+Resource: Forest
+
+[Oak Lumbermill]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildcost: Bronze, 10
+Land: 1
+Occupation: Logging
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Oak, 10
+Produce: Hardwood, 10
+
 [Foraging Hut]
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildtype: Hardwood
-Land: 5
+Land: 1
 Occupation: Logging
 Capacity: 3
 Efficiency: 1/2/3/4
@@ -34,14 +106,124 @@ Labour: 100
 Produce: Fruit, 10
 Resource: Forest
 
-[Herbarium]
+[Herb Gatherer]
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildtype: Hardwood
-Land: 5
+Land: 1
 Occupation: Logging
 Capacity: 3
 Efficiency: 1/2/3/4
 Labour: 100
 Produce: Herbs, 10
 Resource: Forest
+
+[Copper Mines]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Mining
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Produce: Copper Ore, 10
+Resource: Hills
+
+[Copper Smelter]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Smithing
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Copper Ore, 10
+Produce: Copper, 10
+
+[Bronze Smelter]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Smithing
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Copper Ore, 10
+Cost: Tin Ore, 10
+Produce: Bronze, 10
+
+[Tin Mines]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Mining
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Produce: Tin Ore, 10
+Resource: Hills
+
+[Tin Smelter]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Smithing
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Tin Ore, 10
+Produce: Tin, 10
+
+[Coal Mines]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Mining
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Produce: Coal, 10
+Resource: Hills
+
+[Iron Mines]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Mining
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Produce: Iron Ore, 10
+Resource: Godbones
+
+[Iron Smelter]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Smithing
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Iron Ore, 10
+Produce: Iron, 10
+
+[Steel Smelter]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Smithing
+Capacity: 3
+Efficiency: 1/2/3/4
+Labour: 100
+Cost: Iron Ore, 10
+Cost: Coal, 10
+Produce: Steel, 10
