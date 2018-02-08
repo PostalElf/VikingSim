@@ -238,7 +238,6 @@
                 Case Skill.Storyteling : Return "Storyteller"
                 Case Skill.Religion : Return "Priest"
 
-                Case Skill.Smelting : Return "Smelter"
                 Case Skill.Smithing : Return "Smith"
                 Case Skill.Sculpting : Return "Sculpter"
                 Case Skill.Carpentry : Return "Carpenter"

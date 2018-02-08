@@ -34,7 +34,7 @@
         End While
     End Sub
     Private Function BuildSettlement() As Settlement
-        Dim site As SettlementSite = SettlementSite.Construct(New List(Of String) From {"Hills", "Elderwoods", "Forest"})
+        Dim site As SettlementSite = SettlementSite.Construct("Tundra")
         Dim settlement As Settlement = settlement.Construct(site, "Askton")
 
         Dim godfather As Person = Person.Ancestor("Male")
@@ -67,10 +67,7 @@
             wpp.Tick()
         Next
 
-        Dim wp As WorkplaceProjector = Nothing
-        For Each w In settlement.GetBuildings("workplace")
-            If w.Name = "Builder" Then wp = w : Exit For
-        Next
+        Dim wp As WorkplaceProjector = settlement.GetBuildings("workplace name=builder")(0)
         wp.AddWorkerBestAffinity()
         wp.AddProjectCheck("Carpenter")
         wp.AddProject("Carpenter")

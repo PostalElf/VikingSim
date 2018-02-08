@@ -31,7 +31,7 @@
     Public Function CheckFlags(ByVal flags As String) As Boolean
         Dim fs As String() = flags.Split(" ")
         For Each f In fs
-            Select Case f.ToLower
+            Select Case f.ToLower.Trim
                 Case "house" : If TypeOf Me Is House = False Then Return False
                 Case "space", "hasspace" : If TypeOf Me Is House AndAlso CType(Me, House).AddResidentcheck(Nothing) = False Then Return False
                 Case "nospace" : If TypeOf Me Is House AndAlso CType(Me, House).AddResidentcheck(Nothing) = True Then Return False
@@ -39,14 +39,30 @@
                 Case "workplace" : If TypeOf Me Is Workplace = False Then Return False
                 Case "producer" : If TypeOf Me Is WorkplaceProducer = False Then Return False
                 Case "projector" : If TypeOf Me Is WorkplaceProjector = False Then Return False
+                Case "storage" : If TypeOf Me Is Storage = False Then Return False
                 Case "employed" : If TypeOf Me Is Workplace = False OrElse CType(Me, Workplace).GetBestWorker Is Nothing Then Return False
                 Case "employable" : If TypeOf Me Is Workplace = False OrElse CType(Me, Workplace).AddWorkerCheck(Nothing) = False Then Return False
                 Case "unemployable" : If TypeOf Me Is Workplace = False OrElse CType(Me, Workplace).AddWorkerCheck(Nothing) = True Then Return False
 
-                Case "storage" : If TypeOf Me Is Storage = False Then Return False
+                Case Else : If CheckFlagAdvanced(f) = False Then Return False
             End Select
         Next
         Return True
+    End Function
+    Private Function CheckFlagAdvanced(ByVal flag As String) As Boolean
+        'advanced flags use = to specify search terms
+        'in the flag, link spaces with +, eg. name=ash+woodcutter
+
+        If flag.Contains("=") = False Then Return False
+
+        Dim fsplit As String() = flag.ToLower.Split("=")
+        Dim header As String = fsplit(0)
+        Dim entry As String = fsplit(1).Replace("+", " ")
+        Select Case header
+            Case "name" : If Name.ToLower = entry Then Return True
+        End Select
+
+        Return False
     End Function
 
     Public MustOverride Sub ConsoleReport()

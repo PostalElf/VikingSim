@@ -15,7 +15,6 @@
     Storyteling
     Religion
 
-    Smelting
     Smithing
     Sculpting
     Carpentry
