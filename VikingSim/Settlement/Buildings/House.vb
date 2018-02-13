@@ -120,6 +120,8 @@
 #End Region
 
     Public Overrides Sub Tick()
+        MyBase.Tick()
+
         'check for starvation, then remove resources regardless (<0 handled in resourcedict.remove)
         If FoodEaten.Keys.Count > 0 Then
             Dim trueFoodEaten As ResourceDict = FoodEaten * Residents.Count

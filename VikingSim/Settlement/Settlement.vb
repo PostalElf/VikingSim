@@ -1,4 +1,6 @@
 ﻿Public Class Settlement
+    Implements iModifiable
+
 #Region "Constructors"
     Public Sub New()
         Dim allResources As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbResources)
@@ -83,6 +85,20 @@
     End Property
 #End Region
 
+#Region "Modifier"
+    Public Property ModifierList As New List(Of Modifier) Implements iModifiable.ModifierList
+    Public Sub RemoveModifier(ByVal m As Modifier) Implements iModifiable.RemoveModifier
+        If ModifierList.Contains(m) = False Then Exit Sub
+        ModifierList.Remove(m)
+    End Sub
+    Public Sub TickModifier() Implements iModifiable.TickModifier
+        For n = ModifierList.Count - 1 To 0 Step -1
+            Dim m As Modifier = ModifierList(n)
+            m.Tick()
+        Next
+    End Sub
+#End Region
+
 #Region "Residents"
     Public Function GetResidents(ByVal name As String, Optional ByVal flags As String = "") As List(Of Person)
         Dim total As New List(Of Person)
@@ -160,7 +176,7 @@
     End Function
     Public Sub RemoveBuilding(ByVal b As Building)
         If Buildings.Contains(b) = False Then Exit Sub
-        b.Inventory.dumpitems(Me)
+        b.Inventory.DumpItems(Me)
         b.Settlement = Nothing
         Buildings.Remove(b)
     End Sub
@@ -214,6 +230,8 @@
 #End Region
 
     Public Sub Tick()
+        TickModifier()
+
         For n = Buildings.Count - 1 To 0 Step -1
             Dim b As Building = Buildings(n)
             b.Tick()

@@ -1,4 +1,5 @@
 ﻿Public Class Person
+    Implements iModifiable
 
 #Region "Personal Identifiers"
     Private NameFirst As String
@@ -40,18 +41,6 @@
     Private Const AgeMarriage As Integer = 16
     Private Const AgeLabour As Integer = 12
     Private Const AgeApprentice As Integer = 6
-    Public Sub Tick()
-        If Sex = "Female" Then
-            If Pregnancy Is Nothing = False Then
-                Dim child As Person = Pregnancy.Tick()
-                If child Is Nothing = False Then child.MoveHouse(House) : Pregnancy = Nothing
-            ElseIf SpouseName <> "" Then
-                'TODO: add sexy times
-            End If
-        End If
-
-        'TODO: add death related stuff
-    End Sub
 
     Public Inventory As New Inventory
     Public Function GetInventoryBonus(ByVal occ As String) As Integer
@@ -355,4 +344,33 @@
         Return False
     End Function
 #End Region
+
+#Region "Modifier"
+    Public Property ModifierList As New List(Of Modifier) Implements iModifiable.ModifierList
+    Public Sub RemoveModifier(ByVal m As Modifier) Implements iModifiable.RemoveModifier
+        If ModifierList.Contains(m) = False Then Exit Sub
+        ModifierList.Remove(m)
+    End Sub
+    Public Sub TickModifier() Implements iModifiable.TickModifier
+        For n = ModifierList.Count - 1 To 0 Step -1
+            Dim m As Modifier = ModifierList(n)
+            m.Tick()
+        Next
+    End Sub
+#End Region
+
+    Public Sub Tick()
+        TickModifier()
+
+        If Sex = "Female" Then
+            If Pregnancy Is Nothing = False Then
+                Dim child As Person = Pregnancy.Tick()
+                If child Is Nothing = False Then child.MoveHouse(House) : Pregnancy = Nothing
+            ElseIf SpouseName <> "" Then
+                'TODO: add sexy times
+            End If
+        End If
+
+        'TODO: add death related stuff
+    End Sub
 End Class

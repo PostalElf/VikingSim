@@ -95,6 +95,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Trackers\Modifier\iModifiable.vb" />
+    <Compile Include="Trackers\Modifier\Modifier.vb" />
     <Compile Include="Trackers\ResourceDict.vb" />
     <Compile Include="Person\Person.vb" />
     <Compile Include="Person\Skill.vb" />

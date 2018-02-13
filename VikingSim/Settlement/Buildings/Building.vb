@@ -1,5 +1,5 @@
 ﻿Public MustInherit Class Building
-    Implements iHistorable
+    Implements iHistorable, iModifiable
     Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
         Select Case header
             Case "Land", "LandUsed" : _LandUsed = Convert.ToInt32(entry)
@@ -78,7 +78,23 @@
     End Property
 #End Region
 
+#Region "Modifiers"
+    Private Property ModifierList As New List(Of Modifier) Implements iModifiable.ModifierList
+    Private Sub RemoveModifier(ByVal m As Modifier) Implements iModifiable.RemoveModifier
+        If ModifierList.Contains(m) = False Then Exit Sub
+        ModifierList.Remove(m)
+    End Sub
+    Private Sub TickModifier() Implements iModifiable.TickModifier
+        For n = ModifierList.Count - 1 To 0 Step -1
+            Dim m As Modifier = ModifierList(n)
+            m.Tick()
+        Next
+    End Sub
+#End Region
+
     Public Inventory As New Inventory
 
-    Public MustOverride Sub Tick()
+    Public Overridable Sub Tick()
+        TickModifier()
+    End Sub
 End Class

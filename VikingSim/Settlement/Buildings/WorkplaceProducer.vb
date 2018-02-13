@@ -43,6 +43,8 @@
     End Function
 
     Public Overrides Sub Tick()
+        MyBase.Tick()
+
         'attempt to take production costs if possible, otherwise exit sub
         If HasProductionCosts = False Then
             If TakeProductionCosts() = False Then Exit Sub

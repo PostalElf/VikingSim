@@ -101,6 +101,8 @@
         Console.WriteLine()
     End Sub
     Public Overrides Sub Tick()
+        MyBase.Tick()
+
         If Project Is Nothing Then Exit Sub
 
         Dim labour As Integer = 0
