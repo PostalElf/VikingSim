@@ -40,7 +40,7 @@
             Case "Gear" : item = Gear.Import(Name)
             Case "Furniture" : item = Furniture.Import(Name)
         End Select
-        item.SetHistory(Creator, World.TimeNow)
+        item.SetHistory(Creator.GetBestWorker.Name, World.TimeNow)
         Return item
     End Function
 

@@ -1,4 +1,5 @@
 ﻿Public Class SettlementSite
+    Implements iMapLocation
     Public Terrain As String
     Public LocationList As New List(Of String)
     Public Shared Function Construct(Optional ByVal terrain As String = Nothing) As SettlementSite
@@ -35,4 +36,9 @@
         End With
         Return site
     End Function
+
+#Region "World Map"
+    Private Property X As Integer Implements iMapLocation.X
+    Private Property Y As Integer Implements iMapLocation.Y
+#End Region
 End Class

@@ -14,3 +14,11 @@ C:\Users\Owner\Documents\Visual Studio 2010\Projects\VikingSim\VikingSim\bin\Deb
 C:\Users\Owner\Documents\Visual Studio 2010\Projects\VikingSim\VikingSim\bin\Debug\VikingSim.xml
 C:\Users\Owner\Documents\Visual Studio 2010\Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.Resources.resources
 C:\Users\Owner\Documents\Visual Studio 2010\Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.vbproj.GenerateResource.Cache
+C:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.exe
+C:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.xml
+C:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.pdb
+C:\Visual Studio Projects\VikingSim\VikingSim\bin\Debug\VikingSim.exe
+C:\Visual Studio Projects\VikingSim\VikingSim\bin\Debug\VikingSim.pdb
+C:\Visual Studio Projects\VikingSim\VikingSim\bin\Debug\VikingSim.xml
+C:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.Resources.resources
+C:\Visual Studio Projects\VikingSim\VikingSim\obj\x86\Debug\VikingSim.vbproj.GenerateResource.Cache

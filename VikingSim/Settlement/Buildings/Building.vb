@@ -14,7 +14,7 @@
         End Get
     End Property
 
-    Public Sub SetHistory(ByVal cr As String, ByVal crdate As CalendarDate)
+    Public Sub SetHistory(ByVal cr As String, ByVal crdate As CalendarDate) Implements iHistorable.SetHistory
         CreatorName = cr
         CreationDate = New CalendarDate(crdate)
     End Sub

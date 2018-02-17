@@ -11,6 +11,7 @@
         Next
     End Sub
 
+#Region "Alerts"
     Public Shared AlertsShown As New Dictionary(Of Integer, Boolean)
     Private Shared Alerts As New Dictionary(Of Integer, List(Of Alert))
     Private Shared AlertsColour As New Dictionary(Of Integer, ConsoleColor)
@@ -33,12 +34,27 @@
         Next
         Console.ForegroundColor = DefaultForegroundColor
     End Sub
+#End Region
 
+#Region "Timekeeping"
     Public Shared TimeNow As New CalendarDate(1, 1, 1)
+#End Region
+
+#Region "World Map"
     Private Settlements As New List(Of Settlement)
     Public Sub AddSettlement(ByVal settlement As Settlement)
         Settlements.Add(settlement)
     End Sub
+
+    Private SettlementSites As New List(Of SettlementSite)
+
+    Public Function GetDistance(ByVal origin As iMapLocation, ByVal target As iMapLocation) As Double
+        Dim xDist As Integer = Math.Abs(origin.X - target.X)
+        Dim yDist As Integer = Math.Abs(origin.Y - target.Y)
+        Dim total As Double = Math.Sqrt((xDist * xDist) + (yDist * yDist))
+        Return Math.Round(total, 2)
+    End Function
+#End Region
 
     Public Sub Tick()
         TimeNow.Tick()

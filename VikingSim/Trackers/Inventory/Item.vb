@@ -10,8 +10,8 @@
     Public Name As String
     Public Property CreatorName As String Implements iHistorable.CreatorName
     Public Property CreationDate As CalendarDate Implements iHistorable.CreationDate
-    Public Sub SetHistory(ByVal cr As Workplace, ByVal crdate As CalendarDate)
-        If cr Is Nothing Then CreatorName = "Odinsson" Else CreatorName = cr.GetBestWorker.Name
+    Public Sub SetHistory(ByVal cr As String, ByVal crdate As CalendarDate) Implements iHistorable.SetHistory
+        If cr Is Nothing Then CreatorName = "Odinsson" Else CreatorName = cr
         CreationDate = New CalendarDate(crdate)
     End Sub
     Public Function HistoryReport() As String Implements iHistorable.HistoryReport

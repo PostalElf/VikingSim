@@ -2,7 +2,7 @@
     Public rng As New Random(3)
 
     Sub Main()
-        Console.SetWindowSize(100, 45)
+        Console.SetWindowSize(100, 43)
         Dim world As New World
         Dim settlement As Settlement = BuildSettlement()
         world.addsettlement(settlement)

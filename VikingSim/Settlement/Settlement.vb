@@ -1,5 +1,5 @@
 ﻿Public Class Settlement
-    Implements iModifiable
+    Implements iModifiable, iMapLocation, iHistorable
 
 #Region "Constructors"
     Public Sub New()
@@ -51,7 +51,7 @@
     End Sub
 #End Region
 
-#Region "Settlement Site"
+#Region "World Map"
     Private Locations As New List(Of String)
     Public Sub AddLocation(ByVal l As String)
         Locations.Add(l)
@@ -83,6 +83,21 @@
             Return LandTotal - LandUsed
         End Get
     End Property
+
+    Private Property X As Integer Implements iMapLocation.X
+    Private Property Y As Integer Implements iMapLocation.Y
+#End Region
+
+#Region "History"
+    Private Property CreationDate As CalendarDate Implements iHistorable.CreationDate
+    Private Property CreatorName As String Implements iHistorable.CreatorName
+    Private Sub SetHistory(ByVal cr As String, ByVal cd As CalendarDate) Implements iHistorable.SetHistory
+        CreatorName = cr
+        CreationDate = New CalendarDate(cd)
+    End Sub
+    Private Function HistoryReport() As String Implements iHistorable.HistoryReport
+        Return "Founded by " & CreatorName & " in " & CreationDate.ToStringShort
+    End Function
 #End Region
 
 #Region "Modifier"
