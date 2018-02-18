@@ -30,7 +30,6 @@
             Return _Sex
         End Get
     End Property
-    Private Pregnancy As pregnancy
 
     Private BirthDate As CalendarDate
     Private ReadOnly Property Age As Integer
@@ -41,6 +40,7 @@
     Private Const AgeMarriage As Integer = 16
     Private Const AgeLabour As Integer = 12
     Private Const AgeApprentice As Integer = 6
+    Private Const AgeMenopause As Integer = 50
 
     Public Inventory As New Inventory
     Public Function GetInventoryBonus(ByVal occ As String) As Integer
@@ -359,18 +359,79 @@
     End Sub
 #End Region
 
+#Region "Pregnancy"
+    Private Pregnancy As Pregnancy
+    Private WeeksSinceLastPregnancy As Integer = 0
+    Private ReadOnly Property PregnancyChance As Integer
+        Get
+            If Age < AgeMarriage Then Return 0
+            If Age > AgeMenopause Then Return 0
+
+            Dim total As Integer = 0
+            Select Case WeeksSinceLastPregnancy
+                Case Is <= 10 : total = 0
+                Case 11 To 20 : total = 5
+                Case 21 To 30 : total = 10
+                Case 31 To 40 : total = 15
+                Case 41 To 50 : total = 20
+                Case Else : total = 25
+            End Select
+
+            Select Case ChildrenNames.Count
+                Case 0 : total += 5
+                Case 1 To 2 : total += 0
+                Case 3 : total -= 5
+                Case 4 : total -= 10
+                Case Else : total -= 15
+            End Select
+
+            Return total
+        End Get
+    End Property
+
+    Private Sub FemaleTick()
+        If Pregnancy Is Nothing = False Then
+            Dim child As Person = Pregnancy.Tick()
+            If child Is Nothing = False Then
+                World.AddAlert(child, 2, child.Name & " has been born to " & child.MotherName & " & " & child.FatherName & ".")
+                child.MoveHouse(House)
+
+                Pregnancy = Nothing
+                WeeksSinceLastPregnancy = 0
+            End If
+        ElseIf SpouseName <> "" Then
+            'not pregnant but married; check for pregnancy
+            If rng.Next(1, 101) <= PregnancyChance Then
+                'beep new baby! woop!
+                Pregnancy = New Pregnancy(House.GetResident(FatherName), House.GetResident(MotherName))
+                WeeksSinceLastPregnancy = 0
+            Else
+                'not pregnant; increase timer for last pregnancy if fertile
+                If Age >= AgeMarriage Then WeeksSinceLastPregnancy += 1
+            End If
+        End If
+    End Sub
+    Private Function GetFemaleTickWarnings() As List(Of Alert)
+        Dim total As New List(Of Alert)
+        If Pregnancy Is Nothing = False Then
+            total.AddRange(Pregnancy.GetTickWarnings)
+        End If
+        Return total
+    End Function
+#End Region
+
     Public Sub Tick()
         TickModifier()
 
-        If Sex = "Female" Then
-            If Pregnancy Is Nothing = False Then
-                Dim child As Person = Pregnancy.Tick()
-                If child Is Nothing = False Then child.MoveHouse(House) : Pregnancy = Nothing
-            ElseIf SpouseName <> "" Then
-                'TODO: add sexy times
-            End If
-        End If
+        If Sex = "Female" Then FemaleTick()
 
         'TODO: add death related stuff
     End Sub
+    Public Function GetTickWarnings() As List(Of Alert)
+        Dim total As New List(Of Alert)
+
+        If Sex = "Female" Then total.AddRange(GetFemaleTickWarnings)
+
+        Return total
+    End Function
 End Class

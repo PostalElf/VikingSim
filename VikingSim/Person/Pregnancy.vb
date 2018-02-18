@@ -15,4 +15,13 @@
         End If
         Return Nothing
     End Function
+    Public Function GetTickWarnings() As List(Of Alert)
+        Dim total As New List(Of Alert)
+        Dim dif As Integer = TermWeeks - Weeks
+        Select Case dif
+            Case 2 : total.Add(New Alert(Me, 3, Mother.Name & "'s birth is due next week."))
+            Case 5 : total.Add(New Alert(Me, 2, Mother.Name & "'s birth is due in 4 weeks."))
+        End Select
+        Return total
+    End Function
 End Class
