@@ -139,7 +139,8 @@
         End If
         If IsStarving = True Then World.AddAlert(Me, 3, Name & " is starving!")
 
-        For Each r In Residents
+        For n = Residents.Count - 1 To 0 Step -1
+            Dim r As Person = Residents(n)
             r.Tick()
         Next
     End Sub

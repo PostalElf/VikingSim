@@ -82,6 +82,12 @@
 
 #Region "Modifiers"
     Private Property ModifierList As New List(Of Modifier) Implements iModifiable.ModifierList
+    Public Function GetModifier(ByVal quality As String) As Integer Implements iModifiable.GetModifier
+        Return Modifier.GetModifier(quality, ModifierList)
+    End Function
+    Private Sub AddModifier(ByVal m As Modifier) Implements iModifiable.AddModifier
+        Modifier.AddModifier(m, Me)
+    End Sub
     Private Sub RemoveModifier(ByVal m As Modifier) Implements iModifiable.RemoveModifier
         If ModifierList.Contains(m) = False Then Exit Sub
         ModifierList.Remove(m)

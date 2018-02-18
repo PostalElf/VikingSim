@@ -31,13 +31,6 @@
         End Get
     End Property
 
-    Private BirthDate As CalendarDate
-    Private Age As Integer = 1
-    Private Const AgeMarriage As Integer = 16
-    Private Const AgeLabour As Integer = 12
-    Private Const AgeApprentice As Integer = 6
-    Private Const AgeMenopause As Integer = 50
-
     Public Inventory As New Inventory
     Public Function GetInventoryBonus(ByVal occ As String) As Integer
         Return Inventory.GetBonus(occ)
@@ -343,6 +336,12 @@
 
 #Region "Modifier"
     Public Property ModifierList As New List(Of Modifier) Implements iModifiable.ModifierList
+    Public Function GetModifier(ByVal quality As String) As Integer Implements iModifiable.GetModifier
+        Return Modifier.GetModifier(quality, ModifierList)
+    End Function
+    Private Sub AddModifier(ByVal m As Modifier) Implements iModifiable.AddModifier
+        Modifier.AddModifier(m, Me)
+    End Sub
     Public Sub RemoveModifier(ByVal m As Modifier) Implements iModifiable.RemoveModifier
         If ModifierList.Contains(m) = False Then Exit Sub
         ModifierList.Remove(m)
@@ -416,10 +415,43 @@
     End Function
 #End Region
 
-    Public Sub Tick()
-        TickModifier()
+#Region "Aging and Disease"
+    Private BirthDate As CalendarDate
+    Private Age As Integer = 1
+    Private Const AgeMarriage As Integer = 16
+    Private Const AgeLabour As Integer = 12
+    Private Const AgeApprentice As Integer = 6
+    Private Const AgeMenopause As Integer = 50
 
-        'age
+    Private ReadOnly Property DiseaseChance As Integer
+        Get
+            Const dc As String = "DiseaseChance"
+            Dim total As Integer = House.Settlement.GetModifier(dc)
+            total += House.GetModifier(dc)
+            If Workplace Is Nothing = False Then total += Workplace.GetModifier(dc)
+
+            Select Case Age
+                Case 1 To 2 : total += 10
+                Case 3 To 16 : total -= 10
+                Case 17 To 35 : total += 0
+                Case 36 To 50 : total += 5
+                Case 50 To 55 : total += 10
+                Case Else : total += (Age - 50) * 2
+            End Select
+
+            Return total
+        End Get
+    End Property
+    Private ReadOnly Property PossibleDiseases As List(Of Modifier)
+        Get
+            Dim total As New List(Of Modifier)
+            For Each d In {"Flux", "Plague", "Pox"}
+                total.Add(Modifier.Import(d))
+            Next
+
+        End Get
+    End Property
+    Private Sub AgeTick()
         If World.TimeNow.Month = BirthDate.Month AndAlso World.TimeNow.Week = BirthDate.Week Then
             Age += 1
             Select Case Age
@@ -430,9 +462,16 @@
             End Select
         End If
 
-        If Sex = "Female" Then FemaleTick()
+        If rng.Next(1, 101) <= DiseaseChance Then
 
-        'TODO: add death related stuff
+        End If
+    End Sub
+#End Region
+
+    Public Sub Tick()
+        TickModifier()
+        AgeTick()
+        If Sex = "Female" Then FemaleTick()
     End Sub
     Public Function GetTickWarnings() As List(Of Alert)
         Dim total As New List(Of Alert)

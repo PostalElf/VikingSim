@@ -1,0 +1,11 @@
+[Flux]
+Timer: 4-6
+Quality: DeathChance, 10
+
+[Pox]
+Timer: 4-6
+Quality: DeathChance, 15
+
+[Plague]
+Timer: 4-6
+Quality: DeathChance, 20
