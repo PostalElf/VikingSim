@@ -69,6 +69,7 @@
 
         Dim carpenter As WorkplaceProjector = AddProject(settlement, "Builder", "Carpenter")
         carpenter.AddWorkerBestAffinity()
+        AddProject(settlement, "Builder", "Cottage")
 
         Return settlement
     End Function

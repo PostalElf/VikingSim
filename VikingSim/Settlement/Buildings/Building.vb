@@ -59,7 +59,9 @@
         Dim header As String = fsplit(0)
         Dim entry As String = fsplit(1).Replace("+", " ")
         Select Case header
-            Case "name" : If Name.ToLower = entry Then Return True
+            Case "name"
+                If Name.ToLower = entry Then Return True
+                If Name.Contains("#") AndAlso Name.ToLower.Contains(entry) Then Return True
         End Select
 
         Return False
