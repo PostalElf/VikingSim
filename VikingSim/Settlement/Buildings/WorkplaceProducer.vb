@@ -71,6 +71,11 @@
             If HasProductionCosts = False Then Labour = 0
         End While
     End Sub
+    Public Overrides Function GetTickWarnings() As System.Collections.Generic.List(Of Alert)
+        Dim total As New List(Of Alert)
+        If HasProductionCosts = False Then total.Add(New Alert(Me, 2, Name & " does not have enough resources to continue production."))
+        Return total
+    End Function
     Protected ProducedResources As New ResourceDict
 #End Region
 

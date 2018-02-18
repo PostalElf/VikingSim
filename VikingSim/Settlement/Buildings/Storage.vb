@@ -38,4 +38,7 @@
     Public Overrides Sub Tick()
         'storage doesn't need to do shit during ticks
     End Sub
+    Public Overrides Function GetTickWarnings() As System.Collections.Generic.List(Of Alert)
+        Return Nothing
+    End Function
 End Class

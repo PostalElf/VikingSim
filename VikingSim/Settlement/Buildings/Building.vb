@@ -72,7 +72,7 @@
 
 #Region "Land"
     Public Settlement As Settlement
-    Private _LandUsed As Integer = 5
+    Private _LandUsed As Integer = 1
     Public ReadOnly Property LandUsed As Integer
         Get
             Return _LandUsed
@@ -99,4 +99,5 @@
     Public Overridable Sub Tick()
         TickModifier()
     End Sub
+    Public MustOverride Function GetTickWarnings() As List(Of Alert)
 End Class

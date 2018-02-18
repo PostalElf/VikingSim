@@ -121,4 +121,9 @@
             Project = Nothing
         End If
     End Sub
+    Public Overrides Function GetTickWarnings() As System.Collections.Generic.List(Of Alert)
+        Dim total As New List(Of Alert)
+        If Project Is Nothing Then total.Add(New Alert(Me, 1, Name & " is idle."))
+        Return total
+    End Function
 End Class

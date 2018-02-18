@@ -17,6 +17,7 @@
             If name <> "" Then ._Name = name
             .Locations = settlementSite.LocationList
             .LandTotal = 100 - (.Locations.Count * 10)
+            .SetHistory("Odinsson", World.TimeNow)
         End With
         Return settlement
     End Function
@@ -254,7 +255,13 @@
         Next
     End Sub
     Public Function GetTickWarnings() As List(Of Alert)
-
+        Dim total As New List(Of Alert)
+        For n = Buildings.Count - 1 To 0 Step -1
+            Dim b As Building = Buildings(n)
+            Dim bWarnings As List(Of Alert) = b.GetTickWarnings()
+            If bWarnings Is Nothing = False Then total.AddRange(bWarnings)
+        Next
+        Return total
     End Function
 
 End Class

@@ -108,6 +108,12 @@
         FoodEaten(r) -= qty
         If FoodEaten(r) <= 0 Then FoodEaten.RemoveKey(r)
     End Sub
+    Private ReadOnly Property FoodEatenTotal As ResourceDict
+        Get
+            'actual amount of food eaten
+            Return FoodEaten * Residents.Count
+        End Get
+    End Property
     Private ReadOnly Property FoodMorale As Integer
         Get
             Dim total As Integer = -10
@@ -122,12 +128,13 @@
     Public Overrides Sub Tick()
         MyBase.Tick()
 
-        'check for starvation, then remove resources regardless (<0 handled in resourcedict.remove)
+        'check for starvation
         If FoodEaten.Keys.Count > 0 Then
-            Dim trueFoodEaten As ResourceDict = FoodEaten * Residents.Count
-            If Settlement.CheckResources(trueFoodEaten) = False Then IsStarving = True Else IsStarving = False
-            Settlement.AddResources(trueFoodEaten, True)
+            'check if foodeaten can be met, then remove resources regardless (<0 handled in resourcedict.remove)
+            If Settlement.CheckResources(FoodEatenTotal) = False Then IsStarving = True Else IsStarving = False
+            Settlement.AddResources(FoodEatenTotal, True)
         Else
+            'no food assigned to house, auto-starvation
             IsStarving = True
         End If
         If IsStarving = True Then World.AddAlert(Me, 3, Name & " is starving!")
@@ -136,4 +143,9 @@
             r.Tick()
         Next
     End Sub
+    Public Overrides Function GetTickWarnings() As List(Of Alert)
+        Dim total As New List(Of Alert)
+        If IsStarving = True Then total.Add(New Alert(Me, 3, Name & " is starving!"))
+        Return total
+    End Function
 End Class

@@ -15,6 +15,9 @@
     End Function
 
 #Region "Alerts"
+    'higher priority number, the more important it is
+    'highest priority is currently 3; remember to add colour in New().AlertsColour if new priorities are added
+
     Public Shared AlertsShown As New Dictionary(Of Integer, Boolean)
     Private Shared Alerts As New Dictionary(Of Integer, List(Of Alert))
     Private Shared AlertsColour As New Dictionary(Of Integer, ConsoleColor)
