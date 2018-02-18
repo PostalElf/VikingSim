@@ -67,22 +67,24 @@
             campfire.Tick()
         Next
 
-        AddProject(settlement, "Campfire", "Carpenter")
+        Dim carpenter As WorkplaceProjector = AddProject(settlement, "Builder", "Carpenter")
+        carpenter.AddWorkerBestAffinity()
 
         Return settlement
     End Function
-    Private Sub AddProject(ByVal settlement As Settlement, ByVal projectorName As String, ByVal projectName As String)
+    Private Function AddProject(ByVal settlement As Settlement, ByVal projectorName As String, ByVal projectName As String)
         projectorName = projectorName.Replace(" ", "+")
         Dim wp As WorkplaceProjector = settlement.GetBuildings("projector name=" & projectorName)(0)
-        If wp Is Nothing Then Exit Sub
+        If wp Is Nothing Then Return Nothing
 
         If wp.GetBestWorker Is Nothing Then wp.AddWorkerBestAffinity()
-        If wp.AddProjectCheck(projectName) = False Then Exit Sub
+        If wp.AddProjectCheck(projectName) = False Then Return Nothing
         wp.AddProject(projectName)
         For n = 1 To 75
             wp.Tick()
         Next
-    End Sub
+        Return settlement.GetBuildings("name=" & projectName)(0)
+    End Function
 
     Private Sub MenuTick(ByVal world As World)
         Dim num As Integer = Menu.getNumInput(0, 1, 100, "Select number of ticks: ")

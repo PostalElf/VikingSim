@@ -7,7 +7,7 @@
         For Each resCategory In allResources.Keys
             For Each r In allResources(resCategory)
                 Resources.Add(r, 0)
-                BaseResourceCapacity.Add(r, 200)
+                BaseResourceCapacity.Add(r, ResourceStartingCapacity)
             Next
         Next
     End Sub
@@ -205,6 +205,7 @@
 #End Region
 
 #Region "Resources"
+    Private Const ResourceStartingCapacity As Integer = 100
     Private BaseResourceCapacity As New ResourceDict
     Private Resources As New ResourceDict
     Public Sub AddResources(ByVal res As ResourceDict, Optional ByVal remove As Boolean = False)
@@ -252,5 +253,8 @@
             b.Tick()
         Next
     End Sub
+    Public Function GetTickWarnings() As List(Of Alert)
+
+    End Function
 
 End Class
