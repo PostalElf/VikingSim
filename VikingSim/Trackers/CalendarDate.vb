@@ -37,22 +37,10 @@
         Week = now.Week
     End Sub
 
-    Private Function GetWeeks() As Integer
-        Dim totalMonths As Integer = (Year - 1) * MonthsInYear
-        Dim totalWeeks As Integer = (totalMonths * MonthsInYear) + Week - 1
-        Return totalWeeks
-    End Function
-
     Public Overrides Function ToString() As String
         Return "Week " & Week & ", Month " & Month & ", Year " & Year
     End Function
     Public Function ToStringShort() As String
         Return Season & " " & Year
     End Function
-    Shared Operator -(ByVal t1 As CalendarDate, ByVal t2 As CalendarDate) As CalendarDate
-        Dim t1w As Integer = t1.GetWeeks
-        Dim t2w As Integer = t2.GetWeeks
-        Dim weeksDif As Integer = Math.Abs(t1w - t2w)
-        Return New CalendarDate(weeksDif)
-    End Operator
 End Class

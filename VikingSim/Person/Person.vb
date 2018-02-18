@@ -32,11 +32,7 @@
     End Property
 
     Private BirthDate As CalendarDate
-    Private ReadOnly Property Age As Integer
-        Get
-            Return (BirthDate - World.TimeNow).Year
-        End Get
-    End Property
+    Private Age As Integer = 1
     Private Const AgeMarriage As Integer = 16
     Private Const AgeLabour As Integer = 12
     Private Const AgeApprentice As Integer = 6
@@ -136,7 +132,7 @@
         Dim child As New Person
         With child
             If rng.Next(1, 3) = 1 Then ._Sex = "Male" Else ._Sex = "Female"
-            .BirthDate = World.TimeNow
+            .BirthDate = New CalendarDate(World.TimeNow)
             .NameFirst = GrabRandomNameFirst(.Sex)
             .NameLast = GrabRandomNameLast(.Sex, father, mother)
             .FatherName = father.Name
@@ -422,6 +418,17 @@
 
     Public Sub Tick()
         TickModifier()
+
+        'age
+        If World.TimeNow.Month = BirthDate.Month AndAlso World.TimeNow.Week = BirthDate.Week Then
+            Age += 1
+            Select Case Age
+                Case AgeApprentice : World.AddAlert(Me, 1, Name & " is now " & Age & " and may now become an apprentice.")
+                Case AgeLabour : World.AddAlert(Me, 1, Name & " is now " & Age & " and may now work.")
+                Case AgeMarriage : World.AddAlert(Me, 1, Name & " is now " & Age & " and may now marry.")
+                Case Else : World.AddAlert(Me, 1, Name & " is now " & Age & ".")
+            End Select
+        End If
 
         If Sex = "Female" Then FemaleTick()
 

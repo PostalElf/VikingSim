@@ -10,6 +10,9 @@
             End Select
         Next
     End Sub
+    Public Overrides Function ToString() As String
+        Return TimeNow.ToString
+    End Function
 
 #Region "Alerts"
     Public Shared AlertsShown As New Dictionary(Of Integer, Boolean)
