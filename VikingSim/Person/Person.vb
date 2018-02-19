@@ -24,30 +24,7 @@
         Return Name
     End Function
 
-    Private _Sex As String
-    Public ReadOnly Property Sex As String
-        Get
-            Return _Sex
-        End Get
-    End Property
-    Private ReadOnly Property SexPronoun As String
-        Get
-            Select Case Sex
-                Case "Male" : Return "He"
-                Case "Female" : Return "She"
-                Case Else : Return "It"
-            End Select
-        End Get
-    End Property
-    Private ReadOnly Property SexPronounPossessive As String
-        Get
-            Select Case Sex
-                Case "Male" : Return "His"
-                Case "Female" : Return "Her"
-                Case Else : Return "Its"
-            End Select
-        End Get
-    End Property
+    Public Sex As Sex
 
     Public Inventory As New Inventory
     Public Function GetInventoryBonus(ByVal occ As String) As Integer
@@ -112,7 +89,7 @@
     End Sub
 
     Public Sub ConsoleReport()
-        Console.WriteLine(Name & " - " & Age & Sex.ToLower.First)
+        Console.WriteLine(Name & " - " & Age & Sex.First.ToLower)
         Console.WriteLine("├ House:      " & House.Name)
         Console.WriteLine("├ Father:     " & FatherName)
         Console.WriteLine("├ Mother:     " & MotherName)
@@ -142,7 +119,7 @@
     Public Shared Function Birth(ByVal father As Person, ByVal mother As Person) As Person
         Dim child As New Person
         With child
-            If rng.Next(1, 3) = 1 Then ._Sex = "Male" Else ._Sex = "Female"
+            If rng.Next(1, 3) = 1 Then .Sex.Fix("Male") Else .Sex.Fix("Female")
             .BirthDate = New CalendarDate(World.TimeNow)
             .NameFirst = GrabRandomNameFirst(.Sex)
             .NameLast = GrabRandomNameLast(.Sex, father, mother)
@@ -187,7 +164,7 @@
 
     Private Shared MaleFirstNames As New List(Of String)
     Private Shared GirlFirstNames As New List(Of String)
-    Private Shared Function GrabRandomNameFirst(ByVal childSex As String) As String
+    Private Shared Function GrabRandomNameFirst(ByVal childSex As Sex) As String
         If childSex = "Male" Then
             If MaleFirstNames.Count = 0 Then MaleFirstNames = IO.ImportTextList(IO.tlMaleNames)
             Return GrabRandom(Of String)(MaleFirstNames)
@@ -198,7 +175,7 @@
             Throw New Exception("Sex neither male nor female")
         End If
     End Function
-    Private Shared Function GrabRandomNameLast(ByVal childSex As String, ByVal father As Person, ByVal mother As Person)
+    Private Shared Function GrabRandomNameLast(ByVal childSex As Sex, ByVal father As Person, ByVal mother As Person)
         If childSex = "Male" Then
             Return father.NameFirst & "sson"
         ElseIf childSex = "Female" Then
@@ -494,7 +471,7 @@
         If deathChance > 0 Then
             If rng.Next(1, 101) <= deathChance Then
                 Die()
-                World.AddAlert(House, 3, Name & " has died in " & SexPronounPossessive.ToLower & " sleep.")
+                World.AddAlert(House, 3, Name & " has died in " & Sex.PronounPossessive.ToLower & " sleep.")
                 Exit Sub
             End If
         End If
