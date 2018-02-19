@@ -5,7 +5,7 @@
 
         Dim m As New Modifier
         With m
-            .Title = targetTitle
+            ._Title = targetTitle
             For Each line In rawData
                 Dim ls As String() = line.Split(":")
                 Dim header As String = ls(0).Trim
@@ -28,13 +28,21 @@
                         Dim value As Integer = Convert.ToInt32(qs(1).Trim)
                         If .Qualities.ContainsKey(quality) = False Then .Qualities.Add(quality, 0)
                         .Qualities(quality) += value
+
+                    Case "Category" : .Category = entry
                 End Select
             Next
         End With
         Return m
     End Function
 
-    Private Title As String
+    Public ReadOnly Property Title As String
+        Get
+            Return _Title
+        End Get
+    End Property
+    Private _Title As String
+    Private Category As String
     Private Timer As Integer
     Private Qualities As New Dictionary(Of String, Integer)
     Private Owner As iModifiable
@@ -56,6 +64,13 @@
         For Each m In modifierList
             If m.Qualities.ContainsKey(quality) = False Then Continue For
             total += m.Qualities(quality)
+        Next
+        Return total
+    End Function
+    Public Shared Function GetModifiers(ByVal category As String, ByVal modifierList As List(Of Modifier)) As List(Of Modifier)
+        Dim total As New List(Of Modifier)
+        For Each m In modifierList
+            If category = "" OrElse m.Category = category Then total.Add(m)
         Next
         Return total
     End Function

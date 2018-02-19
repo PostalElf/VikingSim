@@ -106,6 +106,9 @@
     Public Function GetModifier(ByVal quality As String) As Integer Implements iModifiable.GetModifier
         Return Modifier.GetModifier(quality, ModifierList)
     End Function
+    Public Function GetModifiers(ByVal category As String) As List(Of Modifier) Implements iModifiable.GetModifiers
+        Return Modifier.GetModifiers(category, ModifierList)
+    End Function
     Private Sub AddModifier(ByVal m As Modifier) Implements iModifiable.AddModifier
         Modifier.AddModifier(m, Me)
     End Sub

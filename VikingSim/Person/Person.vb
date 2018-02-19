@@ -30,6 +30,24 @@
             Return _Sex
         End Get
     End Property
+    Private ReadOnly Property SexPronoun As String
+        Get
+            Select Case Sex
+                Case "Male" : Return "He"
+                Case "Female" : Return "She"
+                Case Else : Return "It"
+            End Select
+        End Get
+    End Property
+    Private ReadOnly Property SexPronounPossessive As String
+        Get
+            Select Case Sex
+                Case "Male" : Return "His"
+                Case "Female" : Return "Her"
+                Case Else : Return "Its"
+            End Select
+        End Get
+    End Property
 
     Public Inventory As New Inventory
     Public Function GetInventoryBonus(ByVal occ As String) As Integer
@@ -339,6 +357,9 @@
     Public Function GetModifier(ByVal quality As String) As Integer Implements iModifiable.GetModifier
         Return Modifier.GetModifier(quality, ModifierList)
     End Function
+    Public Function GetModifiers(ByVal category As String) As List(Of Modifier) Implements iModifiable.GetModifiers
+        Return Modifier.GetModifiers(category, ModifierList)
+    End Function
     Private Sub AddModifier(ByVal m As Modifier) Implements iModifiable.AddModifier
         Modifier.AddModifier(m, Me)
     End Sub
@@ -442,15 +463,21 @@
             Return total
         End Get
     End Property
-    Private ReadOnly Property PossibleDiseases As List(Of Modifier)
-        Get
-            Dim total As New List(Of Modifier)
-            For Each d In {"Flux", "Plague", "Pox"}
-                total.Add(Modifier.Import(d))
-            Next
+    Private Function GetRandomDisease() As Modifier
+        Dim allDiseaseList As New List(Of String)
+        With allDiseaseList
+            .AddRange({"Flux", "Plague", "Pox"})          'pollinate with standard diseases
 
-        End Get
-    End Property
+            'occupation-specific diseases
+            Select Case Occupation
+                Case Skill.Mining : .Add("Blacklung")
+            End Select
+        End With
+
+        Dim roll As Integer = rng.Next(allDiseaseList.Count)
+        Dim disease As Modifier = Modifier.Import(allDiseaseList(roll))
+        Return disease
+    End Function
     Private Sub AgeTick()
         If World.TimeNow.Month = BirthDate.Month AndAlso World.TimeNow.Week = BirthDate.Week Then
             Age += 1
@@ -462,9 +489,27 @@
             End Select
         End If
 
-        If rng.Next(1, 101) <= DiseaseChance Then
-
+        'check deathchance for current diseases
+        Dim deathChance As Integer = GetModifier("DeathChance")
+        If deathChance > 0 Then
+            If rng.Next(1, 101) <= deathChance Then
+                Die()
+                World.AddAlert(House, 3, Name & " has died in " & SexPronounPossessive.ToLower & " sleep.")
+                Exit Sub
+            End If
         End If
+
+        'check chance for new disease
+        If rng.Next(1, 101) <= DiseaseChance Then
+            Dim disease As Modifier = GetRandomDisease()
+            AddModifier(disease)
+            World.AddAlert(Me, 2, Name & " has become sick with " & disease.Title & ".")
+        End If
+    End Sub
+    Private Sub Die()
+        House.RemoveResident(Me)
+        Workplace.RemoveApprentice(Me)
+        Workplace.RemoveWorker(Me)
     End Sub
 #End Region
 

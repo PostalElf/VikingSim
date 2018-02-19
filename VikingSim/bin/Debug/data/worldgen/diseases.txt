@@ -1,11 +1,14 @@
 [Flux]
+Category: Disease
 Timer: 4-6
 Quality: DeathChance, 10
 
 [Pox]
+Category: Disease
 Timer: 4-6
 Quality: DeathChance, 15
 
 [Plague]
+Category: Disease
 Timer: 4-6
 Quality: DeathChance, 20
