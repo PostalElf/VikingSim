@@ -141,15 +141,15 @@
 #End Region
 
 #Region "Residents"
-    Public Function GetResidents(ByVal name As String, Optional ByVal flags As String = "") As List(Of Person)
+    Public Function GetResidents(ByVal flags As String) As List(Of Person)
         Dim total As New List(Of Person)
         For Each h In Houses
-            total.AddRange(h.GetResidents(name, flags))
+            total.AddRange(h.GetResidents(flags))
         Next
         Return total
     End Function
     Public Function GetBestSkillUnemployed(ByVal skill As Skill) As Person
-        Dim residents As List(Of Person) = GetResidents("", "employable")
+        Dim residents As List(Of Person) = GetResidents("employable")
         Dim bestFit As Person = Nothing
         Dim bestSkill As Integer = -1
         For Each r In residents
@@ -161,7 +161,7 @@
         Return bestFit
     End Function
     Public Function GetBestAffinityUnemployed(ByVal skill As Skill) As Person
-        Dim residents As List(Of Person) = GetResidents("", "employable")
+        Dim residents As List(Of Person) = GetResidents("employable")
         Dim bestFit As Person = Nothing
         Dim bestAffinity As Double = -1
         For Each r In residents
@@ -183,9 +183,9 @@
         Return pair
     End Function
     Public Function GetSingleCouples() As List(Of List(Of Person))
-        Dim girls As List(Of Person) = GetResidents("", "single female")
+        Dim girls As List(Of Person) = GetResidents("single female")
         If girls.Count = 0 Then Return Nothing
-        Dim boys As List(Of Person) = GetResidents("", "single male")
+        Dim boys As List(Of Person) = GetResidents("single male")
         If boys.Count = 0 Then Return Nothing
 
         Dim total As New List(Of List(Of Person))

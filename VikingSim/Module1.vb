@@ -87,9 +87,7 @@
         Dim bMenu As New List(Of String)
         With bMenu
             .Add("Review Building")
-            .Add("Review Resident")
-            .Add("Marry Residents")
-            .Add("Birth Resident")
+            .Add("Review Residents")
             .Add("Add Building")
             .Add("Add Location")
         End With
@@ -100,9 +98,7 @@
             Console.WriteLine()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Review Building" : MenuReviewBuildings(settlement)
-                Case "Review Resident" : MenuReviewResidents(settlement)
-                Case "Marry Residents" : MenuMarryResidents(settlement)
-                Case "Birth Resident" : MenuBirthResident(settlement)
+                Case "Review Residents" : MenuReviewResidents(settlement)
                 Case "Add Building" : MenuAddBuilding(settlement)
                 Case "Add Location" : MenuAddBuilding(settlement)
                 Case Else : Exit While
@@ -122,32 +118,59 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuReviewResidents(ByVal settlement As Settlement)
-        Dim selection As Person = Menu.getListChoice(Of Person)(settlement.GetResidents(""), 1, "Select resident:")
+        Console.Write("Enter flags: ")
+        Dim flags As String = Console.ReadLine
+
+        Dim possibleSelections As List(Of Person) = settlement.GetResidents(flags)
+        Dim selection As Person = Menu.getListChoice(Of Person)(possibleSelections, 0, "Select resident:")
         If selection Is Nothing Then Exit Sub
-        selection.ConsoleReport()
-        Console.ReadLine()
-        Console.Clear()
+
+        Dim bMenu As New List(Of String)
+        With bMenu
+            .Add("Marry")
+            .Add("Employ")
+            .Add("Disease")
+        End With
+
+        While True
+            Console.Clear()
+            selection.ConsoleReport()
+            Console.WriteLine()
+            Select Case Menu.getListChoice(bMenu, 0, "Select option:")
+                Case "Marry" : MenuMarryResidents(settlement, selection)
+                Case "Employ"
+                Case "Disease"
+                Case Else : Exit While
+            End Select
+        End While
     End Sub
     Private Sub MenuMarryResidents(ByVal settlement As Settlement)
+        Dim singleMales As List(Of Person) = settlement.GetResidents("single male")
+        Dim singlePerson As Person = Menu.getListChoice(singleMales, 0, "Select husband:")
+        MenuMarryResidents(settlement, singlePerson)
+    End Sub
+    Private Sub MenuMarryResidents(ByVal settlement As Settlement, ByVal singlePerson As Person)
         Dim houses As List(Of Building) = settlement.GetBuildings("house space")
         If houses.Count = 0 Then Console.WriteLine("No free house!") : Console.ReadLine() : Exit Sub
 
-        Dim men As List(Of Person) = settlement.GetResidents("", "single male")
-        Dim women As List(Of Person) = settlement.GetResidents("", "single female")
-        If men.Count = 0 OrElse women.Count = 0 Then Console.WriteLine("Insufficient singles!") : Console.ReadLine() : Exit Sub
-        Dim husband As Person = Menu.getListChoice(men, 1, "Select husband:")
-        Console.WriteLine()
-        Dim wife As Person = Menu.getListChoice(women, 1, "Select wife:")
+        Dim spouseSex As String
+        If singlePerson.Sex = "Male" Then spouseSex = "female" Else spouseSex = "male"
+        Dim spouses As List(Of Person) = settlement.GetResidents("single " & spouseSex)
+        If spouses.Count = 0 Then Console.WriteLine("No available " & spouseSex & "s!") : Console.ReadLine() : Exit Sub
+        Dim spouse As Person = Menu.getListChoice(spouses, 0, "Select spouse:")
         Console.WriteLine()
         Dim house As House = Menu.getListChoice(houses, 1, "Select house:")
 
-        husband.Marry(wife, house)
-        Console.WriteLine(husband.Name & " has married " & wife.Name & ".")
+        MenuMarryResidents(singlePerson, spouse, house)
+    End Sub
+    Private Sub MenuMarryResidents(ByVal male As Person, ByVal female As Person, ByVal house As House)
+        male.Marry(female, house)
+        Console.WriteLine(male.Name & " has married " & female.Name & ".")
         Console.ReadLine()
         Console.Clear()
     End Sub
     Private Sub MenuBirthResident(ByVal settlement As Settlement)
-        Dim women As List(Of Person) = settlement.GetResidents("", "married female")
+        Dim women As List(Of Person) = settlement.GetResidents("married female")
         If women.Count = 0 Then Console.WriteLine("Insufficient married couples!") : Console.ReadLine() : Exit Sub
 
         Dim men As New List(Of Person)
@@ -191,7 +214,7 @@
         Select Case choice
             Case "House" : names = IO.ImportSquareBracketHeaders(IO.sbHouses)
             Case "Producer" : names = IO.ImportSquareBracketHeaders(IO.sbProducers)
-            Case "Projector" : names =  IO.ImportSquareBracketHeaders(IO.sbProjectors)
+            Case "Projector" : names = IO.ImportSquareBracketHeaders(IO.sbProjectors)
             Case Else : Throw New Exception("Invalid type of building.")
         End Select
 

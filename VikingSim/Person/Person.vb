@@ -43,6 +43,7 @@
     Public Function CheckFlags(ByVal flags As String) As Boolean
         Dim fs As String() = flags.Split(" ")
         For Each f In fs
+            If f = "" Then Continue For
             Select Case f.ToLower
                 Case "single", "unmarried" : If Age >= AgeMarriage AndAlso SpouseName <> "" Then Return False
                 Case "married" : If SpouseName = "" Then Return False
@@ -51,9 +52,21 @@
                 Case "employed" : If Occupation = Skill.Vagrant Then Return False
                 Case "apprenticable" : If Age < AgeApprentice OrElse Age >= AgeLabour Then Return False
                 Case "employable" : If Age >= AgeLabour AndAlso Occupation <> Skill.Vagrant Then Return False
+                Case Else : If CheckFlagsAdvanced(f.ToLower) = False Then Return False
             End Select
         Next
         Return True
+    End Function
+    Private Function CheckFlagsAdvanced(ByVal flag As String) As Boolean
+        Dim ns As String() = flag.Split("=")
+        Dim header As String = ns(0)
+        Dim entry As String = ns(1)
+
+        Select Case header
+            Case "name" : If (NameFirst & "+" & NameLast) = entry Then Return True
+        End Select
+
+        Return False
     End Function
     Public Function GetRelative(ByVal relationship As String) As Person
         Select Case relationship.ToLower

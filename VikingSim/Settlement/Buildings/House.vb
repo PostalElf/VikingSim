@@ -52,12 +52,10 @@
         Next
         Return Nothing
     End Function
-    Public Function GetResidents(ByVal name As String, Optional ByVal flags As String = "") As List(Of Person)
+    Public Function GetResidents(ByVal flags As String) As List(Of Person)
         Dim total As New List(Of Person)
         For Each r In Residents
-            If name = "" OrElse r.Name = name Then
-                If r.CheckFlags(flags) = True Then total.Add(r)
-            End If
+            If r.CheckFlags(flags) = True Then total.Add(r)
         Next
         Return total
     End Function
