@@ -1,4 +1,5 @@
 ﻿Public Class World
+#Region "Constructors"
     Public Sub New()
         For n = AlertPriorityMin To AlertPriorityMax
             Alerts.Add(n, New List(Of Alert))
@@ -10,9 +11,55 @@
             End Select
         Next
     End Sub
-    Public Overrides Function ToString() As String
-        Return TimeNow.ToString
+    Public Shared Function Construct() As World
+        Const siteNum As Integer = 10
+        Const xMax As Integer = 20
+        Const yMax As Integer = 60
+
+        'create 2d array to hold used locations
+        'all points in array are marked false to start with
+        Dim xy(xMax, yMax) As Boolean
+        For x = 1 To xMax
+            For y = 1 To yMax
+                xy(x, y) = False
+            Next
+        Next
+
+        Dim world As New World
+        With world
+            'create settlement sites
+            For n = 1 To siteNum
+                Dim s As SettlementSite = SettlementSite.Construct
+                .SettlementSites.Add(s)
+            Next
+
+            'create initial settlement
+            Dim site As SettlementSite = SettlementSite.Construct("Tundra")
+            Dim settlement As Settlement = settlement.Construct(site, "Askton")
+
+            'create godparents to be the parents of each seed colonist
+            Dim godfather As Person = Person.Ancestor("Male")
+            Dim godmother As Person = Person.Ancestor("Female")
+            Dim house As House = Nothing
+
+            'birth 10 seed colonists and put them into huts of 2 pax each
+            For n = 1 To 10
+                Dim child As Person = Person.Birth(godfather, godmother, 16)
+                If n Mod 2 <> 0 Then
+                    house = house.Import("Hut")
+                    house.SetHistory("Odin", world.TimeNow)
+                    settlement.AddBuilding(house)
+                    house.AddFoodEaten("Bread", 1)
+                End If
+                child.MoveHouse(house)
+            Next
+
+            'add to the world proper
+            .AddSettlement(settlement)
+        End With
+        Return world
     End Function
+#End Region
 
 #Region "Alerts"
     'higher priority number, the more important it is
@@ -55,6 +102,13 @@
     Public Sub AddSettlement(ByVal settlement As Settlement)
         Settlements.Add(settlement)
     End Sub
+    Public Function GetSettlements(ByVal flags As String) As List(Of Settlement)
+        Dim total As New List(Of Settlement)
+        For Each s In Settlements
+            If s.checkFlags(flags) = True Then total.Add(s)
+        Next
+        Return total
+    End Function
 
     Private SettlementSites As New List(Of SettlementSite)
 
@@ -66,11 +120,17 @@
     End Function
 #End Region
 
+    Public Overrides Function ToString() As String
+        Return TimeNow.ToString
+    End Function
+    Public Sub ConsoleReport()
+
+    End Sub
     Public Sub Tick()
         TimeNow.Tick()
 
         For Each Settlement In Settlements
-            Settlement.tick()
+            Settlement.Tick()
         Next
     End Sub
     Public Function GetTickWarnings() As List(Of Alert)

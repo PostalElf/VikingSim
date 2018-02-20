@@ -84,7 +84,7 @@
     Private ReadOnly Property Morale As Integer
         Get
             'shortcircuit for starvation at flat -10
-            If IsStarving = True Then Return -20
+            If _IsStarving = True Then Return -20
 
 
             'total morale sources
@@ -97,7 +97,12 @@
 #End Region
 
 #Region "Food"
-    Private IsStarving As Boolean = False
+    Private _IsStarving As Boolean = False
+    Public ReadOnly Property IsStarving As Boolean
+        Get
+            Return _IsStarving
+        End Get
+    End Property
     Private FoodEaten As New ResourceDict
     Public Sub AddFoodEaten(ByVal r As String, ByVal qty As Integer)
         If ResourceDict.GetCategory(r) <> "Food" Then Exit Sub
@@ -132,13 +137,13 @@
         'check for starvation
         If FoodEaten.Keys.Count > 0 Then
             'check if foodeaten can be met, then remove resources regardless (<0 handled in resourcedict.remove)
-            If Settlement.CheckResources(FoodEatenTotal) = False Then IsStarving = True Else IsStarving = False
+            If Settlement.CheckResources(FoodEatenTotal) = False Then _IsStarving = True Else _IsStarving = False
             Settlement.AddResources(FoodEatenTotal, True)
         Else
             'no food assigned to house, auto-starvation
-            IsStarving = True
+            _IsStarving = True
         End If
-        If IsStarving = True Then World.AddAlert(Me, 3, Name & " is starving!")
+        If _IsStarving = True Then World.AddAlert(Me, 3, Name & " is starving!")
 
         For n = Residents.Count - 1 To 0 Step -1
             Dim r As Person = Residents(n)
@@ -147,7 +152,7 @@
     End Sub
     Public Overrides Function GetTickWarnings() As List(Of Alert)
         Dim total As New List(Of Alert)
-        If IsStarving = True Then
+        If _IsStarving = True Then
             total.Add(New Alert(Me, 3, Name & " is starving!"))
         ElseIf FoodEaten.Count = 0 Then
             total.Add(New Alert(Me, 3, Name & " has no food!"))

@@ -50,6 +50,22 @@
             If value > 0 Then Console.WriteLine("  └ " & r & ": " & value)
         Next
     End Sub
+
+    Public Function CheckFlags(ByVal flags As String) As Boolean
+        Dim fs As String() = flags.Split(" ")
+        For Each f In fs
+            Select Case f
+                Case "starving" : If HasStarvingHouse() = False Then Return False
+            End Select
+        Next
+        Return True
+    End Function
+    Private Function HasStarvingHouse() As Boolean
+        For Each h In Houses
+            If h.IsStarving = True Then Return True
+        Next
+        Return False
+    End Function
 #End Region
 
 #Region "World Map"

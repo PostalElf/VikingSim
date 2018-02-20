@@ -4,7 +4,7 @@
     Sub Main()
         Console.SetWindowSize(100, 43)
         Dim world As New World
-        Dim settlement As Settlement = BuildSettlement()
+        Dim settlement As Settlement = BuildSettlement(world)
         world.addsettlement(settlement)
 
         Dim bMenu As New List(Of String)
@@ -21,33 +21,16 @@
             End Select
         End While
     End Sub
-    Private Function BuildSettlement() As Settlement
-        Dim site As SettlementSite = SettlementSite.Construct("Tundra")
-        Dim settlement As Settlement = settlement.Construct(site, "Askton")
+    Private Function BuildSettlement(ByVal world As World) As Settlement
+        Dim settlement As Settlement = world.GetSettlements("")(0)
 
-        Dim godfather As Person = Person.Ancestor("Male")
-        Dim godmother As Person = Person.Ancestor("Female")
-        Dim house As House = Nothing
-
-        For n = 1 To 10
-            Dim child As Person = Person.Birth(godfather, godmother, 16)
-            If n Mod 2 <> 0 Then
-                house = house.Import("Hut")
-                house.SetHistory("Odin", World.TimeNow)
-                settlement.AddBuilding(house)
-                house.AddFoodEaten("Bread", 1)
-            End If
-            child.MoveHouse(house)
-        Next
-
-
-        settlement.AddResources("Hardwood", 100)
-        settlement.AddResources("Softwood", 100)
-        settlement.AddResources("Bread", 100)
+        Settlement.AddResources("Hardwood", 100)
+        Settlement.AddResources("Softwood", 100)
+        Settlement.AddResources("Bread", 100)
 
         Dim campfire = WorkplaceProjector.Import("Campfire")
         campfire.SetHistory("Odin", World.TimeNow)
-        settlement.AddBuilding(campfire)
+        Settlement.AddBuilding(campfire)
         campfire.AddWorkerBestAffinity()
         campfire.AddProjectCheck("Builder")
         campfire.AddProject("Builder")
@@ -55,11 +38,11 @@
             campfire.Tick()
         Next
 
-        Dim carpenter As WorkplaceProjector = AddProject(settlement, "Builder", "Carpenter")
+        Dim carpenter As WorkplaceProjector = AddProject(Settlement, "Builder", "Carpenter")
         carpenter.AddWorkerBestAffinity()
-        AddProject(settlement, "Builder", "Cottage")
+        AddProject(Settlement, "Builder", "Cottage")
 
-        Return settlement
+        Return Settlement
     End Function
     Private Function AddProject(ByVal settlement As Settlement, ByVal projectorName As String, ByVal projectName As String)
         projectorName = projectorName.Replace(" ", "+")
