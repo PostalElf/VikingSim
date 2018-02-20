@@ -87,7 +87,7 @@
         Dim bMenu As New List(Of String)
         With bMenu
             .Add("Review Building")
-            .Add("Review Residents")
+            .Add("Review Resident")
             .Add("Marry Residents")
             .Add("Birth Resident")
             .Add("Add Building")
@@ -100,7 +100,7 @@
             Console.WriteLine()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Review Building" : MenuReviewBuildings(settlement)
-                Case "Review Residents" : MenuReviewResidents(settlement)
+                Case "Review Resident" : MenuReviewResidents(settlement)
                 Case "Marry Residents" : MenuMarryResidents(settlement)
                 Case "Birth Resident" : MenuBirthResident(settlement)
                 Case "Add Building" : MenuAddBuilding(settlement)
