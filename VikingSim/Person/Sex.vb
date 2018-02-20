@@ -1,6 +1,6 @@
 ﻿Public Structure Sex
-    Public Sub Fix(ByVal t As String)
-        _Sex = t
+    Public Sub New(ByVal s As String)
+        _Sex = s
     End Sub
     Private _Sex As String
 

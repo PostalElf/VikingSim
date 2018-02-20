@@ -119,7 +119,7 @@
     Public Shared Function Birth(ByVal father As Person, ByVal mother As Person) As Person
         Dim child As New Person
         With child
-            If rng.Next(1, 3) = 1 Then .Sex.Fix("Male") Else .Sex.Fix("Female")
+            If rng.Next(1, 3) = 1 Then .Sex = New Sex("Male") Else .Sex = New Sex("Female")
             .BirthDate = New CalendarDate(World.TimeNow)
             .NameFirst = GrabRandomNameFirst(.Sex)
             .NameLast = GrabRandomNameLast(.Sex, father, mother)
