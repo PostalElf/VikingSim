@@ -10,4 +10,7 @@
         Priority = p
         Report = str
     End Sub
+    Public Overrides Function ToString() As String
+        Return "[" & Priority & "] " & Report
+    End Function
 End Class

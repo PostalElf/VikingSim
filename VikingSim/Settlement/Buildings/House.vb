@@ -35,6 +35,7 @@
         For Each r In Residents
             Console.WriteLine("  └ " & r.Name)
         Next
+        Console.WriteLine("└ Food:      " & FoodEaten.ToString)
         Console.WriteLine()
     End Sub
     Public Overrides Function ToString() As String
@@ -146,7 +147,13 @@
     End Sub
     Public Overrides Function GetTickWarnings() As List(Of Alert)
         Dim total As New List(Of Alert)
-        If IsStarving = True Then total.Add(New Alert(Me, 3, Name & " is starving!"))
+        If IsStarving = True Then
+            total.Add(New Alert(Me, 3, Name & " is starving!"))
+        ElseIf FoodEaten.Count = 0 Then
+            total.Add(New Alert(Me, 3, Name & " has no food!"))
+        ElseIf Settlement.CheckResources(FoodEatenTotal) = False Then
+            total.Add(New Alert(Me, 3, Name & " has insufficient food and will starve!"))
+        End If
         Return total
     End Function
 End Class

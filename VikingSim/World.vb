@@ -30,13 +30,17 @@
     End Sub
     Public Sub AlertConsoleReport()
         For n = AlertPriorityMin To AlertPriorityMax
-            If AlertsShown(n) = True Then
-                Console.ForegroundColor = AlertsColour(n)
-                For Each a As Alert In Alerts(n)
-                    Console.WriteLine(a.Report)
-                Next
-            End If
+            If AlertsShown(n) = True Then AlertConsoleReport(Alerts(n))
             Alerts(n).Clear()
+        Next
+    End Sub
+    Public Sub AlertConsoleReport(ByVal pAlerts As List(Of Alert))
+        If pAlerts.Count = 0 Then Exit Sub
+
+        Dim p As Integer = pAlerts(0).Priority
+        Console.ForegroundColor = AlertsColour(p)
+        For Each a As Alert In pAlerts
+            Console.WriteLine(a.Report)
         Next
         Console.ForegroundColor = DefaultForegroundColor
     End Sub
@@ -69,4 +73,13 @@
             Settlement.tick()
         Next
     End Sub
+    Public Function GetTickWarnings() As List(Of Alert)
+        Dim total As New List(Of Alert)
+        For Each Settlement In Settlements
+            Dim warnings As List(Of Alert) = Settlement.GetTickWarnings()
+            If warnings Is Nothing OrElse warnings.Count = 0 Then Continue For
+            total.AddRange(warnings)
+        Next
+        Return total
+    End Function
 End Class

@@ -14,6 +14,7 @@
         bMenu.Add("Review Residents")
         bMenu.Add("Marry Residents")
         bMenu.Add("Birth Resident")
+        bMenu.Add("Set Food")
         bMenu.Add("Add Building")
         bMenu.Add("Add Location")
 
@@ -21,13 +22,13 @@
         While doExit = False
             Console.Clear()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
-                Case 0, -1 : world.Tick()
                 Case "Tick" : MenuTick(world)
                 Case "Review Settlement" : MenuReviewSettlement(settlement)
                 Case "Review Buildings" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
                 Case "Marry Residents" : MenuMarryResidents(settlement)
                 Case "Birth Resident" : MenuBirthResident(settlement)
+                Case "Set Food" : menuSetFood(settlement)
                 Case "Add Building" : MenuAddBuilding(settlement)
                 Case "Add Location" : MenuAddLocation(settlement)
             End Select
@@ -90,7 +91,22 @@
     Private Sub MenuTick(ByVal world As World)
         Dim num As Integer = Menu.getNumInput(0, 1, 100, "Select number of ticks: ")
         For n = 1 To num
-            World.Tick()
+            Dim warnings As List(Of Alert) = world.GetTickWarnings
+            If warnings.Count > 0 Then
+                Dim trueWarnings As New List(Of Alert)
+                For Each w In warnings
+                    If w.Priority >= 3 Then trueWarnings.Add(w)
+                Next
+                If trueWarnings.Count > 0 Then
+                    Console.WriteLine()
+                    Console.WriteLine("Tick " & n)
+                    world.AlertConsoleReport(trueWarnings)
+                    Console.ReadLine()
+                    Exit Sub
+                End If
+            End If
+
+            world.Tick()
         Next
         world.AlertConsoleReport()
         Console.ReadLine()
@@ -156,6 +172,22 @@
         Console.WriteLine(child.Name & " has been born to " & father.Name & " and " & mother.Name & ".")
         Console.ReadLine()
         Console.Clear()
+    End Sub
+    Private Sub MenuSetFood(ByVal settlement As Settlement)
+        Console.WriteLine()
+        Dim choice As House = Menu.getListChoice(settlement.GetBuildings("House"), 1, "Select house:")
+        Console.WriteLine()
+        choice.ConsoleReport()
+
+        While True
+            Console.Write("Enter food: ")
+            Dim foodString As String = Console.ReadLine
+            If ResourceDict.GetCategory(foodString) <> "Food" Then Console.WriteLine("Invalid type of food!") : Continue While
+            Dim qty As Integer = Menu.getNumInput(0, 1, 100, "How much? ")
+
+            choice.AddFoodEaten(foodString, qty)
+            Exit While
+        End While
     End Sub
     Private Sub MenuAddBuilding(ByVal settlement As Settlement)
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")

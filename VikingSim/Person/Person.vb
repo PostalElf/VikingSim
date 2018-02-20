@@ -90,14 +90,14 @@
 
     Public Sub ConsoleReport()
         Console.WriteLine(Name & " - " & Age & Sex.First.ToLower)
-        Console.WriteLine("├ House:      " & House.Name)
-        Console.WriteLine("├ Father:     " & FatherName)
-        Console.WriteLine("├ Mother:     " & MotherName)
+        Console.WriteLine("└ House:      " & House.Name)
+        Console.WriteLine("└ Father:     " & FatherName)
+        Console.WriteLine("└ Mother:     " & MotherName)
         If SpouseName <> "" Then
-            Console.WriteLine("├ Spouse:     " & SpouseName)
-            Console.WriteLine("├ Children:   " & ChildrenNames.Count)
+            Console.WriteLine("└ Spouse:     " & SpouseName)
+            Console.WriteLine("└ Children:   " & ChildrenNames.Count)
         End If
-        Console.WriteLine("├ Occupation: " & Occupation.ToString)
+        Console.WriteLine("└ Occupation: " & Occupation.ToString)
     End Sub
 #End Region
 
@@ -480,7 +480,7 @@
         If rng.Next(1, 101) <= DiseaseChance Then
             Dim disease As Modifier = GetRandomDisease()
             AddModifier(disease)
-            World.AddAlert(Me, 2, Name & " has become sick with " & disease.Title & ".")
+            World.AddAlert(Me, 2, Name & " has caught the " & disease.Title & ".")
         End If
     End Sub
     Private Sub Die()
