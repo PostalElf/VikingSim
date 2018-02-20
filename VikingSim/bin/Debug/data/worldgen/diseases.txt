@@ -1,14 +1,20 @@
+[Ague]
+Category: Disease
+Timer: 1-2
+Quality: DeathChance, 5
+
 [Flux]
 Category: Disease
-Timer: 4-6
+Timer: 2-4
 Quality: DeathChance, 10
+Quality, Morale, -10
 
 [Pox]
 Category: Disease
-Timer: 4-6
+Timer: 6-10
 Quality: DeathChance, 15
 
 [Plague]
 Category: Disease
-Timer: 4-6
+Timer: 8-12
 Quality: DeathChance, 20

@@ -43,7 +43,7 @@
         Dim house As House = Nothing
 
         For n = 1 To 10
-            Dim child As Person = Person.Birth(godfather, godmother)
+            Dim child As Person = Person.Birth(godfather, godmother, 16)
             If n Mod 2 <> 0 Then
                 house = house.Import("Hut")
                 house.SetHistory("Odin", World.TimeNow)

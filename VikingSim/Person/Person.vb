@@ -116,11 +116,12 @@
         Next
     End Sub
 
-    Public Shared Function Birth(ByVal father As Person, ByVal mother As Person) As Person
+    Public Shared Function Birth(ByVal father As Person, ByVal mother As Person, Optional ByVal setAge As Integer = 1) As Person
         Dim child As New Person
         With child
             If rng.Next(1, 3) = 1 Then .Sex = New Sex("Male") Else .Sex = New Sex("Female")
             .BirthDate = New CalendarDate(World.TimeNow)
+            .Age = setAge
             .NameFirst = GrabRandomNameFirst(.Sex)
             .NameLast = GrabRandomNameLast(.Sex, father, mother)
             .FatherName = father.Name
@@ -130,7 +131,7 @@
 
             For Each s In [Enum].GetValues(GetType(Skill))
                 'child's affinity varies by +/- 0.4
-                'xp gain always rounded down from affinity
+                'xp gain always rounded down from affinity, eg. 4.6 will grant 4 XP
                 Dim modifier As Double = FudgeRoll() / 10
 
                 '50/50 chance to inherit mother or father's affinity
@@ -443,7 +444,7 @@
     Private Function GetRandomDisease() As Modifier
         Dim allDiseaseList As New List(Of String)
         With allDiseaseList
-            .AddRange({"Flux", "Plague", "Pox"})          'pollinate with standard diseases
+            .AddRange({"Ague", "Flux", "Plague", "Pox"})          'pollinate with standard diseases
 
             'occupation-specific diseases
             Select Case Occupation
