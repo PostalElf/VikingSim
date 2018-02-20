@@ -3,9 +3,8 @@
 
     Sub Main()
         Console.SetWindowSize(100, 43)
-        Dim world As New World
+        Dim world As World = world.Construct
         Dim settlement As Settlement = BuildSettlement(world)
-        world.addsettlement(settlement)
 
         Dim bMenu As New List(Of String)
         bMenu.Add("Tick")
@@ -16,7 +15,7 @@
             world.consoleReport()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Tick" : MenuTick(world)
-                Case "Review Settlement" : MenuReviewSettlement(settlement)
+                Case "Review Settlement" : MenuReviewSettlement(world)
                 Case Else : Exit While
             End Select
         End While
@@ -81,7 +80,10 @@
         world.AlertConsoleReport()
         Console.ReadLine()
     End Sub
-    Private Sub MenuReviewSettlement(ByVal settlement As Settlement)
+    Private Sub MenuReviewSettlement(ByVal world As World)
+        Dim settlements As List(Of Settlement) = world.GetSettlements("")
+        Dim settlement As Settlement = Menu.getListChoice(Of Settlement)(settlements, 1, "Select a settlement:")
+
         Dim bMenu As New List(Of String)
         With bMenu
             .Add("Review Building")
@@ -91,11 +93,11 @@
             .Add("Add Building")
             .Add("Add Location")
         End With
-        Console.ReadLine()
 
         While True
             Console.Clear()
             settlement.ConsoleReport()
+            Console.WriteLine()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Review Building" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
