@@ -10,27 +10,14 @@
         Dim bMenu As New List(Of String)
         bMenu.Add("Tick")
         bMenu.Add("Review Settlement")
-        bMenu.Add("Review Buildings")
-        bMenu.Add("Review Residents")
-        bMenu.Add("Marry Residents")
-        bMenu.Add("Birth Resident")
-        bMenu.Add("Set Food")
-        bMenu.Add("Add Building")
-        bMenu.Add("Add Location")
 
-        Dim doExit As Boolean = False
-        While doExit = False
+        While True
             Console.Clear()
+            world.consoleReport()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Tick" : MenuTick(world)
                 Case "Review Settlement" : MenuReviewSettlement(settlement)
-                Case "Review Buildings" : MenuReviewBuildings(settlement)
-                Case "Review Residents" : MenuReviewResidents(settlement)
-                Case "Marry Residents" : MenuMarryResidents(settlement)
-                Case "Birth Resident" : MenuBirthResident(settlement)
-                Case "Set Food" : menuSetFood(settlement)
-                Case "Add Building" : MenuAddBuilding(settlement)
-                Case "Add Location" : MenuAddLocation(settlement)
+                Case Else : Exit While
             End Select
         End While
     End Sub
@@ -112,8 +99,30 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuReviewSettlement(ByVal settlement As Settlement)
-        settlement.ConsoleReport()
+        Dim bMenu As New List(Of String)
+        With bMenu
+            .Add("Review Building")
+            .Add("Review Residents")
+            .Add("Marry Residents")
+            .Add("Birth Resident")
+            .Add("Add Building")
+            .Add("Add Location")
+        End With
         Console.ReadLine()
+
+        While True
+            Console.Clear()
+            settlement.ConsoleReport()
+            Select Case Menu.getListChoice(bMenu, 0, "Select option:")
+                Case "Review Building" : MenuReviewBuildings(settlement)
+                Case "Review Residents" : MenuReviewResidents(settlement)
+                Case "Marry Residents" : MenuMarryResidents(settlement)
+                Case "Birth Resident" : MenuBirthResident(settlement)
+                Case "Add Building" : MenuAddBuilding(settlement)
+                Case "Add Location" : MenuAddBuilding(settlement)
+                Case Else : Exit While
+            End Select
+        End While
     End Sub
     Private Sub MenuReviewBuildings(ByVal settlement As Settlement)
         Console.WriteLine()
