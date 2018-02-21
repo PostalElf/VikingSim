@@ -14,6 +14,7 @@ Resource: Forest
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildcost: Bronze, 10
+Buildtype: Hardwood
 Land: 1
 Occupation: Logging
 Capacity: 3
@@ -38,6 +39,7 @@ Resource: Forest
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildcost: Bronze, 10
+Buildtype: Hardwood
 Land: 1
 Occupation: Logging
 Capacity: 3
@@ -62,6 +64,7 @@ Resource: Forest
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildcost: Bronze, 10
+Buildtype: Hardwood
 Land: 1
 Occupation: Logging
 Capacity: 3
@@ -86,6 +89,7 @@ Resource: Forest
 Buildtime: 100
 Buildcost: Hardwood, 50
 Buildcost: Bronze, 10
+Buildtype: Hardwood
 Land: 1
 Occupation: Logging
 Capacity: 3

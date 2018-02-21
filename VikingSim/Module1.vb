@@ -25,6 +25,7 @@
         settlement.AddResources("Hardwood", 100)
         settlement.AddResources("Softwood", 100)
         settlement.AddResources("Bread", 100)
+        settlement.AddResources("Bronze", 50)
 
         Dim campfire = WorkplaceProjector.Import("Campfire")
         campfire.SetHistory("Odin", world.TimeNow)
@@ -48,7 +49,7 @@
         If wp Is Nothing Then Exit Sub
 
         If wp.GetBestWorker Is Nothing Then settlement.GetResidentBest("employable", "skill=" & wp.Occupation.ToString).ChangeWorkplace(wp)
-        If wp.AddProjectCheck(projectName) = False Then Exit Sub
+        If wp.AddProjectCheck(projectName) <> "" Then Exit Sub
         wp.AddProject(projectName)
         For n = 1 To 75
             wp.Tick()
@@ -383,7 +384,7 @@
         Dim projectors As List(Of Building) = settlement.GetBuildings("projector")
         For n = projectors.Count - 1 To 0 Step -1
             Dim proj As WorkplaceProjector = projectors(n)
-            If proj.AddProjectCheck(p) = False Then projectors.RemoveAt(n)
+            If proj.AddProjectCheck(p) <> "" Then projectors.RemoveAt(n)
         Next
         If projectors.Count = 0 Then Console.WriteLine("No projector can take on this project.") : Console.ReadLine() : Exit Sub
 

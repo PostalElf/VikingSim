@@ -51,38 +51,32 @@
         'immediately add projects with no buildtime
         If pProject.Tick(0) = True Then Tick()
     End Sub
-    Public Function AddProjectCheck(ByVal projectName As String)
+    Public Function AddProjectCheck(ByVal projectName As String) As String
         Select Case ProjectType
             Case "Building" : Return AddProjectCheck(BuildingProject.Import(projectName))
             Case "Gear", "Furniture" : Return AddProjectCheck(ItemProject.Import(projectName))
             Case Else : Throw New Exception("Unhandled ProjectType")
         End Select
     End Function
-    Public Function AddProjectCheck(ByVal pProject As Project) As Boolean
-        If Project Is Nothing = False Then Return False
+    Public Function AddProjectCheck(ByVal pProject As Project) As String
+        If Project Is Nothing = False Then Return "Has existing project"
+        If pProject Is Nothing Then Return "No project given"
 
         Select Case ProjectType
             Case "Building"
-                If Project Is Nothing = False Then Return False
-                If pProject Is Nothing Then Return False
                 Dim p As BuildingProject = TryCast(pProject, BuildingProject)
-                If p Is Nothing Then Return False
-                If p.Location <> "" AndAlso Settlement.GetLocations(p.Location).Count = 0 Then Return False
-                If p.CheckBuildType(ProjectBuildtype) = False Then Return False
-                If p.CheckBuildCost(Settlement) = False Then Return False
-                Return True
-
+                If p Is Nothing Then Return "Invalid project type"
+                If p.Location <> "" AndAlso Settlement.GetLocations(p.Location).Count = 0 Then Return "Lacks required location: " & p.Location
             Case "Gear", "Furniture"
-                If Project Is Nothing = False Then Return False
-                If pProject Is Nothing Then Return False
                 Dim p As ItemProject = TryCast(pProject, ItemProject)
-                If p Is Nothing Then Return False
-                If p.CheckBuildType(ProjectBuildtype) = False Then Return False
-                If p.CheckBuildCost(Settlement) = False Then Return False
-                Return True
+                If p Is Nothing Then Return "Invalid project type"
             Case Else
                 Throw New Exception("Unhandled ProjectType")
         End Select
+
+        If pProject.CheckBuildType(ProjectBuildtype) = False Then Return Name & " can only work on " & ProjectBuildtype
+        If pProject.CheckBuildCost(Settlement) = False Then Return Settlement.Name & " has insufficient resources"
+        Return Nothing
     End Function
     Public Function GetPossibleProjects() As List(Of Project)
         Dim rawPathnames As String()
@@ -106,7 +100,7 @@
                     Case IO.sbFurniture : project = ItemProject.Import(header, "Furniture")
                 End Select
                 If project Is Nothing Then Continue For
-                If AddProjectCheck(project) = True Then total.Add(project)
+                If AddProjectCheck(project) = "" Then total.Add(project)
             Next
         Next
         Return total
