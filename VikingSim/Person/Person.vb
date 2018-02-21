@@ -238,7 +238,13 @@
         If newWorkplace.Settlement.Equals(House.Settlement) = False Then Exit Sub
         If newWorkplace.AddWorkerCheck(Me) = False Then Exit Sub
 
+        If Workplace Is Nothing = False Then Workplace.RemoveWorker(Me)
         newWorkplace.AddWorker(Me)
+        Workplace = newWorkplace
+    End Sub
+    Public Sub ChangeApprenticeship(ByVal newWorkplace As Workplace)
+        If Workplace Is Nothing = False Then Workplace.RemoveApprentice(Me)
+        newWorkplace.AddApprentice(Me)
         Workplace = newWorkplace
     End Sub
     Public Function PerformWork() As Integer

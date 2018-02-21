@@ -133,6 +133,7 @@
             .Add("Pregnancy")
             .Add("Birth")
             .Add("Move")
+            .Add("Apprentice")
             .Add("Employ")
         End With
 
@@ -145,6 +146,7 @@
                 Case "Pregnancy" : menuPregnancyResident(settlement, selection)
                 Case "Birth" : MenuBirthResident(settlement, selection)
                 Case "Move" : MenuMoveResident(settlement, selection)
+                Case "Apprentice" : menuApprenticeResident(settlement, selection)
                 Case "Employ" : menuEmployResident(settlement, selection)
                 Case Else : Exit While
             End Select
@@ -222,8 +224,23 @@
         If spouse Is Nothing = False Then spouse.MoveHouse(house) : Console.WriteLine(spouse.Name & " has moved to " & house.Name & ".")
         Console.ReadLine()
     End Sub
-    Private Sub MenuEmployResident(ByVal settlement As Settlement, ByVal person As Person)
+    Private Sub MenuApprenticeResident(ByVal settlement As Settlement, ByVal person As Person)
+        Dim workplaces As List(Of Building) = settlement.GetBuildings("workplace employable")
+        Dim workplace As Workplace = Menu.getListChoice(workplaces, 0, "Select workplace: ")
+        If workplace.AddApprenticeCheck(person) = False Then Console.WriteLine("Unable to join workplace!") : Console.ReadLine() : Exit Sub
 
+        person.ChangeApprenticeship(workplace)
+        Console.WriteLine(person.Name & " has joined " & workplace.Name & " as an apprentice.")
+        Console.ReadLine()
+    End Sub
+    Private Sub MenuEmployResident(ByVal settlement As Settlement, ByVal person As Person)
+        Dim workplaces As List(Of Building) = settlement.GetBuildings("workplace employable")
+        Dim workplace As Workplace = Menu.getListChoice(workplaces, 0, "Select workplace: ")
+        If workplace.AddWorkerCheck(person) = False Then Console.WriteLine("Unable to join workplace!") : Console.ReadLine() : Exit Sub
+
+        person.ChangeWorkplace(workplace)
+        Console.WriteLine(person.Name & " has joined " & workplace.Name & ".")
+        Console.ReadLine()
     End Sub
     Private Sub MenuSetFood(ByVal settlement As Settlement)
         Console.WriteLine()

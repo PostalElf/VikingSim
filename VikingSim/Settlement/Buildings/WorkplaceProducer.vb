@@ -55,6 +55,9 @@
         For Each p In Workers
             Labour += LabourPerWorker(p.PerformWork) + p.GetInventoryBonus(Occupation)
         Next
+        For Each a In Apprentices
+            Labour += LabourPerWorker(a.PerformWork) - 1
+        Next
 
         'check if labour threshold met
         While Labour >= LabourThreshold

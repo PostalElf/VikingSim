@@ -109,6 +109,9 @@
         For Each p In Workers
             labour += LabourPerWorker(p.PerformWork) + p.GetInventoryBonus(Occupation)
         Next
+        For Each a In Apprentices
+            labour += LabourPerWorker(a.PerformWork) - 1
+        Next
 
         If Project.Tick(labour) = True Then
             Dim cp = Project.unpack()
