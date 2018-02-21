@@ -22,14 +22,13 @@
     End Sub
     Private Function BuildSettlement(ByVal world As World) As Settlement
         Dim settlement As Settlement = world.GetSettlements("")(0)
-
-        Settlement.AddResources("Hardwood", 100)
-        Settlement.AddResources("Softwood", 100)
-        Settlement.AddResources("Bread", 100)
+        settlement.AddResources("Hardwood", 100)
+        settlement.AddResources("Softwood", 100)
+        settlement.AddResources("Bread", 100)
 
         Dim campfire = WorkplaceProjector.Import("Campfire")
-        campfire.SetHistory("Odin", World.TimeNow)
-        Settlement.AddBuilding(campfire)
+        campfire.SetHistory("Odin", world.TimeNow)
+        settlement.AddBuilding(campfire)
         settlement.GetResidentBest("employable", "affinity=" & campfire.Occupation.ToString).ChangeWorkplace(campfire)
         campfire.AddProjectCheck("Builder")
         campfire.AddProject("Builder")
@@ -37,25 +36,24 @@
             campfire.Tick()
         Next
 
-        Dim carpenter As WorkplaceProjector = AddProject(Settlement, "Builder", "Carpenter")
-        settlement.GetResidentBest("employable", "affinity=" & carpenter.Occupation.ToString).ChangeWorkplace(carpenter)
-        AddProject(Settlement, "Builder", "Cottage")
+        AddProject(settlement, "Builder", "Carpenter")
+        'AddProject(settlement, "Builder", "Cottage")
+        AddProject(settlement, "Builder", "Fir Woodcutter")
 
-        Return Settlement
+        Return settlement
     End Function
-    Private Function AddProject(ByVal settlement As Settlement, ByVal projectorName As String, ByVal projectName As String)
+    Private Sub AddProject(ByVal settlement As Settlement, ByVal projectorName As String, ByVal projectName As String)
         projectorName = projectorName.Replace(" ", "+")
         Dim wp As WorkplaceProjector = settlement.GetBuildings("projector name=" & projectorName)(0)
-        If wp Is Nothing Then Return Nothing
+        If wp Is Nothing Then Exit Sub
 
         If wp.GetBestWorker Is Nothing Then settlement.GetResidentBest("employable", "skill=" & wp.Occupation.ToString).ChangeWorkplace(wp)
-        If wp.AddProjectCheck(projectName) = False Then Return Nothing
+        If wp.AddProjectCheck(projectName) = False Then Exit Sub
         wp.AddProject(projectName)
         For n = 1 To 75
             wp.Tick()
         Next
-        Return settlement.GetBuildings("name=" & projectName)(0)
-    End Function
+    End Sub
 
     Private Sub MenuTick(ByVal world As World)
         Dim num As Integer = Menu.getNumInput(0, 1, 100, "Select number of ticks: ")
@@ -162,33 +160,32 @@
                 Console.WriteLine()
 
                 Select Case Menu.getListChoice(bMenu, 0, "Select option:")
-                    Case "Apprentice"
-                        If Menu.confirmChoice(0, "Add apprentice with best affinity? ") = True Then
-
-                        Else
-                            MenuApprenticeResident(workplace)
-                        End If
-
-                    Case "Employ"
-                        MenuEmployResident(workplace)
-
+                    Case "Apprentice" : MenuApprenticeResident(workplace)
+                    Case "Employ" : MenuEmployResident(workplace)
                     Case "Fill Employment (Affinity)"
-                        While .AddWorkerCheck(Nothing) = False
+                        While .AddWorkerCheck(Nothing) = True
                             Dim worker As Person = .Settlement.GetResidentBest("employable", "affinity=" & .Occupation.ToString)
                             If worker Is Nothing Then Exit While
                             If .AddWorkerCheck(worker) = False Then Exit While
                             worker.ChangeWorkplace(workplace)
                         End While
-
                     Case "Fill Employment (Skill)"
-                        While .AddWorkerCheck(Nothing) = False
+                        While .AddWorkerCheck(Nothing) = True
                             Dim worker As Person = .Settlement.GetResidentBest("employable", "skill=" & .Occupation.ToString)
                             If worker Is Nothing Then Exit While
                             If .AddWorkerCheck(worker) = False Then Exit While
                             worker.ChangeWorkplace(workplace)
                         End While
-
                     Case "Add Project"
+                        Dim wp As WorkplaceProjector = CType(workplace, WorkplaceProjector)
+                        Dim project As Project = Menu.getListChoice(wp.GetPossibleProjects, 0, "Select project:")
+                        If project Is Nothing Then Exit While
+                        wp.AddProject(project)
+                        If Menu.confirmChoice(0, "Accelerate production? ") = True Then
+                            For n = 1 To 75
+                                wp.Tick()
+                            Next
+                        End If
 
                     Case Else : Exit While
                 End Select
@@ -319,9 +316,14 @@
     Private Sub MenuApprenticeResident(ByVal workplace As Workplace, Optional ByVal apprentice As Person = Nothing)
         With workplace
             If apprentice Is Nothing Then
-                Dim apprentices As List(Of Person) = .Settlement.GetResidents("apprenticable")
-                If apprentices.Count = 0 Then Console.WriteLine("No available apprentices!") : Console.ReadLine() : Exit Sub
-                apprentice = Menu.getListChoice(apprentices, 0, "Select an apprentice:")
+                If Menu.confirmChoice(0, "Add apprentice with best affinity? ") = True Then
+                    apprentice = .Settlement.GetResidentBest("apprenticable", "affinity=" & .Occupation.ToString)
+                    If apprentice Is Nothing Then Console.WriteLine("No apprentices available!") : Console.ReadLine() : Exit Sub
+                Else
+                    Dim apprentices As List(Of Person) = .Settlement.GetResidents("apprenticable")
+                    If apprentices.Count = 0 Then Console.WriteLine("No available apprentices!") : Console.ReadLine() : Exit Sub
+                    apprentice = Menu.getListChoice(apprentices, 0, "Select an apprentice:")
+                End If
             End If
             If .AddApprenticeCheck(apprentice) = False Then Console.WriteLine(apprentice.Name & " cannot join " & .Name & "!") : Console.ReadLine() : Exit Sub
 
@@ -398,7 +400,7 @@
         If projectors.Count = 0 Then Console.WriteLine("No projector can take on this project.") : Console.ReadLine() : Exit Sub
 
         Dim projector As WorkplaceProjector = Menu.getListChoice(projectors, 1, "Select projector:")
-        projector.AddProject(p, p.Location)
+        projector.AddProject(p)
         Console.WriteLine(buildingName & " project added to " & projector.Name & ".")
         Console.ReadLine()
     End Sub

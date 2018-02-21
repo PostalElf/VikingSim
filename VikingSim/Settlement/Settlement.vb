@@ -74,7 +74,7 @@
         Locations.Add(l)
     End Sub
     Public Sub RemoveLocation(ByVal l As String)
-        If Locations.Contains(l) = False Then Throw New Exception("Settlement.Locations does not contain " & l)
+        If Locations.Contains(l) = False Then Exit Sub
         Locations.Remove(l)
     End Sub
     Public Function GetLocations(ByVal targetName As String) As List(Of String)

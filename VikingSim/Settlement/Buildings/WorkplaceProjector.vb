@@ -26,22 +26,19 @@
     Private Project As Project
     Private ProjectType As String
     Private ProjectBuildtype As String
-    Public Sub AddProject(ByVal projectName As String, Optional ByVal location As String = Nothing)
+    Public Sub AddProject(ByVal projectName As String)
         Select Case ProjectType
-            Case "Building" : AddProject(BuildingProject.Import(projectName), location)
-            Case "Item" : AddProject(ItemProject.Import(projectName), location)
+            Case "Building" : AddProject(BuildingProject.Import(projectName))
+            Case "Item" : AddProject(ItemProject.Import(projectName))
         End Select
     End Sub
-    Public Sub AddProject(ByVal pProject As Project, Optional ByVal location As String = Nothing)
+    Public Sub AddProject(ByVal pProject As Project)
         Project = pProject
 
         Select Case ProjectType
             Case "Building"
                 Dim p As BuildingProject = CType(Project, BuildingProject)
-                If p.Location <> "" Then
-                    p.Location = location
-                    Settlement.RemoveLocation(location)
-                End If
+                If p.Location <> "" Then Settlement.RemoveLocation(p.Location)
                 p.PayCost(Settlement)
                 p.Creator = Me
 
@@ -61,7 +58,7 @@
             Case Else : Throw New Exception("Unhandled ProjectType")
         End Select
     End Function
-    Public Function AddProjectCheck(ByVal pProject As Project)
+    Public Function AddProjectCheck(ByVal pProject As Project) As Boolean
         If Project Is Nothing = False Then Return False
 
         Select Case ProjectType
@@ -86,6 +83,33 @@
             Case Else
                 Throw New Exception("Unhandled ProjectType")
         End Select
+    End Function
+    Public Function GetPossibleProjects() As List(Of Project)
+        Dim rawPathnames As String()
+        Select Case ProjectType
+            Case "Building" : rawPathnames = {IO.sbHouses, IO.sbProducers, IO.sbProjectors}
+            Case "Gear" : rawPathnames = {IO.sbGear}
+            Case "Furniture" : rawPathnames = {IO.sbFurniture}
+            Case Else : Throw New Exception("Invalid projectType")
+        End Select
+
+        Dim total As New List(Of Project)
+        For Each pathname In rawPathnames
+            Dim raw As List(Of String) = IO.ImportSquareBracketHeaders(pathname)
+            For Each header In raw
+                Dim project As Project = Nothing
+                Select Case pathname
+                    Case IO.sbHouses : project = BuildingProject.Import(header, "House")
+                    Case IO.sbProducers : project = BuildingProject.Import(header, "Producer")
+                    Case IO.sbProjectors : project = BuildingProject.Import(header, "Projector")
+                    Case IO.sbGear : project = ItemProject.Import(header, "Gear")
+                    Case IO.sbFurniture : project = ItemProject.Import(header, "Furniture")
+                End Select
+                If project Is Nothing Then Continue For
+                If AddProjectCheck(project) = True Then total.Add(project)
+            Next
+        Next
+        Return total
     End Function
 
     Public Overrides Sub ConsoleReport()
