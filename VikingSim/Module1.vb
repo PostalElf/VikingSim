@@ -89,6 +89,7 @@
             .Add("Birth Child")
             .Add("Add Building")
             .Add("Add Location")
+            .Add("Add Resource")
         End With
 
         While True
@@ -101,6 +102,7 @@
                 Case "Birth Child" : MenuBirthResident(settlement)
                 Case "Add Building" : MenuAddBuilding(settlement)
                 Case "Add Location" : MenuAddBuilding(settlement)
+                Case "Add Resource" : MenuAddResource(settlement)
                 Case Else : Exit While
             End Select
         End While
@@ -138,6 +140,17 @@
                 Case "Birth" : MenuBirthResident(house)
                 Case Else : Exit While
             End Select
+        End While
+    End Sub
+    Private Sub MenuSetFood(ByVal house As House)
+        While True
+            Console.Write("Enter food: ")
+            Dim foodString As String = Console.ReadLine
+            If ResourceDict.GetCategory(foodString) <> "Food" Then Console.WriteLine("Invalid type of food!") : Continue While
+            Dim qty As Integer = Menu.getNumInput(0, 1, 100, "How much? ")
+
+            house.AddFoodEaten(foodString, qty)
+            Exit While
         End While
     End Sub
     Private Sub MenuReviewWorkplace(ByVal workplace As Workplace)
@@ -351,25 +364,6 @@
             Console.ReadLine()
         End With
     End Sub
-    Private Sub MenuSetFood(ByVal settlement As Settlement)
-        Console.WriteLine()
-        Dim choice As House = Menu.getListChoice(settlement.GetBuildings("House"), 1, "Select house:")
-        Console.WriteLine()
-        choice.ConsoleReport()
-
-        MenuSetFood(choice)
-    End Sub
-    Private Sub MenuSetFood(ByVal house As House)
-        While True
-            Console.Write("Enter food: ")
-            Dim foodString As String = Console.ReadLine
-            If ResourceDict.GetCategory(foodString) <> "Food" Then Console.WriteLine("Invalid type of food!") : Continue While
-            Dim qty As Integer = Menu.getNumInput(0, 1, 100, "How much? ")
-
-            house.AddFoodEaten(foodString, qty)
-            Exit While
-        End While
-    End Sub
     Private Sub MenuAddBuilding(ByVal settlement As Settlement)
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
         Dim p As BuildingProject = Nothing
@@ -385,12 +379,6 @@
         Dim buildingName As String = Menu.getListChoice(names, 1, "Select building:")
         If buildingName = "" Then Exit Sub
         p = BuildingProject.Import(buildingName, choice)
-
-        If p.Location <> "" Then
-            Dim location As String = Menu.getListChoice(settlement.GetLocations(p.Location), 1, "Select location:")
-            If location Is Nothing Then Console.WriteLine("Requires location: " & p.Location) : Console.ReadLine() : Exit Sub
-            p.Location = location
-        End If
 
         Dim projectors As List(Of Building) = settlement.GetBuildings("projector")
         For n = projectors.Count - 1 To 0 Step -1
@@ -410,5 +398,16 @@
         settlement.AddLocation(locationString)
         Console.WriteLine(locationString & " added.")
         Console.ReadLine()
+    End Sub
+    Private Sub MenuAddResource(ByVal settlement As Settlement)
+        While True
+            Console.Write("Enter resource: ")
+            Dim input As String = Console.ReadLine()
+            If ResourceDict.GetCategory(input) = "" Then Console.WriteLine("Invalid resource!") : Continue While
+            Dim qty As Integer = Menu.getNumInput(0, 1, 100, "How much? ")
+
+            settlement.AddResources(input, qty)
+            Exit While
+        End While
     End Sub
 End Module
