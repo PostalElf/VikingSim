@@ -33,7 +33,7 @@
         Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
         Console.WriteLine("└ Residents: " & Residents.Count & "/" & ResidentCapacity)
         For Each r In Residents
-            Console.WriteLine("  └ " & r.Name)
+            Console.WriteLine("  └ " & r.NameAndTitle)
         Next
         Console.WriteLine("└ Food:      " & FoodEaten.ToString)
         Console.WriteLine()

@@ -38,20 +38,6 @@
 
         Return True
     End Function
-    Public Sub AddWorkerBestAffinity(Optional ByVal n As Integer = 1)
-        For x = 1 To n
-            Dim bestWorker As Person = Settlement.GetBestAffinityUnemployed(Occupation)
-            If AddWorkerCheck(bestWorker) = False Then Exit Sub
-            bestWorker.ChangeWorkplace(Me)
-        Next
-    End Sub
-    Public Sub AddWorkerBestSkill(Optional ByVal n As Integer = 1)
-        For x = 1 To n
-            Dim bestWorker As Person = Settlement.GetBestSkillUnemployed(Occupation)
-            If AddWorkerCheck(bestWorker) = False Then Exit Sub
-            bestWorker.ChangeWorkplace(Me)
-        Next
-    End Sub
     Public Sub RemoveWorker(ByVal p As Person)
         If Workers.Contains(p) = False Then Exit Sub
 
@@ -71,7 +57,7 @@
     End Function
 
     Protected Apprentices As New List(Of Person)
-    Private Const ApprenticeCapacity As Integer = 1
+    Protected Const ApprenticeCapacity As Integer = 1
     Public Sub AddApprentice(ByVal p As Person)
         Apprentices.Add(p)
     End Sub
@@ -90,4 +76,20 @@
     Protected LabourPerWorker As New Dictionary(Of Integer, Integer)
     Protected ProductionCosts As New ResourceDict
 #End Region
+
+    Public Overrides Sub ConsoleReport()
+        Console.WriteLine(Name)
+        Console.WriteLine("└ Made By:     " & CreatorName & " in " & CreationDate.ToStringShort)
+        Console.Write("└ Employees:   " & Workers.Count & "/" & WorkerCapacity)
+        If Apprentices.Count > 0 Then Console.Write(" +" & Apprentices.Count)
+        Console.WriteLine()
+        For Each r In Workers
+            Console.WriteLine("  └ " & r.Name)
+        Next
+        If Apprentices.Count > 0 Then
+            For Each a In Apprentices
+                Console.WriteLine("  └ " & a.Name & " [A]")
+            Next
+        End If
+    End Sub
 End Class

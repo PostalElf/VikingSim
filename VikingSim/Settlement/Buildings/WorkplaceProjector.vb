@@ -89,15 +89,11 @@
     End Function
 
     Public Overrides Sub ConsoleReport()
-        Console.WriteLine(Name)
-        Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
-        Console.WriteLine("└ Works On:  " & ProjectBuildtype & " " & ProjectType)
-        Console.Write("└ Project:   ")
+        MyBase.ConsoleReport()
+
+        Console.WriteLine("└ Works On:    " & ProjectBuildtype & " " & ProjectType)
+        Console.Write("└ Project:     ")
         If Project Is Nothing = False Then Console.WriteLine(Project.ToString) Else Console.WriteLine("-")
-        Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
-        For Each r In Workers
-            Console.WriteLine("  └ " & r.Name)
-        Next
         Console.WriteLine()
     End Sub
     Public Overrides Sub Tick()
@@ -110,7 +106,7 @@
             labour += LabourPerWorker(p.PerformWork) + p.GetInventoryBonus(Occupation)
         Next
         For Each a In Apprentices
-            labour += LabourPerWorker(a.PerformWork) - 1
+            labour += Math.Max(LabourPerWorker(a.PerformWork) - 1, 1)
         Next
 
         If Project.Tick(labour) = True Then

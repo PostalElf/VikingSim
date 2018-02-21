@@ -30,7 +30,7 @@
         Dim campfire = WorkplaceProjector.Import("Campfire")
         campfire.SetHistory("Odin", World.TimeNow)
         Settlement.AddBuilding(campfire)
-        campfire.AddWorkerBestAffinity()
+        settlement.GetResidentBest("employable", "affinity=" & campfire.Occupation.ToString).ChangeWorkplace(campfire)
         campfire.AddProjectCheck("Builder")
         campfire.AddProject("Builder")
         For n = 1 To 75
@@ -38,7 +38,7 @@
         Next
 
         Dim carpenter As WorkplaceProjector = AddProject(Settlement, "Builder", "Carpenter")
-        carpenter.AddWorkerBestAffinity()
+        settlement.GetResidentBest("employable", "affinity=" & carpenter.Occupation.ToString).ChangeWorkplace(carpenter)
         AddProject(Settlement, "Builder", "Cottage")
 
         Return Settlement
@@ -48,7 +48,7 @@
         Dim wp As WorkplaceProjector = settlement.GetBuildings("projector name=" & projectorName)(0)
         If wp Is Nothing Then Return Nothing
 
-        If wp.GetBestWorker Is Nothing Then wp.AddWorkerBestAffinity()
+        If wp.GetBestWorker Is Nothing Then settlement.GetResidentBest("employable", "skill=" & wp.Occupation.ToString).ChangeWorkplace(wp)
         If wp.AddProjectCheck(projectName) = False Then Return Nothing
         wp.AddProject(projectName)
         For n = 1 To 75
@@ -107,6 +107,7 @@
             End Select
         End While
     End Sub
+
     Private Sub MenuReviewBuildings(ByVal settlement As Settlement)
         Console.WriteLine()
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
@@ -115,10 +116,86 @@
         Console.WriteLine()
         Dim b As Building = Menu.getListChoice(buildings, 1, "Select building:")
         If b Is Nothing Then Exit Sub
-        Console.WriteLine()
-        b.ConsoleReport()
-        Console.ReadLine()
+
+        Select Case choice
+            Case "House" : MenuReviewHouse(b)
+            Case "Producer" : MenuReviewWorkplace(b)
+            Case "Projector" : MenuReviewWorkplace(b)
+        End Select
     End Sub
+    Private Sub MenuReviewHouse(ByVal house As House)
+        Dim bMenu As New List(Of String)
+        With bMenu
+            .Add("Set Food")
+            .Add("Birth")
+        End With
+
+        While True
+            Console.Clear()
+            house.ConsoleReport()
+            Console.WriteLine()
+
+            Select Case Menu.getListChoice(bMenu, 0, "Select option:")
+                Case "Set Food" : MenuSetFood(house)
+                Case "Birth" : MenuBirthResident(house)
+                Case Else : Exit While
+            End Select
+        End While
+    End Sub
+    Private Sub MenuReviewWorkplace(ByVal workplace As Workplace)
+        Dim bMenu As New List(Of String)
+        With bMenu
+            .Add("Apprentice")
+            .Add("Employ")
+            .Add("Fill Employment (Affinity)")
+            .Add("Fill Employment (Skill)")
+
+            If TypeOf workplace Is WorkplaceProjector Then
+                .Add("Add Project")
+            End If
+        End With
+
+        While True
+            With workplace
+                Console.Clear()
+                .ConsoleReport()
+                Console.WriteLine()
+
+                Select Case Menu.getListChoice(bMenu, 0, "Select option:")
+                    Case "Apprentice"
+                        If Menu.confirmChoice(0, "Add apprentice with best affinity? ") = True Then
+
+                        Else
+                            MenuApprenticeResident(workplace)
+                        End If
+
+                    Case "Employ"
+                        MenuEmployResident(workplace)
+
+                    Case "Fill Employment (Affinity)"
+                        While .AddWorkerCheck(Nothing) = False
+                            Dim worker As Person = .Settlement.GetResidentBest("employable", "affinity=" & .Occupation.ToString)
+                            If worker Is Nothing Then Exit While
+                            If .AddWorkerCheck(worker) = False Then Exit While
+                            worker.ChangeWorkplace(workplace)
+                        End While
+
+                    Case "Fill Employment (Skill)"
+                        While .AddWorkerCheck(Nothing) = False
+                            Dim worker As Person = .Settlement.GetResidentBest("employable", "skill=" & .Occupation.ToString)
+                            If worker Is Nothing Then Exit While
+                            If .AddWorkerCheck(worker) = False Then Exit While
+                            worker.ChangeWorkplace(workplace)
+                        End While
+
+                    Case "Add Project"
+
+                    Case Else : Exit While
+                End Select
+            End With
+        End While
+    End Sub
+
     Private Sub MenuReviewResidents(ByVal settlement As Settlement)
         Console.Write("Enter flags: ")
         Dim flags As String = Console.ReadLine
@@ -144,7 +221,7 @@
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Marry" : MenuMarryResidents(settlement, selection)
                 Case "Pregnancy" : menuPregnancyResident(settlement, selection)
-                Case "Birth" : MenuBirthResident(settlement, selection)
+                Case "Birth" : MenuBirthResident(selection)
                 Case "Move" : MenuMoveResident(settlement, selection)
                 Case "Apprentice" : menuApprenticeResident(settlement, selection)
                 Case "Employ" : menuEmployResident(settlement, selection)
@@ -200,9 +277,19 @@
 
         Dim father As Person = men(s)
         Dim mother As Person = women(s)
-        MenuBirthResident(settlement, mother, father)
+        MenuBirthResident(mother, father)
     End Sub
-    Private Sub MenuBirthResident(ByVal settlement As Settlement, ByVal mother As Person, Optional ByVal father As Person = Nothing)
+    Private Sub MenuBirthResident(ByVal house As House)
+        Dim mothers As List(Of Person) = house.GetResidents("married women")
+        If mothers.count = 0 Then
+            Console.WriteLine("No married women in this household!")
+            Console.ReadLine()
+            Exit Sub
+        End If
+        Dim mother As Person = mothers(0)
+        MenuBirthResident(mother)
+    End Sub
+    Private Sub MenuBirthResident(ByVal mother As Person, Optional ByVal father As Person = Nothing)
         If mother.Sex <> "Female" Then Console.WriteLine("Only women can give birth!") : Console.ReadLine() : Exit Sub
         If mother.CheckFlags("married") = False Then Console.WriteLine("Only married women can give birth!") : Console.ReadLine() : Exit Sub
         If father Is Nothing Then father = mother.GetRelative("spouse")
@@ -226,21 +313,41 @@
     End Sub
     Private Sub MenuApprenticeResident(ByVal settlement As Settlement, ByVal person As Person)
         Dim workplaces As List(Of Building) = settlement.GetBuildings("workplace employable")
-        Dim workplace As Workplace = Menu.getListChoice(workplaces, 0, "Select workplace: ")
-        If workplace.AddApprenticeCheck(person) = False Then Console.WriteLine("Unable to join workplace!") : Console.ReadLine() : Exit Sub
+        Dim workplace As Workplace = Menu.getListChoice(workplaces, 0, "Select workplace:")
+        MenuApprenticeResident(workplace, person)
+    End Sub
+    Private Sub MenuApprenticeResident(ByVal workplace As Workplace, Optional ByVal apprentice As Person = Nothing)
+        With workplace
+            If apprentice Is Nothing Then
+                Dim apprentices As List(Of Person) = .Settlement.GetResidents("apprenticable")
+                If apprentices.Count = 0 Then Console.WriteLine("No available apprentices!") : Console.ReadLine() : Exit Sub
+                apprentice = Menu.getListChoice(apprentices, 0, "Select an apprentice:")
+            End If
+            If .AddApprenticeCheck(apprentice) = False Then Console.WriteLine(apprentice.Name & " cannot join " & .Name & "!") : Console.ReadLine() : Exit Sub
 
-        person.ChangeApprenticeship(workplace)
-        Console.WriteLine(person.Name & " has joined " & workplace.Name & " as an apprentice.")
-        Console.ReadLine()
+            apprentice.ChangeApprenticeship(workplace)
+            Console.WriteLine(apprentice.Name & " has joined " & workplace.Name & " as an apprentice.")
+            Console.ReadLine()
+        End With
     End Sub
     Private Sub MenuEmployResident(ByVal settlement As Settlement, ByVal person As Person)
         Dim workplaces As List(Of Building) = settlement.GetBuildings("workplace employable")
         Dim workplace As Workplace = Menu.getListChoice(workplaces, 0, "Select workplace: ")
-        If workplace.AddWorkerCheck(person) = False Then Console.WriteLine("Unable to join workplace!") : Console.ReadLine() : Exit Sub
+        MenuEmployResident(workplace, person)
+    End Sub
+    Private Sub MenuEmployResident(ByVal workplace As Workplace, Optional ByVal person As Person = Nothing)
+        With workplace
+            If person Is Nothing Then
+                Dim workers As List(Of Person) = .Settlement.GetResidents("employable")
+                If workers.Count = 0 Then Console.WriteLine("No available workers!") : Console.ReadLine() : Exit Sub
+                person = Menu.getListChoice(workers, 0, "Select a worker:")
+            End If
+            If .AddWorkerCheck(person) = False Then Console.WriteLine(person.Name & " cannot join " & .Name & "!") : Console.ReadLine() : Exit Sub
 
-        person.ChangeWorkplace(workplace)
-        Console.WriteLine(person.Name & " has joined " & workplace.Name & ".")
-        Console.ReadLine()
+            person.ChangeWorkplace(workplace)
+            Console.WriteLine(person.Name & " has joined " & .Name & ".")
+            Console.ReadLine()
+        End With
     End Sub
     Private Sub MenuSetFood(ByVal settlement As Settlement)
         Console.WriteLine()
@@ -248,13 +355,16 @@
         Console.WriteLine()
         choice.ConsoleReport()
 
+        MenuSetFood(choice)
+    End Sub
+    Private Sub MenuSetFood(ByVal house As House)
         While True
             Console.Write("Enter food: ")
             Dim foodString As String = Console.ReadLine
             If ResourceDict.GetCategory(foodString) <> "Food" Then Console.WriteLine("Invalid type of food!") : Continue While
             Dim qty As Integer = Menu.getNumInput(0, 1, 100, "How much? ")
 
-            choice.AddFoodEaten(foodString, qty)
+            house.AddFoodEaten(foodString, qty)
             Exit While
         End While
     End Sub

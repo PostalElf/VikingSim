@@ -148,27 +148,31 @@
         Next
         Return total
     End Function
-    Public Function GetBestSkillUnemployed(ByVal skill As Skill) As Person
-        Dim residents As List(Of Person) = GetResidents("employable")
+    Public Function GetResidentBest(ByVal flags As String, ByVal comparer As String) As Person
         Dim bestFit As Person = Nothing
-        Dim bestSkill As Integer = -1
+        Dim bestValue As Integer = -1
+
+        Dim fs As String() = comparer.Split("=")
+        Dim header As String = fs(0)
+        Dim entry As String = fs(1)
+
+        Dim residents As List(Of Person) = GetResidents(flags)
         For Each r In residents
-            If r.SkillRank(skill) > bestSkill Then
-                bestSkill = r.SkillRank(skill)
-                bestFit = r
-            End If
-        Next
-        Return bestFit
-    End Function
-    Public Function GetBestAffinityUnemployed(ByVal skill As Skill) As Person
-        Dim residents As List(Of Person) = GetResidents("employable")
-        Dim bestFit As Person = Nothing
-        Dim bestAffinity As Double = -1
-        For Each r In residents
-            If r.SkillAffinity(skill) > bestAffinity Then
-                bestAffinity = r.SkillAffinity(skill)
-                bestFit = r
-            End If
+            Select Case header
+                Case "skill"
+                    Dim skill As Skill = StringToEnum(Of Skill)(entry)
+                    If r.SkillRank(skill) > bestValue Then
+                        bestFit = r
+                        bestValue = r.SkillRank(skill)
+                    End If
+
+                Case "affinity"
+                    Dim skill As Skill = StringToEnum(Of Skill)(entry)
+                    If r.SkillAffinity(skill) > bestValue Then
+                        bestFit = r
+                        bestValue = r.SkillAffinity(skill)
+                    End If
+            End Select
         Next
         Return bestFit
     End Function

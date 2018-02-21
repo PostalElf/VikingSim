@@ -7,21 +7,25 @@
     Private Epithet As String
     Public ReadOnly Property Name As String
         Get
-            If Epithet = "" Then
-                Return NameFirst & " " & NameLast
+            If NameLast = "" Then
+                Return NameFirst
             Else
-                Return NameFirst & " '" & Epithet & "' " & NameLast
+                If Epithet = "" Then
+                    Return NameFirst & " " & NameLast
+                Else
+                    Return NameFirst & " '" & Epithet & "' " & NameLast
+                End If
             End If
         End Get
     End Property
     Public ReadOnly Property NameAndTitle As String
         Get
-            Return Name & " (" & OccupationName & ")"
+            Return Name & " - " & OccupationName
         End Get
     End Property
 
     Public Overrides Function ToString() As String
-        Return Name
+        Return NameAndTitle
     End Function
 
     Public Sex As Sex
@@ -50,7 +54,7 @@
                 Case "male", "men" : If Sex <> "Male" Then Return False
                 Case "female", "women" : If Sex <> "Female" Then Return False
                 Case "employed" : If Occupation = Skill.Vagrant Then Return False
-                Case "apprenticable" : If Age < AgeApprentice OrElse Age >= AgeLabour Then Return False
+                Case "apprenticable" : If Age < AgeApprentice Then Return False
                 Case "employable" : If Age >= AgeLabour AndAlso Occupation <> Skill.Vagrant Then Return False
                 Case Else : If CheckFlagsAdvanced(f.ToLower) = False Then Return False
             End Select

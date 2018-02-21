@@ -56,7 +56,7 @@
             Labour += LabourPerWorker(p.PerformWork) + p.GetInventoryBonus(Occupation)
         Next
         For Each a In Apprentices
-            Labour += LabourPerWorker(a.PerformWork) - 1
+            Labour += Math.Max(LabourPerWorker(a.PerformWork) - 1, 1)
         Next
 
         'check if labour threshold met
@@ -83,14 +83,10 @@
 #End Region
 
     Public Overrides Sub ConsoleReport()
-        Console.WriteLine(Name)
-        Console.WriteLine("└ Made By:   " & CreatorName & " in " & CreationDate.ToStringShort)
-        If ProductionCosts.count > 0 Then Console.WriteLine("└ Cost:      " & ProductionCosts.ToString)
+        MyBase.ConsoleReport()
+
+        If ProductionCosts.Count > 0 Then Console.WriteLine("└ Cost:      " & ProductionCosts.ToString)
         If ProducedResources.Count > 0 Then Console.WriteLine("└ Produces:  " & ProducedResources.ToString)
-        Console.WriteLine("└ Employees: " & Workers.Count & "/" & WorkerCapacity)
-        For Each r In Workers
-            Console.WriteLine("  └ " & r.Name)
-        Next
         Console.WriteLine()
     End Sub
 End Class
