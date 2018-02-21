@@ -88,6 +88,7 @@
         With bMenu
             .Add("Review Building")
             .Add("Review Residents")
+            .Add("Birth Child")
             .Add("Add Building")
             .Add("Add Location")
         End With
@@ -99,6 +100,7 @@
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Review Building" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
+                Case "Birth Child" : MenuBirthResident(settlement)
                 Case "Add Building" : MenuAddBuilding(settlement)
                 Case "Add Location" : MenuAddBuilding(settlement)
                 Case Else : Exit While
@@ -128,8 +130,10 @@
         Dim bMenu As New List(Of String)
         With bMenu
             .Add("Marry")
+            .Add("Pregnancy")
+            .Add("Birth")
+            .Add("Move")
             .Add("Employ")
-            .Add("Disease")
         End With
 
         While True
@@ -138,8 +142,10 @@
             Console.WriteLine()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Marry" : MenuMarryResidents(settlement, selection)
-                Case "Employ"
-                Case "Disease"
+                Case "Pregnancy" : menuPregnancyResident(settlement, selection)
+                Case "Birth" : MenuBirthResident(settlement, selection)
+                Case "Move" : MenuMoveResident(settlement, selection)
+                Case "Employ" : menuEmployResident(settlement, selection)
                 Case Else : Exit While
             End Select
         End While
@@ -169,6 +175,13 @@
         Console.ReadLine()
         Console.Clear()
     End Sub
+    Private Sub MenuPregnancyResident(ByVal settlement As Settlement, ByVal mother As Person)
+        If mother.Sex <> "Female" Then Console.WriteLine("Only women can give birth!") : Console.ReadLine() : Exit Sub
+        If mother.CheckFlags("married") = False Then Console.WriteLine("Only married women can give birth!") : Console.ReadLine() : Exit Sub
+
+        Dim weeks As Integer = Menu.getNumInput(0, 0, 32, "How many weeks pregnant? ")
+        mother.BecomePregnant(weeks)
+    End Sub
     Private Sub MenuBirthResident(ByVal settlement As Settlement)
         Dim women As List(Of Person) = settlement.GetResidents("married female")
         If women.Count = 0 Then Console.WriteLine("Insufficient married couples!") : Console.ReadLine() : Exit Sub
@@ -185,10 +198,32 @@
 
         Dim father As Person = men(s)
         Dim mother As Person = women(s)
-        Dim child As Person = Person.Birth(father, mother)
+        MenuBirthResident(settlement, mother, father)
+    End Sub
+    Private Sub MenuBirthResident(ByVal settlement As Settlement, ByVal mother As Person, Optional ByVal father As Person = Nothing)
+        If mother.Sex <> "Female" Then Console.WriteLine("Only women can give birth!") : Console.ReadLine() : Exit Sub
+        If mother.CheckFlags("married") = False Then Console.WriteLine("Only married women can give birth!") : Console.ReadLine() : Exit Sub
+        If father Is Nothing Then father = mother.GetRelative("spouse")
+
+        mother.BecomePregnant(32)
+        Dim children As List(Of Person) = mother.GetRelatives("children")
+        Dim child As Person = children(children.Count - 1)
         Console.WriteLine(child.Name & " has been born to " & father.Name & " and " & mother.Name & ".")
         Console.ReadLine()
         Console.Clear()
+    End Sub
+    Private Sub MenuMoveResident(ByVal settlement As Settlement, ByVal person As Person)
+        Dim houses As List(Of Building) = settlement.GetBuildings("house space")
+        Dim house As House = Menu.getListChoice(houses, 0, "Select house to move to: ")
+
+        person.MoveHouse(house)
+        Console.WriteLine(person.Name & " has moved to " & house.Name & ".")
+        Dim spouse As Person = person.GetRelative("spouse")
+        If spouse Is Nothing = False Then spouse.MoveHouse(house) : Console.WriteLine(spouse.Name & " has moved to " & house.Name & ".")
+        Console.ReadLine()
+    End Sub
+    Private Sub MenuEmployResident(ByVal settlement As Settlement, ByVal person As Person)
+
     End Sub
     Private Sub MenuSetFood(ByVal settlement As Settlement)
         Console.WriteLine()

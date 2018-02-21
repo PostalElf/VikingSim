@@ -64,7 +64,7 @@
 
         Residents.Add(p)
     End Sub
-    Public Function AddResidentcheck(ByVal p As Person) As Boolean
+    Public Function AddResidentCheck(ByVal p As Person) As Boolean
         If Residents.Count + 1 > ResidentCapacity Then Return False
         If p Is Nothing = False Then
             'person specific checks

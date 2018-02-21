@@ -373,6 +373,7 @@
         Get
             If Age < AgeMarriage Then Return 0
             If Age > AgeMenopause Then Return 0
+            If House.AddResidentcheck(Nothing) = False Then Return 0
 
             Dim total As Integer = 0
             Select Case WeeksSinceLastPregnancy
@@ -399,19 +400,11 @@
     Private Sub FemaleTick()
         If Pregnancy Is Nothing = False Then
             Dim child As Person = Pregnancy.Tick()
-            If child Is Nothing = False Then
-                World.AddAlert(child, 2, child.Name & " has been born to " & child.MotherName & " & " & child.FatherName & ".")
-                child.MoveHouse(House)
-
-                Pregnancy = Nothing
-                WeeksSinceLastPregnancy = 0
-            End If
+            If child Is Nothing = False Then GiveBirth(child)
         ElseIf SpouseName <> "" Then
             'not pregnant but married; check for pregnancy
             If rng.Next(1, 101) <= PregnancyChance Then
-                'beep new baby! woop!
-                Pregnancy = New Pregnancy(House.GetResident(FatherName), House.GetResident(MotherName))
-                WeeksSinceLastPregnancy = 0
+                BecomePregnant()
             Else
                 'not pregnant; increase timer for last pregnancy if fertile
                 If Age >= AgeMarriage Then WeeksSinceLastPregnancy += 1
@@ -425,6 +418,34 @@
         End If
         Return total
     End Function
+    Public Sub BecomePregnant(Optional ByVal weeks As Integer = 0)
+        Pregnancy = New Pregnancy(House.GetResident(SpouseName), Me)
+        World.AddAlert(Me, 2, Name & " has become pregnant!")
+        For n = 1 To weeks
+            Dim child As Person = Pregnancy.Tick
+            If child Is Nothing = False Then GiveBirth(child)
+        Next
+        WeeksSinceLastPregnancy = 0
+    End Sub
+    Private Sub GiveBirth(ByVal child As Person)
+        If child Is Nothing Then Exit Sub
+
+        World.AddAlert(child, 2, child.Name & " has been born to " & child.MotherName & " & " & child.FatherName & ".")
+        If House.AddResidentcheck(child) = False Then
+            'if there's no space left in this house, everyone moves to a hut
+            Dim father As Person = GetRelative("spouse")
+            Dim settlement As Settlement = House.Settlement
+            Dim hut As House = House.Import("Hut")
+
+            settlement.AddBuilding(hut)
+            father.MoveHouse(hut)
+            Me.MoveHouse(hut)
+        End If
+        child.MoveHouse(House)
+
+        Pregnancy = Nothing
+        WeeksSinceLastPregnancy = 0
+    End Sub
 #End Region
 
 #Region "Aging and Disease"
