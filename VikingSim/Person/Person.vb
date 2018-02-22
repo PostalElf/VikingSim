@@ -415,8 +415,8 @@
         If Pregnancy Is Nothing = False Then
             Dim child As Person = Pregnancy.Tick()
             If child Is Nothing = False Then GiveBirth(child)
-        ElseIf SpouseName <> "" Then
-            'not pregnant but married; check for pregnancy
+        ElseIf GetRelative("spouse") Is Nothing = False Then
+            'not pregnant but married (AND husband is not travelling); check for pregnancy
             If rng.Next(1, 101) <= PregnancyChance Then
                 BecomePregnant()
             Else
