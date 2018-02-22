@@ -7,15 +7,27 @@
         Dim settlement As Settlement = BuildSettlement(world)
 
         Dim bMenu As New List(Of String)
-        bMenu.Add("Tick")
-        bMenu.Add("Review Settlement")
+        With bMenu
+            .Add("Tick")
+            .Add("View Map")
+            .Add("Review Settlement")
+            .Add("Calculate Distance")
+        End With
+
 
         While True
             Console.Clear()
-            world.consoleReport()
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Tick" : MenuTick(world)
+                Case "View Map" : MenuShowWorldMap(world)
                 Case "Review Settlement" : MenuReviewSettlement(world)
+                Case "Calculate Distance"
+                    Dim origin As iMapLocation = Menu.getListChoice(world.GetMapLocations, 0, "Select origin:")
+                    Dim destination As iMapLocation = Menu.getListChoice(world.GetMapLocations, 0, "Select destination:")
+                    Dim distance As Integer = Math.Round(world.GetDistance(origin, destination) * 10)
+                    Console.WriteLine("Distance: " & distance)
+                    Console.WriteLine("At a travel speed of 10/week, it would take " & Math.Ceiling(distance / 10) & " weeks.")
+                    Console.ReadLine()
                 Case Else : Exit While
             End Select
         End While
@@ -79,6 +91,11 @@
         world.AlertConsoleReport()
         Console.ReadLine()
     End Sub
+    Private Sub MenuShowWorldMap(ByVal world As World)
+        Console.Clear()
+        world.ConsoleReport()
+        Console.ReadLine()
+    End Sub
     Private Sub MenuReviewSettlement(ByVal world As World)
         Dim settlements As List(Of Settlement) = world.GetSettlements("")
         Dim settlement As Settlement = Menu.getListChoice(Of Settlement)(settlements, 1, "Select a settlement:")
@@ -88,7 +105,7 @@
             .Add("Review Building")
             .Add("Review Residents")
             .Add("Birth Child")
-            .Add("Add Building")
+            .Add("Add Building Project")
             .Add("Add Location")
             .Add("Add Resource")
         End With
@@ -101,8 +118,8 @@
                 Case "Review Building" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
                 Case "Birth Child" : MenuBirthResident(settlement)
-                Case "Add Building" : MenuAddBuilding(settlement)
-                Case "Add Location" : MenuAddBuilding(settlement)
+                Case "Add Building Project" : MenuAddBuildingProject(settlement)
+                Case "Add Location" : MenuAddLocation(settlement)
                 Case "Add Resource" : MenuAddResource(settlement)
                 Case Else : Exit While
             End Select
@@ -365,7 +382,7 @@
             Console.ReadLine()
         End With
     End Sub
-    Private Sub MenuAddBuilding(ByVal settlement As Settlement)
+    Private Sub MenuAddBuildingProject(ByVal settlement As Settlement)
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
         Dim p As BuildingProject = Nothing
         Dim names As List(Of String)

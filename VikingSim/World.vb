@@ -13,28 +13,23 @@
     End Sub
     Public Shared Function Construct() As World
         Const siteNum As Integer = 10
-        Const xMax As Integer = 20
-        Const yMax As Integer = 60
-
-        'create 2d array to hold used locations
-        'all points in array are marked false to start with
-        Dim xy(xMax, yMax) As Boolean
-        For x = 1 To xMax
-            For y = 1 To yMax
-                xy(x, y) = False
-            Next
-        Next
 
         Dim world As New World
         With world
             'create settlement sites
             For n = 1 To siteNum
-                Dim s As SettlementSite = SettlementSite.Construct
-                .SettlementSites.Add(s)
+                Dim x, y As Integer
+                While True
+                    x = rng.Next(1, xMax + 1)
+                    y = rng.Next(1, yMax + 1)
+                    If .Map(x, y) Is Nothing Then Exit While
+                End While
+                Dim ss As SettlementSite = SettlementSite.Construct(x, y)
+                .AddSettlementSite(ss)
             Next
 
             'create initial settlement
-            Dim site As SettlementSite = SettlementSite.Construct("Tundra")
+            Dim site As SettlementSite = SettlementSite.Construct(1, 1, "Tundra")
             Dim settlement As Settlement = settlement.Construct(site, "Askton")
 
             'create godparents to be the parents of each seed colonist
@@ -98,9 +93,21 @@
 #End Region
 
 #Region "World Map"
+    Const xMax As Integer = 40
+    Const yMax As Integer = 10
+
+    Private Map(xMax, yMax) As iMapLocation
+    Private SettlementSites As New List(Of SettlementSite)
     Private Settlements As New List(Of Settlement)
+    Public Sub AddSettlementSite(ByVal site As SettlementSite)
+        SettlementSites.Add(site)
+        Dim ss As iMapLocation = CType(site, iMapLocation)
+        Map(ss.X, ss.Y) = site
+    End Sub
     Public Sub AddSettlement(ByVal settlement As Settlement)
         Settlements.Add(settlement)
+        Dim s As iMapLocation = CType(settlement, iMapLocation)
+        Map(s.X, s.Y) = settlement
     End Sub
     Public Function GetSettlements(ByVal flags As String) As List(Of Settlement)
         Dim total As New List(Of Settlement)
@@ -110,9 +117,13 @@
         Return total
     End Function
 
-    Private SettlementSites As New List(Of SettlementSite)
-
-    Public Function GetDistance(ByVal origin As iMapLocation, ByVal target As iMapLocation) As Double
+    Public Function GetMapLocations() As List(Of iMapLocation)
+        Dim total As New List(Of iMapLocation)
+        total.AddRange(Settlements)
+        total.AddRange(SettlementSites)
+        Return total
+    End Function
+    Public Shared Function GetDistance(ByVal origin As iMapLocation, ByVal target As iMapLocation) As Double
         Dim xDist As Integer = Math.Abs(origin.X - target.X)
         Dim yDist As Integer = Math.Abs(origin.Y - target.Y)
         Dim total As Double = Math.Sqrt((xDist * xDist) + (yDist * yDist))
@@ -124,7 +135,20 @@
         Return TimeNow.ToString
     End Function
     Public Sub ConsoleReport()
-
+        For y = 1 To yMax
+            For x = 1 To xMax
+                If Map(x, y) Is Nothing = False Then
+                    Dim loc As iMapLocation = Map(x, y)
+                    Select Case loc.GetType
+                        Case GetType(Settlement) : Console.Write("%")
+                        Case GetType(SettlementSite) : Console.Write(loc.Name.ToLower.First)
+                    End Select
+                Else
+                    Console.Write("*")
+                End If
+            Next
+            Console.WriteLine()
+        Next
     End Sub
     Public Sub Tick()
         TimeNow.Tick()

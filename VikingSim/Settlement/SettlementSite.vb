@@ -1,8 +1,17 @@
 ﻿Public Class SettlementSite
     Implements iMapLocation
+    Public ReadOnly Property Name As String Implements iMapLocation.Name
+        Get
+            Return Terrain
+        End Get
+    End Property
+    Public Overrides Function ToString() As String
+        Return Name
+    End Function
+
     Public Terrain As String
     Public LocationList As New List(Of String)
-    Public Shared Function Construct(Optional ByVal terrain As String = Nothing) As SettlementSite
+    Public Shared Function Construct(ByVal px As Integer, ByVal py As Integer, Optional ByVal terrain As String = Nothing) As SettlementSite
         'allLocation holds a list of all the different types of locations
         Dim terrainDict As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbTerrain)
         Dim allLocation As New List(Of String)
@@ -14,6 +23,9 @@
 
         Dim site As New SettlementSite
         With site
+            .X = px
+            .Y = py
+
             If terrain = "" Then
                 Dim terrainRoll As Integer = rng.Next(terrainDict.Keys.Count)
                 .Terrain = terrainDict.Keys(terrainRoll)

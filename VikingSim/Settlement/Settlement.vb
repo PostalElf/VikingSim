@@ -14,6 +14,10 @@
     Public Shared Function Construct(ByVal settlementSite As SettlementSite, Optional ByVal name As String = "") As Settlement
         Dim settlement As New Settlement
         With settlement
+            Dim ss As iMapLocation = CType(settlementSite, iMapLocation)
+            .X = ss.X
+            .Y = ss.Y
+
             If name <> "" Then ._Name = name
             .Locations = settlementSite.LocationList
             .LandTotal = 100 - (.Locations.Count * 10)
@@ -25,7 +29,7 @@
 
 #Region "Personal Identifiers"
     Private _Name As String
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Name As String Implements iMapLocation.Name
         Get
             Return _Name
         End Get
