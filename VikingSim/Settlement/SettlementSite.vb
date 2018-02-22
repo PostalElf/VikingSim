@@ -49,6 +49,33 @@
         Return site
     End Function
 
+#Region "Trade"
+    Private Function ConvoySellGoodsCheck(ByVal inventory As Inventory) As String Implements iMapLocation.SellGoodsCheck
+
+    End Function
+    Private Function ConvoySellGoodsCheck(ByVal resources As ResourceDict) As String Implements iMapLocation.SellGoodsCheck
+
+    End Function
+    Private Function ConvoySellGoods(ByVal inventory As Inventory) As Integer Implements iMapLocation.SellGoods
+
+    End Function
+    Private Function ConvoySellGoods(ByVal resources As ResourceDict) As Integer Implements iMapLocation.SellGoods
+
+    End Function
+    Private Function ConvoyBuyGoodsCheck(ByVal shoppingList As Inventory, ByVal convoy As ConvoyTrade) As String Implements iMapLocation.BuyGoodsCheck
+
+    End Function
+    Private Function ConvoyBuyGoodsCheck(ByVal shoppingList As ResourceDict, ByVal convoy As ConvoyTrade) As String Implements iMapLocation.BuyGoodsCheck
+
+    End Function
+    Private Sub ConvoyBuyGoods(ByVal shoppingList As Inventory, ByVal convoy As ConvoyTrade) Implements iMapLocation.BuyGoods
+
+    End Sub
+    Private Sub ConvoyBuyGoods(ByVal shoppingList As ResourceDict, ByVal convoy As ConvoyTrade) Implements iMapLocation.BuyGoods
+
+    End Sub
+#End Region
+
 #Region "World Map"
     Private Property X As Integer Implements iMapLocation.X
     Private Property Y As Integer Implements iMapLocation.Y

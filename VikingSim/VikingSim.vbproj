@@ -70,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alert.vb" />
+    <Compile Include="Person\Convoy\Convoy.vb" />
+    <Compile Include="Person\Convoy\ConvoySettler.vb" />
+    <Compile Include="Person\Convoy\ConvoyTrade.vb" />
     <Compile Include="Person\Pregnancy.vb" />
     <Compile Include="Person\Sex.vb" />
     <Compile Include="Settlement\Buildings\Storage.vb" />

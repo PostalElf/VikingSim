@@ -277,6 +277,41 @@
     Public Sub AddItem(ByVal item As Item)
         Inventory.AddItem(item)
     End Sub
+    Public Sub AddItems(ByVal items As List(Of Item))
+        For Each i In items
+            Inventory.AddItem(i)
+        Next
+    End Sub
+    Public Sub AddItems(ByVal inventory As Inventory)
+        inventory.DumpItems(Me)
+    End Sub
+#End Region
+
+#Region "Trade"
+    Private Function ConvoySellGoodsCheck(ByVal inventory As Inventory) As String Implements iMapLocation.SellGoodsCheck
+
+    End Function
+    Private Function ConvoySellGoodsCheck(ByVal resources As ResourceDict) As String Implements iMapLocation.SellGoodsCheck
+
+    End Function
+    Private Function ConvoySellGoods(ByVal inventory As Inventory) As Integer Implements iMapLocation.SellGoods
+
+    End Function
+    Private Function ConvoySellGoods(ByVal resources As ResourceDict) As Integer Implements iMapLocation.SellGoods
+
+    End Function
+    Private Function ConvoyBuyGoodsCheck(ByVal shoppingList As Inventory, ByVal convoy As ConvoyTrade) As String Implements iMapLocation.BuyGoodsCheck
+
+    End Function
+    Private Function ConvoyBuyGoodsCheck(ByVal shoppingList As ResourceDict, ByVal convoy As ConvoyTrade) As String Implements iMapLocation.BuyGoodsCheck
+
+    End Function
+    Private Sub ConvoyBuyGoods(ByVal shoppingList As Inventory, ByVal convoy As ConvoyTrade) Implements iMapLocation.BuyGoods
+
+    End Sub
+    Private Sub ConvoyBuyGoods(ByVal shoppingList As ResourceDict, ByVal convoy As ConvoyTrade) Implements iMapLocation.BuyGoods
+
+    End Sub
 #End Region
 
     Public Sub Tick()

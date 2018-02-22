@@ -14,6 +14,7 @@
     Public Sub Add(ByVal key As String, ByVal value As Integer)
         If Data.ContainsKey(key) = False Then Data.Add(key, 0)
         Data.Item(key) += value
+        If Data(key) = 0 Then RemoveKey(key)
     End Sub
     Public Sub ParsedAdd(ByVal data As String)
         Dim ds As String() = data.Split(",")

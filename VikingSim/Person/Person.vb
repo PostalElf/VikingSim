@@ -41,6 +41,10 @@
         House = targetHouse
         House.AddResident(Me)
     End Sub
+    Public Sub ReturnHome()
+        If House.GetResidents("name=" & Name.Replace(" ", "+")).Count > 0 Then Exit Sub
+        House.AddResident(Me)
+    End Sub
     Private FatherName As String
     Private MotherName As String
     Private ChildrenNames As New List(Of String)
