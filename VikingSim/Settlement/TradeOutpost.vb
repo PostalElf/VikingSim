@@ -27,8 +27,8 @@
             Dim baseCost As Integer = ResourceDict.GetCost(r)
             Dim totalCost As Integer = baseCost * qty
 
-            If ResourcesSell.ContainsKey(r) = False Then total.Add(New Alert(Me, 1, Owner.Name & " does not wish to purchase " & r & ".")) : Continue For
-            If ResourcesSell(r) > resources(r) Then total.Add(New Alert(Me, 1, Owner.Name & " will only sell " & ResourcesSell(r) & " " & r & ".")) : Continue For
+            If ResourcesBuy.ContainsKey(r) = False Then total.Add(New Alert(Me, 1, Owner.Name & " does not wish to purchase " & r & ".")) : Continue For
+            If ResourcesBuy(r) > resources(r) Then total.Add(New Alert(Me, 1, Owner.Name & " will only buy " & ResourcesBuy(r) & " " & r & ".")) : Continue For
             If totalCost > Money Then total.Add(New Alert(Me, 1, Owner.Name & " does not have enough silver to purchase " & r & ".")) : Continue For
         Next
         Return total
