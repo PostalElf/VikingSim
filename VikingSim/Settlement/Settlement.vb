@@ -201,6 +201,15 @@
         total.Add(boys)
         Return total
     End Function
+
+    Public Sub RemoveResident(ByVal r As Person)
+        For Each h In Houses
+            If h.GetResident(r.Name) Is Nothing = False Then
+                h.RemoveResident(r)
+                Exit Sub
+            End If
+        Next
+    End Sub
 #End Region
 
 #Region "Buildings"

@@ -47,8 +47,8 @@
         End If
     End Sub
 
-    Private SilverPieces As Integer = 0
+    Private Money As Integer = 0
     Public Function CheckCost(ByVal cost As Integer) As Boolean
-        If cost > SilverPieces Then Return False Else Return True
+        If cost > Money Then Return False Else Return True
     End Function
 End Class

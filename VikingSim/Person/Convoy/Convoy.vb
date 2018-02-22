@@ -23,6 +23,14 @@
 
         TravelSpeed = Leader.GetInventoryBonus("TravelSpeed") + 10
         ProgressThreshold = Math.Round(World.GetDistance(_origin, _destination) * 10)
+
+        If TypeOf Origin Is Settlement Then
+            Dim settlement As Settlement = CType(Origin, Settlement)
+            settlement.RemoveResident(Leader)
+            For Each p In People
+                settlement.RemoveResident(p)
+            Next
+        End If
     End Sub
 
     Public Overrides Function ToString() As String
