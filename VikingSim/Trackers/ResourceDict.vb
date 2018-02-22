@@ -64,4 +64,8 @@
         Next
         Return total
     End Operator
+    Public Shared Function GetCost(ByVal value As String) As Integer
+        'TODO: add base costs for resources
+        Return 1
+    End Function
 End Class

@@ -1,5 +1,16 @@
 ﻿Public Class Inventory
     Private Items As New List(Of Item)
+    Default Public Property Item(ByVal i As Integer) As Item
+        Get
+            Return Items(i)
+        End Get
+        Set(ByVal value As Item)
+            Items(i) = value
+        End Set
+    End Property
+    Public Function Count() As Integer
+        Return Items.Count
+    End Function
     Public Sub AddItem(ByVal item As Item)
         Items.Add(item)
     End Sub

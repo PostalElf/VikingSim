@@ -3,11 +3,12 @@
 
     Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
         Select Case header
-
+            Case "Cost" : Cost = Convert.ToInt32(entry)
         End Select
     End Sub
 
     Public Name As String
+    Public Cost As Integer
     Public Property CreatorName As String Implements iHistorable.CreatorName
     Public Property CreationDate As CalendarDate Implements iHistorable.CreationDate
     Public Sub SetHistory(ByVal cr As String, ByVal crdate As CalendarDate) Implements iHistorable.SetHistory

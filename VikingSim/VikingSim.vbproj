@@ -77,6 +77,7 @@
     <Compile Include="Person\Sex.vb" />
     <Compile Include="Settlement\Buildings\Storage.vb" />
     <Compile Include="Settlement\iMapLocation.vb" />
+    <Compile Include="Settlement\TradeOutpost.vb" />
     <Compile Include="Trackers\Inventory\Furniture.vb" />
     <Compile Include="Trackers\Inventory\Gear.vb" />
     <Compile Include="Trackers\Inventory\Item.vb" />

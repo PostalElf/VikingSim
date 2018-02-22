@@ -13,14 +13,20 @@
         If OnWayBack = False Then
             'perform trade
             With Destination
-                Dim err As String = .SellGoodsCheck(SaleInventory)
-                If err = "" Then .SellGoods(SaleInventory) Else World.AddAlert(Me, 2, err)
-                err = .SellGoodsCheck(SaleResources)
-                If err = "" Then .SellGoods(SaleResources) Else World.AddAlert(Me, 2, err)
-                err = .BuyGoodsCheck(ShoppingListInventory, Me)
-                If err = "" Then .BuyGoods(ShoppingListInventory, Me) Else World.AddAlert(Me, 2, err)
-                err = .BuyGoodsCheck(ShoppingListResources, Me)
-                If err = "" Then .BuyGoods(ShoppingListResources, Me) Else World.AddAlert(Me, 2, err)
+                Dim alerts As List(Of Alert)
+                alerts = .TradeOutpost.ConvoySellGoodsCheck(SaleInventory)
+                If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleInventory)
+                alerts = .TradeOutpost.ConvoySellGoodsCheck(SaleResources)
+                If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleResources)
+
+                'Dim err As String = .TradeOutpost.SellGoodsCheck(SaleInventory)
+                'If err = "" Then .SellGoods(SaleInventory) Else World.AddAlert(Me, 2, err)
+                'err = .SellGoodsCheck(SaleResources)
+                'If err = "" Then .SellGoods(SaleResources) Else World.AddAlert(Me, 2, err)
+                'err = .BuyGoodsCheck(ShoppingListInventory, Me)
+                'If err = "" Then .BuyGoods(ShoppingListInventory, Me) Else World.AddAlert(Me, 2, err)
+                'err = .BuyGoodsCheck(ShoppingListResources, Me)
+                'If err = "" Then .BuyGoods(ShoppingListResources, Me) Else World.AddAlert(Me, 2, err)
             End With
 
             'turn around and return
@@ -34,10 +40,15 @@
             settlement.AddItems(ShoppingListInventory)
             settlement.AddResources(ShoppingListResources)
 
-            Leader.returnhome()
+            Leader.ReturnHome()
             For Each Person In People
-                Person.returnHome()
+                Person.ReturnHome()
             Next
         End If
     End Sub
+
+    Private SilverPieces As Integer = 0
+    Public Function CheckCost(ByVal cost As Integer) As Boolean
+        If cost > SilverPieces Then Return False Else Return True
+    End Function
 End Class
