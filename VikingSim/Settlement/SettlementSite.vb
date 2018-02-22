@@ -49,7 +49,7 @@
         Return site
     End Function
 
-    Public Property TradeOutpost As New TradeOutpost Implements iMapLocation.TradeOutpost
+    Public Property TradeOutpost As New TradeOutpost(Me) Implements iMapLocation.TradeOutpost
 
 #Region "World Map"
     Private Property X As Integer Implements iMapLocation.X

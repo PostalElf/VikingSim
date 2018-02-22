@@ -286,7 +286,7 @@
         inventory.DumpItems(Me)
     End Sub
 
-    Private Property TradeOutpost As New TradeOutpost Implements iMapLocation.TradeOutpost
+    Private Property TradeOutpost As New TradeOutpost(Me) Implements iMapLocation.TradeOutpost
 #End Region
 
     Public Sub Tick()
