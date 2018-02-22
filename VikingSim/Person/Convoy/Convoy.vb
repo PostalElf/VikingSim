@@ -9,6 +9,11 @@
     Private Progress As Integer
     Private ProgressThreshold As Integer
 
+    Private Money As Integer
+    Public Sub AddFunds(ByVal qty As Integer)
+        Money += qty
+    End Sub
+
     Public Sub New(ByVal _leader As Person, ByVal _people As List(Of Person), ByVal _origin As iMapLocation, ByVal _destination As iMapLocation, Optional ByVal _isRoundtrip As Boolean = False)
         Leader = _leader
         People = _people

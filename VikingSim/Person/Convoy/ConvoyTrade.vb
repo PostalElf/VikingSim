@@ -14,10 +14,10 @@
             'perform trade
             With Destination
                 Dim alerts As List(Of Alert)
-                alerts = .TradeOutpost.ConvoySellGoodsCheck(SaleInventory)
-                If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleInventory)
-                alerts = .TradeOutpost.ConvoySellGoodsCheck(SaleResources)
-                If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleResources)
+                alerts = .TradeOutpost.ConvoySellGoodsCheck(SaleInventory, Me)
+                If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleInventory, Me)
+                alerts = .TradeOutpost.ConvoySellGoodsCheck(SaleResources, Me)
+                If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleResources, Me)
 
                 'Dim err As String = .TradeOutpost.SellGoodsCheck(SaleInventory)
                 'If err = "" Then .SellGoods(SaleInventory) Else World.AddAlert(Me, 2, err)
