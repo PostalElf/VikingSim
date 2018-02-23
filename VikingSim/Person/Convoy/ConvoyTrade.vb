@@ -10,6 +10,8 @@
     Private ShoppingListInventory As New Inventory
     Private ShoppingListResources As New ResourceDict
     Protected Overrides Sub ArriveDestination()
+        World.AddAlert(Me, 2, "Convoy " & ToString() & " has arrived at " & Destination.Name & ".")
+
         If OnWayBack = False Then
             'perform trade
             With Destination
@@ -44,6 +46,8 @@
             For Each Person In People
                 Person.ReturnHome()
             Next
+
+            settlement.RemoveConvoy(Me)
         End If
     End Sub
 

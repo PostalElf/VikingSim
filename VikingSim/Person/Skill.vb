@@ -14,6 +14,7 @@
     Farming
     Storyteling
     Religion
+    Trading
 
     Smithing
     Sculpting

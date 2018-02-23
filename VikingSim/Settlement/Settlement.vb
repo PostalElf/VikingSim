@@ -257,8 +257,8 @@
         Next
     End Sub
     Public Sub AddResources(ByVal r As String, ByVal qty As Integer)
-        Resources(r) += qty
-        If Resources(r) >= GetResourceCapacity(r) Then Resources(r) = GetResourceCapacity(r)
+        Resources.Add(r, qty)
+        If Resources(r) > GetResourceCapacity(r) Then Resources(r) = GetResourceCapacity(r)
         If Resources(r) < 0 Then Resources(r) = 0
     End Sub
     Private Function GetResourceCapacity(ByVal r As String) As Integer
@@ -296,6 +296,15 @@
     End Sub
 
     Private Property TradeOutpost As New TradeOutpost(Me) Implements iMapLocation.TradeOutpost
+    Private Convoys As New List(Of Convoy)
+    Public Sub AddConvoy(ByVal Convoy As Convoy)
+        If Convoys.Contains(Convoy) Then Exit Sub
+        Convoys.Add(Convoy)
+    End Sub
+    Public Sub RemoveConvoy(ByVal convoy As Convoy)
+        If Convoys.Contains(convoy) = False Then Exit Sub
+        Convoys.Remove(convoy)
+    End Sub
 #End Region
 
     Public Sub Tick()
@@ -305,6 +314,11 @@
             Dim b As Building = Buildings(n)
             b.Tick()
         Next
+
+        For n = Convoys.Count - 1 To 0 Step -1
+            Dim c As Convoy = Convoys(n)
+            c.Tick()
+        Next
     End Sub
     Public Function GetTickWarnings() As List(Of Alert)
         Dim total As New List(Of Alert)
@@ -312,6 +326,11 @@
             Dim b As Building = Buildings(n)
             Dim bWarnings As List(Of Alert) = b.GetTickWarnings()
             If bWarnings Is Nothing = False Then total.AddRange(bWarnings)
+        Next
+        For n = Convoys.Count - 1 To 0 Step -1
+            Dim c As Convoy = Convoys(n)
+            Dim cWarnings As List(Of Alert) = c.GetTickWarnings
+            If cWarnings Is Nothing = False Then total.AddRange(cWarnings)
         Next
         Return total
     End Function

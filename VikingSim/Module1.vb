@@ -63,7 +63,7 @@
         If wp.GetBestWorker Is Nothing Then settlement.GetResidentBest("employable", "skill=" & wp.Occupation.ToString).ChangeWorkplace(wp)
         If wp.AddProjectCheck(projectName) <> "" Then Exit Sub
         wp.AddProject(projectName)
-        For n = 1 To 75
+        For n = 1 To 100
             wp.Tick()
         Next
     End Sub
@@ -106,6 +106,7 @@
             .Add("Review Residents")
             .Add("Birth Child")
             .Add("Add Building Project")
+            .Add("Start Trade Convoy")
             .Add("Add Location")
             .Add("Add Resource")
         End With
@@ -118,6 +119,7 @@
                 Case "Review Building" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
                 Case "Birth Child" : MenuBirthResident(settlement)
+                Case "Start Trade Convoy" : MenuTradeConvoy(world, settlement)
                 Case "Add Building Project" : MenuAddBuildingProject(settlement)
                 Case "Add Location" : MenuAddLocation(settlement)
                 Case "Add Resource" : MenuAddResource(settlement)
@@ -375,12 +377,43 @@
                 If workers.Count = 0 Then Console.WriteLine("No available workers!") : Console.ReadLine() : Exit Sub
                 person = Menu.getListChoice(workers, 0, "Select a worker:")
             End If
+            If person Is Nothing Then Exit Sub
             If .AddWorkerCheck(person) = False Then Console.WriteLine(person.Name & " cannot join " & .Name & "!") : Console.ReadLine() : Exit Sub
 
             person.ChangeWorkplace(workplace)
             Console.WriteLine(person.Name & " has joined " & .Name & ".")
             Console.ReadLine()
         End With
+    End Sub
+    Private Sub MenuTradeConvoy(ByVal world As World, ByVal settlement As Settlement)
+        Dim destinations As List(Of iMapLocation) = world.GetMapLocations
+        destinations.Remove(settlement)
+        Dim destination As iMapLocation = Menu.getListChoice(destinations, 0, "Select destination:")
+        If destination Is Nothing Then Exit Sub
+
+        Dim leaders As List(Of Person) = settlement.GetResidents("occupation=Trader")
+        If leaders.Count = 0 Then Console.WriteLine("No traders available to lead the convoy.") : Console.ReadLine() : Exit Sub
+        Dim leader As Person = Menu.getListChoice(leaders, 0, "Select a trader to lead the convoy:")
+
+        Dim people As New List(Of Person)
+        While True
+            Dim possiblePeople As List(Of Person) = settlement.GetResidents("")
+            possiblePeople.Remove(leader)
+            For Each p In people
+                possiblePeople.Remove(p)
+            Next
+            If possiblePeople.Count = 0 Then Exit While
+
+            Dim person As Person = Menu.getListChoice(possiblePeople, 0, "Select fellow travellers (0 to end):")
+            If person Is Nothing Then Exit While
+            people.Add(person)
+        End While
+
+        Dim convoy As New ConvoyTrade(leader, people, settlement, destination, True)
+        settlement.AddConvoy(convoy)
+        Console.WriteLine()
+        Console.WriteLine("A convoy lead by " & leader.Name & " has set off from " & settlement.Name & " to " & destination.Name & ".")
+        Console.ReadLine()
     End Sub
     Private Sub MenuAddBuildingProject(ByVal settlement As Settlement)
         Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")

@@ -66,12 +66,17 @@
         Return True
     End Function
     Private Function CheckFlagsAdvanced(ByVal flag As String) As Boolean
+        'unrecognised advanced flag, let it go
+        If flag.Contains("=") = False Then Return True
+
+        'advanced flags all contain = with string split up by +
         Dim ns As String() = flag.Split("=")
         Dim header As String = ns(0)
         Dim entry As String = ns(1)
 
         Select Case header
-            Case "name" : If (NameFirst & "+" & NameLast) = entry Then Return True
+            Case "occupation" : If OccupationName.ToLower = entry Then Return True
+            Case "name" : If (NameFirst & "+" & NameLast).ToLower = entry Then Return True
         End Select
 
         Return False
@@ -232,6 +237,7 @@
                 Case Skill.Farming : Return "Farmer"
                 Case Skill.Storyteling : Return "Storyteller"
                 Case Skill.Religion : Return "Priest"
+                Case Skill.Trading : Return "Trader"
 
                 Case Skill.Smithing : Return "Smith"
                 Case Skill.Sculpting : Return "Sculpter"

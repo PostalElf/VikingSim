@@ -42,6 +42,7 @@
     End Function
     Default Public Property Item(ByVal key As String) As Integer
         Get
+            If Data.ContainsKey(key) = False Then Return 0
             Return Data(key)
         End Get
         Set(ByVal value As Integer)
