@@ -57,7 +57,7 @@
     End Function
 
     Protected Apprentices As New List(Of Person)
-    Protected Const ApprenticeCapacity As Integer = 1
+    Protected ApprenticeCapacity As Integer = 1
     Public Sub AddApprentice(ByVal p As Person)
         Apprentices.Add(p)
     End Sub

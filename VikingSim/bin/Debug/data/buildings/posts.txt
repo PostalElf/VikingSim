@@ -1,0 +1,9 @@
+[Trading Post]
+Buildtime: 100
+Buildcost: Hardwood, 50
+Buildtype: Hardwood
+Land: 1
+Occupation: Trading
+Capacity: 1
+Efficiency: 1/2/3/4
+Labour: 100

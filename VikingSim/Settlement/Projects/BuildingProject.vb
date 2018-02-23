@@ -8,6 +8,7 @@
             rawData = IO.ImportSquareBracketSelect(IO.sbHouses, targetName)
             If rawData Is Nothing Then rawData = IO.ImportSquareBracketSelect(IO.sbProducers, targetName) : pBuildingType = "Producer"
             If rawData Is Nothing Then rawData = IO.ImportSquareBracketSelect(IO.sbProjectors, targetName) : pBuildingType = "Projector"
+            If rawData Is Nothing Then rawData = IO.ImportSquareBracketSelect(IO.sbPosts, targetName) : pBuildingType = "Post"
             If rawData Is Nothing Then Throw New Exception(targetName & " not found for BuildingProject.Import")
         Else
             'known building type; set rawData
@@ -16,6 +17,7 @@
                 Case "House" : pathname = IO.sbHouses
                 Case "Producer" : pathname = IO.sbProducers
                 Case "Projector" : pathname = IO.sbProjectors
+                Case "Post" : pathname = IO.sbPosts
                 Case Else : Throw New Exception("Unrecognised building type: " & pBuildingType)
             End Select
             rawData = IO.ImportSquareBracketSelect(pathname, targetName)
@@ -44,6 +46,7 @@
             Case "House" : b = House.Import(Name)
             Case "Producer" : b = WorkplaceProducer.Import(Name)
             Case "Projector" : b = WorkplaceProjector.Import(Name)
+            Case "Post" : b = WorkplacePost.import(Name)
             Case Else : Throw New Exception("Unrecgonised BuildingType in BuildingProject")
         End Select
         b.SetHistory(Creator, World.TimeNow)

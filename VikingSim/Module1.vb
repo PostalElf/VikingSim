@@ -130,7 +130,7 @@
 
     Private Sub MenuReviewBuildings(ByVal settlement As Settlement)
         Console.WriteLine()
-        Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
+        Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector", "Post"}, 1, "Select type of building:")
         If choice = "" Then Exit Sub
         Dim buildings As List(Of Building) = settlement.GetBuildings(choice)
         Console.WriteLine()
@@ -141,6 +141,7 @@
             Case "House" : MenuReviewHouse(b)
             Case "Producer" : MenuReviewWorkplace(b)
             Case "Projector" : MenuReviewWorkplace(b)
+            Case "Post" : MenuReviewWorkplace(b)
         End Select
     End Sub
     Private Sub MenuReviewHouse(ByVal house As House)
@@ -416,7 +417,7 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuAddBuildingProject(ByVal settlement As Settlement)
-        Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector"}, 1, "Select type of building:")
+        Dim choice As String = Menu.getListChoice(New List(Of String) From {"House", "Producer", "Projector", "Post"}, 1, "Select type of building:")
         Dim p As BuildingProject = Nothing
         Dim names As List(Of String)
 
@@ -424,6 +425,7 @@
             Case "House" : names = IO.ImportSquareBracketHeaders(IO.sbHouses)
             Case "Producer" : names = IO.ImportSquareBracketHeaders(IO.sbProducers)
             Case "Projector" : names = IO.ImportSquareBracketHeaders(IO.sbProjectors)
+            Case "Post" : names = IO.ImportSquareBracketHeaders(IO.sbPosts)
             Case Else : Throw New Exception("Invalid type of building.")
         End Select
 
@@ -441,6 +443,11 @@
         Dim projector As WorkplaceProjector = Menu.getListChoice(projectors, 1, "Select projector:")
         projector.AddProject(p)
         Console.WriteLine(buildingName & " project added to " & projector.Name & ".")
+        If Menu.confirmChoice(0, "Accelerate production? ") = True Then
+            For n = 1 To 100
+                projector.Tick()
+            Next
+        End If
         Console.ReadLine()
     End Sub
     Private Sub MenuAddLocation(ByVal settlement As Settlement)

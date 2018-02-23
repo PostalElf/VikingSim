@@ -81,7 +81,7 @@
     Public Function GetPossibleProjects() As List(Of Project)
         Dim rawPathnames As String()
         Select Case ProjectType
-            Case "Building" : rawPathnames = {IO.sbHouses, IO.sbProducers, IO.sbProjectors}
+            Case "Building" : rawPathnames = {IO.sbHouses, IO.sbProducers, IO.sbProjectors, IO.sbPosts}
             Case "Gear" : rawPathnames = {IO.sbGear}
             Case "Furniture" : rawPathnames = {IO.sbFurniture}
             Case Else : Throw New Exception("Invalid projectType")
@@ -96,6 +96,7 @@
                     Case IO.sbHouses : project = BuildingProject.Import(header, "House")
                     Case IO.sbProducers : project = BuildingProject.Import(header, "Producer")
                     Case IO.sbProjectors : project = BuildingProject.Import(header, "Projector")
+                    Case IO.sbPosts : project = BuildingProject.Import(header, "Post")
                     Case IO.sbGear : project = ItemProject.Import(header, "Gear")
                     Case IO.sbFurniture : project = ItemProject.Import(header, "Furniture")
                 End Select
@@ -130,7 +131,7 @@
         If Project.Tick(labour) = True Then
             Dim cp = Project.unpack()
             Select Case cp.GetType
-                Case GetType(House), GetType(WorkplaceProducer), GetType(WorkplaceProjector), GetType(Storage) : Settlement.AddBuilding(cp)
+                Case GetType(House), GetType(WorkplaceProducer), GetType(WorkplaceProjector), GetType(WorkplacePost), GetType(Storage) : Settlement.AddBuilding(cp)
                 Case GetType(Gear), GetType(Furniture) : Settlement.AddItem(cp)
             End Select
             World.AddAlert(Me, 2, Name & " has finished production: " & Project.ToString)

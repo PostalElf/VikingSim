@@ -231,13 +231,3 @@ Labour: 100
 Cost: Iron Ore, 10
 Cost: Coal, 10
 Produce: Steel, 10
-
-[Trading Post]
-Buildtime: 100
-Buildcost: Hardwood, 50
-Buildtype: Hardwood
-Land: 1
-Occupation: Trading
-Capacity: 1
-Efficiency: 1/2/3/4
-Labour: 100

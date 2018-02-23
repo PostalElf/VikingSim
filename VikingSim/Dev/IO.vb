@@ -5,6 +5,7 @@ Public Class IO
     Public Const sbStorage As String = "data/buildings/storage.txt"
     Public Const sbProducers As String = "data/buildings/producers.txt"
     Public Const sbProjectors As String = "data/buildings/projectors.txt"
+    Public Const sbPosts As String = "data/buildings/posts.txt"
     Public Const sbResources As String = "data/worldgen/resources.txt"
     Public Const sbTerrain As String = "data/worldgen/terrain.txt"
     Public Const sbDiseases As String = "data/worldgen/diseases.txt"
