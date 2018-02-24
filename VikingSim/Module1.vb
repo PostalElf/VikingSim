@@ -52,6 +52,12 @@
         AddProject(settlement, "Builder", "Carpenter")
         'AddProject(settlement, "Builder", "Cottage")
         AddProject(settlement, "Builder", "Fir Woodcutter")
+        settlement.AddLocation("Forest")
+        AddProject(settlement, "Builder", "Foraging Hut")
+        Dim hut As WorkplaceProducer = settlement.GetBuildings("name=Foraging+Hut")(0)
+        For n = 1 To 3
+            hut.AddWorker(settlement.GetResidentBest("employable", "affinity=" & hut.Occupation.ToString))
+        Next
 
         Return settlement
     End Function
