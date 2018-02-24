@@ -36,8 +36,12 @@
         Dim settlement As Settlement = world.GetSettlements("")(0)
         settlement.AddResources("Hardwood", 100)
         settlement.AddResources("Softwood", 100)
-        settlement.AddResources("Bread", 100)
+        settlement.AddResources("Fruit", 100)
         settlement.AddResources("Bronze", 50)
+
+        For Each House As House In settlement.GetBuildings("house")
+            House.AddFoodEaten("Fruit", 1)
+        Next
 
         Dim campfire = WorkplaceProjector.Import("Campfire")
         campfire.SetHistory("Odin", world.TimeNow)
@@ -110,6 +114,7 @@
         With bMenu
             .Add("Review Building")
             .Add("Review Residents")
+            .Add("Set Food")
             .Add("Birth Child")
             .Add("Add Building Project")
             .Add("Start Trade Convoy")
@@ -124,6 +129,7 @@
             Select Case Menu.getListChoice(bMenu, 0, "Select option:")
                 Case "Review Building" : MenuReviewBuildings(settlement)
                 Case "Review Residents" : MenuReviewResidents(settlement)
+                Case "Set Food" : MenuSetFood(settlement)
                 Case "Birth Child" : MenuBirthResident(settlement)
                 Case "Start Trade Convoy" : MenuTradeConvoy(world, settlement)
                 Case "Add Building Project" : MenuAddBuildingProject(settlement)
@@ -167,6 +173,25 @@
                 Case "Birth" : MenuBirthResident(house)
                 Case Else : Exit While
             End Select
+        End While
+    End Sub
+    Private Sub MenuSetFood(ByVal settlement As Settlement)
+        Dim houses As List(Of Building) = settlement.GetBuildings("house")
+        If Menu.confirmChoice(0, "Strip previous food preferences? ") = True Then
+            For Each h As House In houses
+                h.RemoveFoodEaten()
+            Next
+        End If
+
+        While True
+            Console.Write("Enter food: ")
+            Dim foodString As String = Console.ReadLine
+            If ResourceDict.GetCategory(foodString) <> "Food" Then Console.WriteLine("Invalid type of food!") : Continue While
+            Dim qty As Integer = Menu.getNumInput(0, 1, 100, "How much? ")
+
+            For Each h As House In houses
+                h.AddFoodEaten(foodString, qty)
+            Next
         End While
     End Sub
     Private Sub MenuSetFood(ByVal house As House)

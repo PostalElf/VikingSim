@@ -44,7 +44,6 @@
                     house = house.Import("Hut")
                     house.SetHistory("Odin", world.TimeNow)
                     settlement.AddBuilding(house)
-                    house.AddFoodEaten("Bread", 1)
                 End If
                 child.MoveHouse(house)
             Next

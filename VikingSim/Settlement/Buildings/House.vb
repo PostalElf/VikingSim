@@ -112,6 +112,12 @@
         FoodEaten(r) -= qty
         If FoodEaten(r) <= 0 Then FoodEaten.RemoveKey(r)
     End Sub
+    Public Sub RemoveFoodEaten()
+        For n = 0 To FoodEaten.Keys.Count - 1 Step -1
+            Dim k As String = FoodEaten.Keys(n)
+            FoodEaten.RemoveKey(k)
+        Next
+    End Sub
     Private ReadOnly Property FoodEatenTotal As ResourceDict
         Get
             'actual amount of food eaten
