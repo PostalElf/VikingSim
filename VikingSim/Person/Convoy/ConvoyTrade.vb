@@ -20,15 +20,6 @@
                 If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleInventory, Me)
                 alerts = .TradeOutpost.ConvoySellGoodsCheck(SaleResources, Me)
                 If alerts.Count = 0 Then .TradeOutpost.ConvoySellGoods(SaleResources, Me)
-
-                'Dim err As String = .TradeOutpost.SellGoodsCheck(SaleInventory)
-                'If err = "" Then .SellGoods(SaleInventory) Else World.AddAlert(Me, 2, err)
-                'err = .SellGoodsCheck(SaleResources)
-                'If err = "" Then .SellGoods(SaleResources) Else World.AddAlert(Me, 2, err)
-                'err = .BuyGoodsCheck(ShoppingListInventory, Me)
-                'If err = "" Then .BuyGoods(ShoppingListInventory, Me) Else World.AddAlert(Me, 2, err)
-                'err = .BuyGoodsCheck(ShoppingListResources, Me)
-                'If err = "" Then .BuyGoods(ShoppingListResources, Me) Else World.AddAlert(Me, 2, err)
             End With
 
             'turn around and return
@@ -36,6 +27,7 @@
             Dim newDestination As iMapLocation = Origin
             Origin = Destination
             Destination = newDestination
+            ResetJourney()
         Else
             'arrived back home
             Dim settlement As Settlement = CType(Destination, Settlement)

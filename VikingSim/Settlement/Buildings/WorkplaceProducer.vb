@@ -87,6 +87,7 @@
 
         If ProductionCosts.Count > 0 Then Console.WriteLine("└ Cost:      " & ProductionCosts.ToString)
         If ProducedResources.Count > 0 Then Console.WriteLine("└ Produces:  " & ProducedResources.ToString)
+        Console.WriteLine("└ Progress:  " & Labour & "/" & LabourThreshold)
         Console.WriteLine()
     End Sub
 End Class

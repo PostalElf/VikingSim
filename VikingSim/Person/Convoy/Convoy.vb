@@ -8,6 +8,12 @@
     Private TravelSpeed As Integer
     Private Progress As Integer
     Private ProgressThreshold As Integer
+    Protected MustOverride Sub ArriveDestination()
+    Protected Sub ResetJourney()
+        Progress = 0
+        TravelSpeed = Leader.GetInventoryBonus("TravelSpeed") + 10
+        ProgressThreshold = Math.Round(World.GetDistance(Origin, Destination) * 10)
+    End Sub
 
     Private Money As Integer
     Public Sub AddFunds(ByVal qty As Integer)
@@ -21,8 +27,7 @@
         Destination = _destination
         IsRoundTrip = _isRoundtrip
 
-        TravelSpeed = Leader.GetInventoryBonus("TravelSpeed") + 10
-        ProgressThreshold = Math.Round(World.GetDistance(_origin, _destination) * 10)
+        ResetJourney()
 
         If TypeOf Origin Is Settlement Then
             Dim settlement As Settlement = CType(Origin, Settlement)
@@ -41,7 +46,7 @@
         Progress += TravelSpeed
         If Progress >= ProgressThreshold Then ArriveDestination()
     End Sub
-    Protected MustOverride Sub ArriveDestination()
+
     Public Function GetTickWarnings() As List(Of Alert)
         Dim total As New List(Of Alert)
         If Progress + TravelSpeed >= ProgressThreshold Then total.Add(New Alert(Me, 1, "Convoy from " & Origin.Name & " will arrive in " & Destination.Name & " next week."))

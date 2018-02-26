@@ -56,12 +56,21 @@
         AddProject(settlement, "Builder", "Carpenter")
         'AddProject(settlement, "Builder", "Cottage")
         AddProject(settlement, "Builder", "Fir Woodcutter")
-        settlement.AddLocation("Forest")
-        AddProject(settlement, "Builder", "Foraging Hut")
-        Dim hut As WorkplaceProducer = settlement.GetBuildings("name=Foraging+Hut")(0)
-        For n = 1 To 3
-            hut.AddWorker(settlement.GetResidentBest("employable", "affinity=" & hut.Occupation.ToString))
+        For x = 1 To 2
+            settlement.AddLocation("Forest")
+            AddProject(settlement, "Builder", "Foraging Hut")
+            Dim hut As WorkplaceProducer = settlement.GetBuildings("employable name=Foraging+Hut")(0)
+            For n = 1 To 3
+                Dim bestWorker As Person = settlement.GetResidentBest("employable", "affinity=" & hut.Occupation.ToString)
+                bestWorker.ChangeWorkplace(hut)
+            Next
+            settlement.AddResources("Hardwood", 100)
         Next
+        AddProject(settlement, "Builder", "Trading Post")
+        Dim post As WorkplacePost = settlement.GetBuildings("employable name=Trading+Post")(0)
+        Dim bw As Person = settlement.GetResidentBest("employable", "affinity=" & post.Occupation.ToString)
+        bw.ChangeWorkplace(post)
+        world.ConsoleReport()
 
         Return settlement
     End Function

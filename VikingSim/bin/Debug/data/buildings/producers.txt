@@ -106,7 +106,7 @@ Land: 1
 Occupation: Logging
 Capacity: 3
 Efficiency: 1/2/3/4
-Labour: 100
+Labour: 10
 Produce: Fruit, 10
 Resource: Forest
 
