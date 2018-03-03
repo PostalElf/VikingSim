@@ -43,4 +43,14 @@
     Public Function ToStringShort() As String
         Return Season & " " & Year
     End Function
+    Public Function Save() As String
+        Return "TimeNow:" & Year & "-" & Month & "-" & Week
+    End Function
+    Public Shared Function Load(ByVal entry As String) As CalendarDate
+        Dim fs As String() = entry.Split("-")
+        Dim year As Integer = Convert.ToInt32(fs(0))
+        Dim month As Integer = Convert.ToInt32(fs(1))
+        Dim week As Integer = Convert.ToInt32(fs(2))
+        Return New CalendarDate(year, month, week)
+    End Function
 End Class

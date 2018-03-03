@@ -27,6 +27,43 @@
     End Function
 #End Region
 
+#Region "Save/Load"
+    Public Shared Function Load(ByVal rootPath As String, ByVal entry As String) As Settlement
+        Dim pathName As String = rootPath & entry & "/"
+        Dim raw As List(Of String) = IO.LoadList(pathName, "settlement.txt")
+
+        Dim settlement As New Settlement
+        With settlement
+            For Each ln In raw
+                .ParseLoad(ln)
+            Next
+        End With
+    End Function
+    Private Sub ParseLoad(ByVal raw As String)
+        Dim fs As String() = raw.Split(":")
+        ParseLoad(fs(0), fs(1))
+    End Sub
+    Private Sub ParseLoad(ByVal header As String, ByVal entry As String)
+        Select Case header
+            Case "Name" : _Name = entry
+            Case "CreationDate" : CreationDate = CalendarDate.Load(entry)
+            Case "CreatorName" : CreatorName = entry
+        End Select
+    End Sub
+
+    Public Sub Save(ByVal rootPath As String)
+        Dim pathName As String = rootPath & Name & "/"
+
+        Dim raw As New List(Of String)
+        With raw
+            .Add("Name:" & Name)
+            .Add("CreationDate:" & CreationDate.Save)
+            .Add("CreatorName:" & CreatorName)
+        End With
+        IO.SaveList(raw, pathName, "settlement.txt")
+    End Sub
+#End Region
+
 #Region "Personal Identifiers"
     Private _Name As String
     Public ReadOnly Property Name As String Implements iMapLocation.Name

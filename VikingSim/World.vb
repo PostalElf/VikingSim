@@ -55,6 +55,48 @@
     End Function
 #End Region
 
+#Region "Save/Load"
+    Private Const saveRoot As String = "saves/"
+    Private Shared SaveDirectory As String = "01/"
+    Private Shared SavePath As String = saveRoot & SaveDirectory
+
+    Public Sub Save()
+        Dim raw As New List(Of String)
+        With raw
+            .Add(TimeNow.Save)
+            For Each s In Settlements
+                .Add("Settlement:" & s.Name)
+            Next
+        End With
+
+        IO.SaveList(raw, SavePath, "world.txt")
+    End Sub
+
+    Public Shared Function Load() As World
+        Dim raw As List(Of String) = IO.LoadList(SavePath, "world.txt")
+
+        Dim world As New World
+        With world
+            For Each ln In raw
+                .ParseLoad(ln)
+            Next
+        End With
+        Return world
+    End Function
+    Private Sub ParseLoad(ByVal raw As String)
+        Dim fs As String() = raw.Split(":")
+        Dim header As String = fs(0)
+        Dim entry As String = fs(1)
+        ParseLoad(header, entry)
+    End Sub
+    Private Sub ParseLoad(ByVal header As String, ByVal entry As String)
+        Select Case header
+            Case "TimeNow" : TimeNow = CalendarDate.Load(entry)
+            Case "Settlement" : AddSettlement(Settlement.Load(SavePath, entry))
+        End Select
+    End Sub
+#End Region
+
 #Region "Alerts"
     'higher priority number, the more important it is
     'highest priority is currently 3; remember to add colour in New().AlertsColour if new priorities are added

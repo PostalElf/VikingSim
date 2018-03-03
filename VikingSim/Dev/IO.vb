@@ -71,4 +71,24 @@ Public Class IO
         Next
         Return Nothing
     End Function
+
+    Public Shared Sub SaveList(ByVal raw As List(Of String), ByVal path As String, ByVal filename As String)
+        If System.IO.Directory.Exists(path) = False Then System.IO.Directory.CreateDirectory(path)
+        If path.EndsWith("/") = False Then path &= "/"
+
+        Using sr As New System.IO.StreamWriter(path & filename)
+            For Each ln In raw
+                sr.WriteLine(ln)
+            Next
+        End Using
+    End Sub
+    Public Shared Function LoadList(ByVal path As String, ByVal filename As String) As List(Of String)
+        Dim raw As New List(Of String)
+        Using sr As New System.IO.StreamReader(path & filename)
+            While sr.Peek <> -1
+                raw.Add(sr.ReadLine)
+            End While
+        End Using
+        Return raw
+    End Function
 End Class
