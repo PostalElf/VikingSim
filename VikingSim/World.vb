@@ -68,10 +68,11 @@
                 .Add("Settlement:" & s.Name)
                 s.Save(SavePath)
             Next
-            For Each ss In SettlementSites
-                .Add("SettlementSite:" & ss.Name)
-                ss.save(SavePath)
-            Next
+            'TODO
+            'For Each ss In SettlementSites
+            '    .Add("SettlementSite:" & ss.Name)
+            '    ss.save(SavePath)
+            'Next
         End With
 
         IO.SaveTextList(SavePath, "world.txt", raw)

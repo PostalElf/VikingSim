@@ -45,12 +45,14 @@
                     Dim rawBuildingList As List(Of String) = rawBuildingDict(k)
                     Select Case bt
                         Case "house" : .AddBuilding(House.load(rawBuildingList))
-                        Case "workplace" : .AddBuilding(Workplace.load(rawBuildingList))
-                        Case "storage" : .AddBuilding(Storage.load(rawBuildingList))
+                            'TODO
+                            'Case "workplace" : .AddBuilding(Workplace.load(rawBuildingList))
+                            'Case "storage" : .AddBuilding(Storage.load(rawBuildingList))
                     End Select
                 Next
             Next
         End With
+        Return settlement
     End Function
     Private Sub ParseLoad(ByVal raw As String)
         Dim fs As String() = raw.Split(":")
