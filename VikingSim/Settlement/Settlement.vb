@@ -30,12 +30,25 @@
 #Region "Save/Load"
     Public Shared Function Load(ByVal rootPath As String, ByVal entry As String) As Settlement
         Dim pathName As String = rootPath & entry & "/"
-        Dim raw As List(Of String) = IO.LoadList(pathName, "settlement.txt")
+        Dim raw As List(Of String) = IO.ImportTextList(pathName, "settlement.txt")
 
         Dim settlement As New Settlement
         With settlement
             For Each ln In raw
                 .ParseLoad(ln)
+            Next
+
+            Dim buildingType As String() = {"house", "workplace", "storage"}
+            For Each bt In buildingType
+                Dim rawBuildingDict As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(pathName & bt & ".txt")
+                For Each k In rawBuildingDict.Keys
+                    Dim rawBuildingList As List(Of String) = rawBuildingDict(k)
+                    Select Case bt
+                        Case "house" : .AddBuilding(House.load(rawBuildingList))
+                        Case "workplace" : .AddBuilding(Workplace.load(rawBuildingList))
+                        Case "storage" : .AddBuilding(Storage.load(rawBuildingList))
+                    End Select
+                Next
             Next
         End With
     End Function
@@ -43,13 +56,19 @@
         Dim fs As String() = raw.Split(":")
         ParseLoad(fs(0), fs(1))
     End Sub
-    Private Sub ParseLoad(ByVal header As String, ByVal entry As String)
+    Private Function ParseLoad(ByVal header As String, ByVal entry As String) As Boolean
         Select Case header
             Case "Name" : _Name = entry
+            Case "Location" : AddLocation(entry)
+            Case "Land" : LandTotal = Convert.ToInt32(entry)
+            Case "MapX" : X = Convert.ToInt32(entry)
+            Case "MapY" : Y = Convert.ToInt32(entry)
             Case "CreationDate" : CreationDate = CalendarDate.Load(entry)
             Case "CreatorName" : CreatorName = entry
+            Case Else : Return False
         End Select
-    End Sub
+        Return True
+    End Function
 
     Public Sub Save(ByVal rootPath As String)
         Dim pathName As String = rootPath & Name & "/"
@@ -57,16 +76,37 @@
         Dim raw As New List(Of String)
         With raw
             .Add("Name:" & Name)
-            .Add("CreationDate:" & CreationDate.Save)
+            For Each l In Locations
+                .Add("Location:" & l)
+            Next
+            .Add("Land:" & LandTotal)
+            .Add("MapX:" & X)
+            .Add("MapY:" & Y)
+            .Add("CreationDate:" & CreationDate.GetSaveString)
             .Add("CreatorName:" & CreatorName)
+
+            'todo: modifiers
+
         End With
-        IO.SaveList(raw, pathName, "settlement.txt")
+        IO.SaveTextList(pathName, "settlement.txt", raw)
+
+        Dim buildingType As String() = {"house", "workplace", "storage"}
+        For Each bt In buildingType
+            Dim total As New Dictionary(Of String, List(Of String))
+            For Each b In GetBuildings(bt)
+                Dim iSave As iSaveable = CType(b, iSaveable)
+                Dim saveHeader As String = iSave.GetSaveListHeader
+                Dim saveList As List(Of String) = iSave.GetSaveList()
+                total.Add(saveHeader, saveList)
+            Next
+            IO.SaveSquareBracketList(rootPath, bt & ".txt", total)
+        Next
     End Sub
 #End Region
 
 #Region "Personal Identifiers"
     Private _Name As String
-    Public ReadOnly Property Name As String Implements iMapLocation.Name
+    Public ReadOnly Property Name As String Implements iMapLocation.Name, iModifiable.Name
         Get
             Return _Name
         End Get

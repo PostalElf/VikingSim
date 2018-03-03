@@ -20,7 +20,7 @@
     End Sub
     Public Sub DumpItems(ByVal settlement As Settlement)
         For n = Items.Count - 1 To 0 Step -1
-            settlement.additem(Items(n))
+            settlement.AddItem(Items(n))
             Items.RemoveAt(n)
         Next
     End Sub
@@ -33,7 +33,7 @@
     Public Function CheckItems(ByVal item As Item) As Integer
         Dim count As Integer = 0
         For Each i In Items
-            If i.name = item.name Then count += 1
+            If i.Name = item.Name Then count += 1
         Next
         Return count
     End Function
@@ -45,5 +45,4 @@
         Next
         Return total
     End Function
-
 End Class

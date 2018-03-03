@@ -43,7 +43,7 @@
     Public Function ToStringShort() As String
         Return Season & " " & Year
     End Function
-    Public Function Save() As String
+    Public Function GetSaveString() As String
         Return "TimeNow:" & Year & "-" & Month & "-" & Week
     End Function
     Public Shared Function Load(ByVal entry As String) As CalendarDate

@@ -63,17 +63,22 @@
     Public Sub Save()
         Dim raw As New List(Of String)
         With raw
-            .Add(TimeNow.Save)
+            .Add(TimeNow.GetSaveString)
             For Each s In Settlements
                 .Add("Settlement:" & s.Name)
+                s.Save(SavePath)
+            Next
+            For Each ss In SettlementSites
+                .Add("SettlementSite:" & ss.Name)
+                ss.save(SavePath)
             Next
         End With
 
-        IO.SaveList(raw, SavePath, "world.txt")
+        IO.SaveTextList(SavePath, "world.txt", raw)
     End Sub
 
     Public Shared Function Load() As World
-        Dim raw As List(Of String) = IO.LoadList(SavePath, "world.txt")
+        Dim raw As List(Of String) = IO.ImportTextList(SavePath, "world.txt")
 
         Dim world As New World
         With world

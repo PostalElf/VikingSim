@@ -14,7 +14,7 @@
 
                 Select Case header
                     Case "Storage" : .Capacity.ParsedAdd(entry)
-                    Case Else : .BaseImport(header, entry)
+                    Case Else : .BaseParsedLoad(header, entry)
                 End Select
             Next
         End With

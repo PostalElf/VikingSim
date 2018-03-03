@@ -1,5 +1,7 @@
 ﻿Public Class House
     Inherits Building
+    Implements iSaveable
+
 
 #Region "Constructors"
     Private Shared HouseNumber As Integer = 1
@@ -16,14 +18,53 @@
                 Dim ln As String() = line.Split(":")
                 Dim header As String = ln(0).Trim
                 Dim entry As String = ln(1).Trim
-                Select Case header
-                    Case "Capacity" : .ResidentCapacity = Convert.ToInt32(entry)
-                    Case "Morale" : .HouseMorale = Convert.ToInt32(entry)
-                    Case Else : .BaseImport(header, entry)
-                End Select
+                .ParsedLoad(header, entry)
             Next
         End With
         Return h
+    End Function
+    Private Sub ParsedLoad(ByVal header As String, ByVal entry As String)
+        Select Case header
+            Case "Capacity" : ResidentCapacity = Convert.ToInt32(entry)
+            Case "Morale" : HouseMorale = Convert.ToInt32(entry)
+
+            Case "Resident"
+                Dim possiblePeople As List(Of Person) = Settlement.GetResidents("name=" & entry.Replace(" ", "+"))
+                If possiblePeople.Count > 0 Then Throw New Exception("More than one person with the same name.")
+                AddResident(possiblePeople(0))
+
+            Case Else : BaseParsedLoad(header, entry)
+        End Select
+    End Sub
+#End Region
+
+#Region "Save/Load"
+    Private Function GetSaveListHeader() As String Implements iSaveable.GetSaveListHeader
+        Return Name
+    End Function
+    Private Overloads Function GetSaveList() As System.Collections.Generic.List(Of String) Implements iSaveable.GetSaveList
+        Dim total As New List(Of String)
+        With total
+            .AddRange(MyBase.BaseGetSaveList)
+            .Add("Capacity:" & ResidentCapacity)
+            .Add("Morale:" & HouseMorale)
+            For Each r In Residents
+                .Add("Resident:" & r.Name)
+            Next
+        End With
+        Return total
+    End Function
+    Public Overloads Shared Function Load(ByVal raw As List(Of String)) As House
+        Dim house As New House
+        With house
+            For Each ln In raw
+                Dim fs As String() = ln.Split(":")
+                Dim header As String = fs(0)
+                Dim entry As String = fs(1)
+                .ParsedLoad(header, entry)
+            Next
+        End With
+        Return house
     End Function
 #End Region
 

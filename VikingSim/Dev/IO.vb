@@ -28,6 +28,10 @@ Public Class IO
         End Using
         Return l
     End Function
+    Public Shared Function ImportTextList(ByVal rootPath As String, ByVal filename As String) As List(Of String)
+        If rootPath.EndsWith("/") = False Then rootPath &= "/"
+        Return ImportTextList(rootPath & filename)
+    End Function
     Public Shared Function ImportSquareBracketList(ByVal pathname As String) As Dictionary(Of String, List(Of String))
         Dim total As New Dictionary(Of String, List(Of String))
         Using sr As New System.IO.StreamReader(pathname)
@@ -72,23 +76,31 @@ Public Class IO
         Return Nothing
     End Function
 
-    Public Shared Sub SaveList(ByVal raw As List(Of String), ByVal path As String, ByVal filename As String)
-        If System.IO.Directory.Exists(path) = False Then System.IO.Directory.CreateDirectory(path)
-        If path.EndsWith("/") = False Then path &= "/"
+    Public Shared Sub SaveTextList(ByVal rootPath As String, ByVal filename As String, ByVal raw As List(Of String))
+        If System.IO.Directory.Exists(rootPath) = False Then System.IO.Directory.CreateDirectory(rootPath)
+        If rootPath.EndsWith("/") = False Then rootPath &= "/"
 
-        Using sr As New System.IO.StreamWriter(path & filename)
+        Using sr As New System.IO.StreamWriter(rootPath & filename)
             For Each ln In raw
                 sr.WriteLine(ln)
             Next
         End Using
     End Sub
-    Public Shared Function LoadList(ByVal path As String, ByVal filename As String) As List(Of String)
-        Dim raw As New List(Of String)
-        Using sr As New System.IO.StreamReader(path & filename)
-            While sr.Peek <> -1
-                raw.Add(sr.ReadLine)
-            End While
+    Public Shared Sub SaveSquareBracketList(ByVal rootPath As String, ByVal filename As String, ByVal raw As Dictionary(Of String, List(Of String)))
+        If System.IO.Directory.Exists(rootPath) = False Then System.IO.Directory.CreateDirectory(rootPath)
+        If rootPath.EndsWith("/") = False Then rootPath &= "/"
+        SaveSquareBracketList(rootPath & filename, raw)
+    End Sub
+    Public Shared Sub SaveSquareBracketList(ByVal pathname As String, ByVal raw As Dictionary(Of String, List(Of String)))
+        Using sr As New System.IO.StreamWriter(pathname)
+            For Each k In raw.Keys
+                Dim rawList As List(Of String) = raw(k)
+                sr.WriteLine("[" & k & "]")
+                For Each ln In rawList
+                    sr.WriteLine(ln)
+                Next
+                sr.WriteLine()
+            Next
         End Using
-        Return raw
-    End Function
+    End Sub
 End Class

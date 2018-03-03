@@ -1,14 +1,9 @@
 ﻿Public MustInherit Class Building
     Implements iHistorable, iModifiable
-    Protected Sub BaseImport(ByVal header As String, ByVal entry As String)
-        Select Case header
-            Case "Land", "LandUsed" : _LandUsed = Convert.ToInt32(entry)
-        End Select
-    End Sub
 
 #Region "Personal Identifiers"
     Protected _Name As String
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Name As String Implements iModifiable.Name
         Get
             Return _Name
         End Get
@@ -69,6 +64,31 @@
     End Function
 
     Public MustOverride Sub ConsoleReport()
+#End Region
+
+#Region "Save/Load"
+    Protected Function BaseGetSaveList() As List(Of String)
+        Dim total As New List(Of String)
+        With total
+            .Add("Name:" & Name)
+            .Add("CreatorName:" & CreatorName)
+            .Add("CreationDate:" & CreationDate.GetSaveString)
+            .Add("Settlement:" & Settlement.Name)
+            .Add("LandUsed:" & LandUsed)
+
+            For Each m In ModifierList
+                .Add("Modifier:" & m.GetSaveString)
+            Next
+
+            '.AddRange(Inventory.getsavelist)
+        End With
+        Return total
+    End Function
+    Protected Sub BaseParsedLoad(ByVal header As String, ByVal entry As String)
+        Select Case header
+            Case "Land", "LandUsed" : _LandUsed = Convert.ToInt32(entry)
+        End Select
+    End Sub
 #End Region
 
 #Region "Land"

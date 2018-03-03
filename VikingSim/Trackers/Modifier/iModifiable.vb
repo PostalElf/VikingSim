@@ -1,4 +1,5 @@
 ﻿Public Interface iModifiable
+    ReadOnly Property Name As String
     Property ModifierList As List(Of Modifier)
     Function GetModifier(ByVal quality As String) As Integer
     Function GetModifiers(ByVal category As String) As List(Of Modifier)

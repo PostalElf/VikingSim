@@ -10,31 +10,48 @@
                 Dim ls As String() = line.Split(":")
                 Dim header As String = ls(0).Trim
                 Dim entry As String = ls(1).Trim
-                Select Case header
-                    Case "Timer"
-                        If entry.Contains("-") Then
-                            Dim es As String() = entry.Split("-")
-                            Dim min As Integer = Convert.ToInt32(es(0))
-                            Dim max As Integer = Convert.ToInt32(es(1))
-                            Dim roll As Integer = rng.Next(min, max + 1)
-                            .Timer = roll
-                        Else
-                            .Timer = Convert.ToInt32(entry)
-                        End If
-
-                    Case "Quality"
-                        Dim qs As String() = entry.Split(",")
-                        Dim quality As String = qs(0).Trim
-                        Dim value As Integer = Convert.ToInt32(qs(1).Trim)
-                        If .Qualities.ContainsKey(quality) = False Then .Qualities.Add(quality, 0)
-                        .Qualities(quality) += value
-
-                    Case "Category" : .Category = entry
-                End Select
+                .ParsedLoad(header, entry)
             Next
         End With
         Return m
     End Function
+    Public Function GetSaveString() As String
+        Dim total As String = Title & "|"
+        total &= Timer
+        Return total
+    End Function
+    Public Shared Function Load(ByVal raw As String, ByVal owner As iModifiable) As Modifier
+        Dim fs As String() = raw.Split("|")
+        Dim m As Modifier = Import(fs(0))
+        With m
+            .Timer = Convert.ToInt32(fs(1))
+            .Owner = owner
+        End With
+        Return m
+    End Function
+    Private Sub ParsedLoad(ByVal header As String, ByVal entry As String)
+        Select Case header
+            Case "Timer"
+                If entry.Contains("-") Then
+                    Dim es As String() = entry.Split("-")
+                    Dim min As Integer = Convert.ToInt32(es(0))
+                    Dim max As Integer = Convert.ToInt32(es(1))
+                    Dim roll As Integer = rng.Next(min, max + 1)
+                    Timer = roll
+                Else
+                    Timer = Convert.ToInt32(entry)
+                End If
+
+            Case "Quality"
+                Dim qs As String() = entry.Split(",")
+                Dim quality As String = qs(0).Trim
+                Dim value As Integer = Convert.ToInt32(qs(1).Trim)
+                If Qualities.ContainsKey(quality) = False Then Qualities.Add(quality, 0)
+                Qualities(quality) += value
+
+            Case "Category" : Category = entry
+        End Select
+    End Sub
 
     Public ReadOnly Property Title As String
         Get

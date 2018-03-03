@@ -5,7 +5,7 @@
     Private NameFirst As String
     Private NameLast As String
     Private Epithet As String
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Name As String Implements iModifiable.Name
         Get
             If NameLast = "" Then
                 Return NameFirst
@@ -211,6 +211,10 @@
             Throw New Exception("Sex neither male nor female")
         End If
     End Function
+#End Region
+
+#Region "Save/Load"
+
 #End Region
 
 #Region "Skills"
