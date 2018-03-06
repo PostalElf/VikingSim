@@ -392,29 +392,28 @@
 
 #Region "Pregnancy"
     Private Pregnancy As Pregnancy
-    Private WeeksSinceLastPregnancy As Integer = 0
+    Private FertilityWeek As Integer = 1
+    Private ReadOnly Property HasPeriod As Boolean
+        Get
+            If FertilityWeek = 1 Then Return True Else Return False
+        End Get
+    End Property
     Private ReadOnly Property PregnancyChance As Integer
         Get
             If Age < AgeMarriage Then Return 0
             If Age > AgeMenopause Then Return 0
-            If House.AddResidentcheck(Nothing) = False Then Return 0
+            If House.AddResidentCheck(Nothing) = False Then Return 0
 
             Dim total As Integer = 0
-            Select Case WeeksSinceLastPregnancy
-                Case Is <= 10 : total = 0
-                Case 11 To 20 : total = 5
-                Case 21 To 30 : total = 10
-                Case 31 To 40 : total = 15
-                Case 41 To 50 : total = 20
-                Case Else : total = 25
-            End Select
-
-            Select Case ChildrenNames.Count
-                Case 0 : total += 5
-                Case 1 To 2 : total += 0
-                Case 3 : total -= 5
-                Case 4 : total -= 10
-                Case Else : total -= 15
+            Select Case Age
+                Case 16 To 20 : total = 20
+                Case 21 To 24 : total = 15
+                Case 25 To 29 : total = 12
+                Case 30 To 34 : total = 10
+                Case 35 To 40 : total = 5
+                Case 41 To 45 : total = 3
+                Case 46 To 49 : total = 1
+                Case Else : total = 0
             End Select
 
             Return total
@@ -425,13 +424,14 @@
         If Pregnancy Is Nothing = False Then
             Dim child As Person = Pregnancy.Tick()
             If child Is Nothing = False Then GiveBirth(child)
-        ElseIf GetRelative("spouse") Is Nothing = False Then
-            'not pregnant but married (AND husband is not travelling); check for pregnancy
-            If rng.Next(1, 101) <= PregnancyChance Then
-                BecomePregnant()
-            Else
-                'not pregnant; increase timer for last pregnancy if fertile
-                If Age >= AgeMarriage Then WeeksSinceLastPregnancy += 1
+        Else
+            'not pregnant; check if married and husband is around
+            If GetRelative("spouse") Is Nothing = False Then
+                FertilityWeek += 1
+                If FertilityWeek >= 4 Then
+                    'chance for pregnancy
+                    If rng.Next(1, 101) <= PregnancyChance Then BecomePregnant() Else FertilityWeek = 1
+                End If
             End If
         End If
     End Sub
@@ -449,7 +449,7 @@
             Dim child As Person = Pregnancy.Tick
             If child Is Nothing = False Then GiveBirth(child)
         Next
-        WeeksSinceLastPregnancy = 0
+        FertilityWeek = 0
     End Sub
     Private Sub GiveBirth(ByVal child As Person)
         If child Is Nothing Then Exit Sub
@@ -468,7 +468,7 @@
         child.MoveHouse(House)
 
         Pregnancy = Nothing
-        WeeksSinceLastPregnancy = 0
+        FertilityWeek = 0
     End Sub
 #End Region
 
