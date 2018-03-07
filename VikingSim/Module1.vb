@@ -105,7 +105,7 @@
                 End If
             End If
 
-            world.Tick()
+            world.Tick(Nothing)
         Next
         world.AlertConsoleReport()
         Console.ReadLine()

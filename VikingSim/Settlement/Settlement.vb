@@ -393,7 +393,7 @@
     End Function
 #End Region
 
-    Public Sub Tick() Implements iTickable.Tick
+    Public Sub Tick(ByVal parent As iTickable) Implements iTickable.Tick
         TickModifier()
         TradeOutpost.Tick()
 

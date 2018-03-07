@@ -26,7 +26,7 @@
                     If .Map(x, y) Is Nothing Then Exit While
                 End While
                 Dim ss As SettlementSite = SettlementSite.Construct(x, y)
-                .AddSettlementSite(ss)
+                .AddMapLocation(ss)
             Next
 
             'create initial settlement
@@ -50,7 +50,7 @@
             Next
 
             'add to the world proper
-            .AddSettlement(settlement)
+            .AddMapLocation(settlement)
         End With
         Return world
     End Function
@@ -95,7 +95,7 @@
     Private Sub ParseLoad(ByVal header As String, ByVal entry As String)
         Select Case header
             Case "TimeNow" : TimeNow = CalendarDate.Load(entry)
-            Case "Settlement" : AddSettlement(Settlement.Load(SavePath, entry))
+            Case "Settlement" : AddMapLocation(Settlement.Load(SavePath, entry))
         End Select
     End Sub
 #End Region
@@ -140,19 +140,12 @@
     Const xMax As Integer = 40
     Const yMax As Integer = 10
 
-    Private Map(xMax, yMax) As iMapLocation
-    Public Sub AddSettlementSite(ByVal site As SettlementSite)
-        MapLocations.Add(site)
-        Dim ss As iMapLocation = CType(site, iMapLocation)
-        Map(ss.X, ss.Y) = site
-    End Sub
-    Public Sub AddSettlement(ByVal settlement As Settlement)
-        MapLocations.Add(settlement)
-        Dim s As iMapLocation = CType(settlement, iMapLocation)
-        Map(s.X, s.Y) = settlement
-    End Sub
-
     Private MapLocations As New List(Of iMapLocation)
+    Private Map(xMax, yMax) As iMapLocation
+    Public Sub AddMapLocation(ByVal ml As iMapLocation)
+        MapLocations.Add(ml)
+        Map(ml.X, ml.Y) = ml
+    End Sub
     Public Function GetMapLocations(ByVal flags As String) As List(Of iMapLocation)
         Dim total As New List(Of iMapLocation)
         For Each ml In MapLocations
@@ -160,6 +153,12 @@
         Next
         Return total
     End Function
+    Public Sub RemoveMapLocation(ByVal ml As iMapLocation)
+        If MapLocations.Contains(ml) = False Then Exit Sub
+        MapLocations.Remove(ml)
+        Map(ml.X, ml.Y) = Nothing
+    End Sub
+
     Public Shared Function GetDistance(ByVal origin As iMapLocation, ByVal target As iMapLocation) As Double
         Dim xDist As Integer = Math.Abs(origin.X - target.X)
         Dim yDist As Integer = Math.Abs(origin.Y - target.Y)
@@ -187,12 +186,13 @@
             Console.WriteLine()
         Next
     End Sub
-    Public Sub Tick() Implements iTickable.Tick
+    Public Sub Tick(ByVal parent As iTickable) Implements iTickable.Tick
         TimeNow.Tick()
 
-        For Each ml In MapLocations
+        For n = MapLocations.Count - 1 To 0 Step -1
+            Dim ml As iMapLocation = MapLocations(n)
             Dim tickable As iTickable = TryCast(ml, iTickable)
-            If tickable Is Nothing = False Then tickable.Tick()
+            If tickable Is Nothing = False Then tickable.Tick(Me)
         Next
     End Sub
     Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings

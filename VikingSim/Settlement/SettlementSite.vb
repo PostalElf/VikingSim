@@ -58,11 +58,20 @@
         Next
         Return True
     End Function
-    Public Sub Tick() Implements iTickable.Tick
+    Public Sub Tick(ByVal parent As iTickable) Implements iTickable.Tick
+        Const ConversionRate As Integer = 5
+        If rng.Next(1, 101) <= ConversionRate Then
+            Dim world As World = TryCast(parent, World)
+            If world Is Nothing Then Exit Sub
+            world.RemoveMapLocation(Me)
 
+            Dim village As Village = village.construct(Me)
+            world.AddMapLocation(village)
+            world.AddAlert(village, 2, "A new village has been founded.")
+        End If
     End Sub
     Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings
-
+        Return Nothing
     End Function
 
 #Region "World Map"
