@@ -19,9 +19,10 @@
             .Y = ss.Y
 
             If name <> "" Then ._Name = name
-            .Locations = settlementSite.LocationList
-            .LandTotal = 100 - (.Locations.Count * 10)
             .SetHistory("Odinsson", World.TimeNow)
+            Dim ib As iBuildable = TryCast(settlementSite, iBuildable)
+            .Locations = ib.Locations
+            .LandTotal = 100 - (.Locations.Count * 10)
         End With
         Return settlement
     End Function

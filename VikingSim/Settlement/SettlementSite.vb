@@ -1,5 +1,5 @@
 ﻿Public Class SettlementSite
-    Implements iMapLocation, iTickable
+    Implements iMapLocation, iTickable, iBuildable
     Public ReadOnly Property Name As String Implements iMapLocation.Name
         Get
             Return Terrain
@@ -9,8 +9,8 @@
         Return Name
     End Function
 
-    Private Terrain As String
-    Public LocationList As New List(Of String)
+    Private Property Terrain As String Implements iBuildable.Terrain
+    Private Property LocationList As New List(Of String) Implements iBuildable.Locations
     Public Shared Function Construct(ByVal px As Integer, ByVal py As Integer, Optional ByVal terrain As String = Nothing) As SettlementSite
         'allLocation holds a list of all the different types of locations
         Dim terrainDict As Dictionary(Of String, List(Of String)) = IO.ImportSquareBracketList(IO.sbTerrain)
@@ -75,7 +75,7 @@
     End Function
 
 #Region "World Map"
-    Private Property X As Integer Implements iMapLocation.X
-    Private Property Y As Integer Implements iMapLocation.Y
+    Private Property X As Integer Implements iMapLocation.X, iBuildable.X
+    Private Property Y As Integer Implements iMapLocation.Y, iBuildable.Y
 #End Region
 End Class
