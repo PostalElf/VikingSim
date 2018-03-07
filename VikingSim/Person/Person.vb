@@ -543,6 +543,12 @@
         End If
     End Sub
     Private Sub Die()
+        Dim settlement As Settlement = House.Settlement
+        Dim convoy As Convoy = settlement.getConvoy(Me)
+        If convoy Is Nothing = False Then
+            convoy.removePerson(Me)
+        End If
+
         House.RemoveResident(Me)
         Workplace.RemoveApprentice(Me)
         Workplace.RemoveWorker(Me)

@@ -450,7 +450,29 @@
             people.Add(person)
         End While
 
-        Dim convoy As New ConvoyTrade(leader, people, settlement, destination, True)
+        Dim foodEaten As New ResourceDict
+        Dim foodSupply As New ResourceDict
+        While True
+            Console.Write("What food should the " & people.Count + 1 & " travellers eat? ")
+            Dim foodString As String = Console.ReadLine()
+            If foodString = "" OrElse foodString = "0" Then Exit Sub
+            If ResourceDict.GetCategory(foodString) <> "Food" Then Console.WriteLine("Enter only types of food!") : Continue While
+            foodEaten.Add(foodString, 1)
+
+            Dim distance As Double = world.GetDistance(settlement, destination) * 10
+            Dim travelTime As Integer = Math.Ceiling(distance / 10)
+            Dim foodQty As Integer = (people.Count + 1) * travelTime
+            Console.WriteLine("The destination is " & distance & " away.")
+            Console.WriteLine("At a travel speed of 10/week, the travellers will require a minimum of " & foodQty & " " & foodString & ".")
+            foodQty = Menu.getNumInput(0, 0, 1000, "Bring how much " & foodString & "? ")
+            If settlement.CheckResources(foodString, foodQty) = False Then Console.WriteLine("Settlement has insufficient " & foodString & "!") : Continue While
+
+            settlement.AddResources(foodString, -foodQty)
+            foodSupply.Add(foodString, foodQty)
+            Exit While
+        End While
+
+        Dim convoy As New ConvoyTrade(leader, people, settlement, destination, foodEaten, foodSupply, True)
         settlement.AddConvoy(convoy)
         Console.WriteLine()
         Console.WriteLine("A convoy lead by " & leader.Name & " has set off from " & settlement.Name & " to " & destination.Name & ".")

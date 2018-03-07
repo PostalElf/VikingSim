@@ -49,6 +49,21 @@
             Data(key) = value
         End Set
     End Property
+    Public Function CheckMin(ByVal rd As ResourceDict) As Boolean
+        For Each key In rd.Keys
+            If Data.ContainsKey(key) = False Then Return False
+            If Data(key) < rd(key) Then Return False
+        Next
+        Return True
+    End Function
+    Public Sub Remove(ByVal rd As ResourceDict)
+        For n = Data.Keys.Count - 1 To 0 Step -1
+            Dim key As String = Data.Keys(n)
+            If Data.ContainsKey(key) = False Then Continue For
+            Data(key) -= rd(key)
+            If Data(key) = 0 Then Data.Remove(key)
+        Next
+    End Sub
 
     Public Overrides Function ToString() As String
         Dim qtyList As New List(Of String)

@@ -384,10 +384,17 @@
         If Convoys.Contains(convoy) = False Then Exit Sub
         Convoys.Remove(convoy)
     End Sub
+    Public Function GetConvoy(ByVal p As Person) As Convoy
+        For Each c In Convoys
+            If c.CheckPerson(p) = True Then Return c
+        Next
+        Return Nothing
+    End Function
 #End Region
 
     Public Sub Tick()
         TickModifier()
+        TradeOutpost.Tick()
 
         For n = Buildings.Count - 1 To 0 Step -1
             Dim b As Building = Buildings(n)

@@ -147,4 +147,8 @@
             Money += totalCost
         Next
     End Sub
+
+    Public Sub Tick()
+
+    End Sub
 End Class
