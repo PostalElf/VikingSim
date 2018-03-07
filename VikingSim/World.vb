@@ -172,7 +172,7 @@
         If MapLocations.ContainsKey(ml.GetType) = False Then Exit Sub
         If MapLocations(ml.GetType).Contains(ml) = False Then Exit Sub
 
-        MapLocations.Remove(ml)
+        MapLocations(ml.GetType).Remove(ml)
         Map(ml.X, ml.Y) = Nothing
     End Sub
 

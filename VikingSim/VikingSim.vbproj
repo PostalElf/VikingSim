@@ -77,8 +77,10 @@
     <Compile Include="Person\Sex.vb" />
     <Compile Include="Settlement\Buildings\Storage.vb" />
     <Compile Include="Settlement\Buildings\WorkplacePost.vb" />
+    <Compile Include="Settlement\iBuildable.vb" />
     <Compile Include="Settlement\iMapLocation.vb" />
     <Compile Include="Settlement\iSaveable.vb" />
+    <Compile Include="Settlement\iTickable.vb" />
     <Compile Include="Settlement\Trade\iTradable.vb" />
     <Compile Include="Settlement\Trade\TradeOutpost.vb" />
     <Compile Include="Settlement\Trade\Village.vb" />

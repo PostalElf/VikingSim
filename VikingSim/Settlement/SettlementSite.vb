@@ -5,6 +5,15 @@
             Return Terrain
         End Get
     End Property
+    Public Function CheckFlags(ByVal flags As String) As Boolean Implements iMapLocation.CheckFlags
+        For Each f In flags.Split(",")
+            Select Case f.Trim
+                Case "settlementsite" 'do nothing if true
+                Case Else : Return False
+            End Select
+        Next
+        Return True
+    End Function
     Public Overrides Function ToString() As String
         Return Name
     End Function
@@ -49,25 +58,31 @@
         Return site
     End Function
 
-    Public Function CheckFlags(ByVal flags As String) As Boolean Implements iMapLocation.CheckFlags
-        For Each f In flags.Split(",")
-            Select Case f.Trim
-                Case "settlementsite" 'do nothing if true
-                Case Else : Return False
+    Private Shared WeeksSinceLastVillage As Integer = 0
+    Private ReadOnly Property ConversionRate(ByVal world As World) As Integer
+        Get
+            Dim total As Integer = Math.Ceiling(WeeksSinceLastVillage / 3)
+            Dim villages As List(Of iMapLocation) = world.GetMapLocations(GetType(Village))
+            Select Case villages.Count
+                Case Is < 3 : total += 5
+                Case Is > 5 : total -= 5
             End Select
-        Next
-        Return True
-    End Function
+            If total <= 0 Then total = 1
+            If total > 100 Then total = 100
+            Return total
+        End Get
+    End Property
     Public Sub Tick(ByVal parent As iTickable) Implements iTickable.Tick
-        Const ConversionRate As Integer = 5
-        If rng.Next(1, 101) <= ConversionRate Then
-            Dim world As World = TryCast(parent, World)
-            If world Is Nothing Then Exit Sub
+        Dim world As World = TryCast(parent, World)
+        If rng.Next(1, 101) <= ConversionRate(world) Then
             world.RemoveMapLocation(Me)
 
-            Dim village As Village = village.construct(Me)
+            Dim village As Village = village.Construct(Me)
             world.AddMapLocation(village)
             world.AddAlert(village, 2, "A new village has been founded.")
+            WeeksSinceLastVillage = 0
+        Else
+            WeeksSinceLastVillage += 1
         End If
     End Sub
     Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings

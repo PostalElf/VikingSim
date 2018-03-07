@@ -22,7 +22,7 @@
                 Case "View Map" : MenuShowWorldMap(world)
                 Case "Review Settlement" : MenuReviewSettlement(world)
                 Case "Calculate Distance"
-                    Dim origin As iMapLocation = Menu.getListChoice(world.GetMapLocations(""), 0, "Select origin:")
+                    Dim origin As iMapLocation = Menu.getListChoice(world.GetMapLocations(GetType(Settlement)), 0, "Select origin:")
                     Dim destination As iMapLocation = Menu.getListChoice(world.GetMapLocations(""), 0, "Select destination:")
                     Dim distance As Integer = Math.Round(world.GetDistance(origin, destination) * 10)
                     Console.WriteLine("Distance: " & distance)
@@ -33,7 +33,7 @@
         End While
     End Sub
     Private Function BuildSettlement(ByVal world As World) As Settlement
-        Dim settlement As Settlement = world.GetMapLocations("settlement")(0)
+        Dim settlement As Settlement = world.GetMapLocations(GetType(Settlement))(0)
         settlement.AddResources("Hardwood", 100)
         settlement.AddResources("Softwood", 100)
         settlement.AddResources("Fruit", 100)
@@ -116,7 +116,7 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuReviewSettlement(ByVal world As World)
-        Dim settlements As List(Of iMapLocation) = world.GetMapLocations("settlement")
+        Dim settlements As List(Of iMapLocation) = world.GetMapLocations(GetType(Settlement))
         Dim settlement As Settlement = Menu.getListChoice(Of iMapLocation)(settlements, 1, "Select a settlement:")
 
         Dim bMenu As New List(Of String)
