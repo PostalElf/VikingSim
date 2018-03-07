@@ -1,4 +1,5 @@
 ﻿Public Class World
+    Implements iTickable
 #Region "Constructors"
     Public Sub New()
         For n = AlertPriorityMin To AlertPriorityMax
@@ -64,15 +65,11 @@
         Dim raw As New List(Of String)
         With raw
             .Add(TimeNow.GetSaveString)
-            For Each s In Settlements
-                .Add("Settlement:" & s.Name)
-                s.Save(SavePath)
+            For Each ml In MapLocations
+                Dim savable As iSaveable = TryCast(ml, iSaveable)
+                If savable Is Nothing Then Continue For
+                'savable.save()
             Next
-            'TODO
-            'For Each ss In SettlementSites
-            '    .Add("SettlementSite:" & ss.Name)
-            '    ss.save(SavePath)
-            'Next
         End With
 
         IO.SaveTextList(SavePath, "world.txt", raw)
@@ -144,30 +141,23 @@
     Const yMax As Integer = 10
 
     Private Map(xMax, yMax) As iMapLocation
-    Private SettlementSites As New List(Of SettlementSite)
-    Private Settlements As New List(Of Settlement)
     Public Sub AddSettlementSite(ByVal site As SettlementSite)
-        SettlementSites.Add(site)
+        MapLocations.Add(site)
         Dim ss As iMapLocation = CType(site, iMapLocation)
         Map(ss.X, ss.Y) = site
     End Sub
     Public Sub AddSettlement(ByVal settlement As Settlement)
-        Settlements.Add(settlement)
+        MapLocations.Add(settlement)
         Dim s As iMapLocation = CType(settlement, iMapLocation)
         Map(s.X, s.Y) = settlement
     End Sub
-    Public Function GetSettlements(ByVal flags As String) As List(Of Settlement)
-        Dim total As New List(Of Settlement)
-        For Each s In Settlements
-            If s.checkFlags(flags) = True Then total.Add(s)
-        Next
-        Return total
-    End Function
 
-    Public Function GetMapLocations() As List(Of iMapLocation)
+    Private MapLocations As New List(Of iMapLocation)
+    Public Function GetMapLocations(ByVal flags As String) As List(Of iMapLocation)
         Dim total As New List(Of iMapLocation)
-        total.AddRange(Settlements)
-        total.AddRange(SettlementSites)
+        For Each ml In MapLocations
+            If ml.CheckFlags(flags) = True Then total.Add(ml)
+        Next
         Return total
     End Function
     Public Shared Function GetDistance(ByVal origin As iMapLocation, ByVal target As iMapLocation) As Double
@@ -197,17 +187,20 @@
             Console.WriteLine()
         Next
     End Sub
-    Public Sub Tick()
+    Public Sub Tick() Implements iTickable.Tick
         TimeNow.Tick()
 
-        For Each Settlement In Settlements
-            Settlement.Tick()
+        For Each ml In MapLocations
+            Dim tickable As iTickable = TryCast(ml, iTickable)
+            If tickable Is Nothing = False Then tickable.Tick()
         Next
     End Sub
-    Public Function GetTickWarnings() As List(Of Alert)
+    Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings
         Dim total As New List(Of Alert)
-        For Each Settlement In Settlements
-            Dim warnings As List(Of Alert) = Settlement.GetTickWarnings()
+        For Each ml In MapLocations
+            Dim tickable As iTickable = TryCast(ml, iTickable)
+            If tickable Is Nothing = False Then Continue For
+            Dim warnings As List(Of Alert) = tickable.GetTickWarnings()
             If warnings Is Nothing OrElse warnings.Count = 0 Then Continue For
             total.AddRange(warnings)
         Next

@@ -1,5 +1,5 @@
 ﻿Public Class Settlement
-    Implements iModifiable, iMapLocation, iTradable, iHistorable
+    Implements iModifiable, iMapLocation, iTradable, iHistorable, iTickable
 
 #Region "Constructors"
     Public Sub New()
@@ -134,10 +134,11 @@
         Next
     End Sub
 
-    Public Function CheckFlags(ByVal flags As String) As Boolean
+    Public Function CheckFlags(ByVal flags As String) As Boolean Implements iMapLocation.CheckFlags
         Dim fs As String() = flags.Split(" ")
         For Each f In fs
             Select Case f
+                Case "settlement" 'do nothing because it's true
                 Case "starving" : If HasStarvingHouse() = False Then Return False
             End Select
         Next
@@ -392,7 +393,7 @@
     End Function
 #End Region
 
-    Public Sub Tick()
+    Public Sub Tick() Implements iTickable.Tick
         TickModifier()
         TradeOutpost.Tick()
 
@@ -406,7 +407,7 @@
             c.Tick()
         Next
     End Sub
-    Public Function GetTickWarnings() As List(Of Alert)
+    Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings
         Dim total As New List(Of Alert)
         For n = Buildings.Count - 1 To 0 Step -1
             Dim b As Building = Buildings(n)

@@ -1,5 +1,5 @@
 ﻿Public Class SettlementSite
-    Implements iMapLocation
+    Implements iMapLocation, iTickable
     Public ReadOnly Property Name As String Implements iMapLocation.Name
         Get
             Return Terrain
@@ -47,6 +47,22 @@
             Next
         End With
         Return site
+    End Function
+
+    Public Function CheckFlags(ByVal flags As String) As Boolean Implements iMapLocation.CheckFlags
+        For Each f In flags.Split(",")
+            Select Case f.Trim
+                Case "settlementsite" 'do nothing if true
+                Case Else : Return False
+            End Select
+        Next
+        Return True
+    End Function
+    Public Sub Tick() Implements iTickable.Tick
+
+    End Sub
+    Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings
+
     End Function
 
 #Region "World Map"

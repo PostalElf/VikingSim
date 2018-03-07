@@ -79,7 +79,9 @@
     <Compile Include="Settlement\Buildings\WorkplacePost.vb" />
     <Compile Include="Settlement\iMapLocation.vb" />
     <Compile Include="Settlement\iSaveable.vb" />
-    <Compile Include="Settlement\TradeOutpost.vb" />
+    <Compile Include="Settlement\Trade\iTradable.vb" />
+    <Compile Include="Settlement\Trade\TradeOutpost.vb" />
+    <Compile Include="Settlement\Trade\Village.vb" />
     <Compile Include="Trackers\Inventory\Furniture.vb" />
     <Compile Include="Trackers\Inventory\Gear.vb" />
     <Compile Include="Trackers\Inventory\Item.vb" />

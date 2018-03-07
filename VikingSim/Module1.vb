@@ -22,8 +22,8 @@
                 Case "View Map" : MenuShowWorldMap(world)
                 Case "Review Settlement" : MenuReviewSettlement(world)
                 Case "Calculate Distance"
-                    Dim origin As iMapLocation = Menu.getListChoice(world.GetMapLocations, 0, "Select origin:")
-                    Dim destination As iMapLocation = Menu.getListChoice(world.GetMapLocations, 0, "Select destination:")
+                    Dim origin As iMapLocation = Menu.getListChoice(world.GetMapLocations(""), 0, "Select origin:")
+                    Dim destination As iMapLocation = Menu.getListChoice(world.GetMapLocations(""), 0, "Select destination:")
                     Dim distance As Integer = Math.Round(world.GetDistance(origin, destination) * 10)
                     Console.WriteLine("Distance: " & distance)
                     Console.WriteLine("At a travel speed of 10/week, it would take " & Math.Ceiling(distance / 10) & " weeks.")
@@ -33,7 +33,7 @@
         End While
     End Sub
     Private Function BuildSettlement(ByVal world As World) As Settlement
-        Dim settlement As Settlement = world.GetSettlements("")(0)
+        Dim settlement As Settlement = world.GetMapLocations("settlement")(0)
         settlement.AddResources("Hardwood", 100)
         settlement.AddResources("Softwood", 100)
         settlement.AddResources("Fruit", 100)
@@ -116,8 +116,8 @@
         Console.ReadLine()
     End Sub
     Private Sub MenuReviewSettlement(ByVal world As World)
-        Dim settlements As List(Of Settlement) = world.GetSettlements("")
-        Dim settlement As Settlement = Menu.getListChoice(Of Settlement)(settlements, 1, "Select a settlement:")
+        Dim settlements As List(Of iMapLocation) = world.GetMapLocations("settlement")
+        Dim settlement As Settlement = Menu.getListChoice(Of iMapLocation)(settlements, 1, "Select a settlement:")
 
         Dim bMenu As New List(Of String)
         With bMenu
@@ -427,7 +427,7 @@
         End With
     End Sub
     Private Sub MenuTradeConvoy(ByVal world As World, ByVal settlement As Settlement)
-        Dim destinations As List(Of iMapLocation) = world.GetMapLocations
+        Dim destinations As List(Of iMapLocation) = world.GetMapLocations("")
         destinations.Remove(settlement)
         For n = destinations.Count - 1 To 0
             If TryCast(destinations(n), iTradable) Is Nothing Then destinations.RemoveAt(n)
