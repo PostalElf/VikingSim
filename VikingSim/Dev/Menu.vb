@@ -5,7 +5,7 @@
         For n = 1 To i
             total &= space
         Next
-        Return space
+        Return total
     End Function
     Friend Shared Function getListChoice(Of T)(ByVal objList As List(Of T), ByVal indent As Integer, Optional ByVal str As String = "", Optional ByVal prompt As String = "> ") As T
         If objList.Count = 0 Then Return Nothing
