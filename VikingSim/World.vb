@@ -11,6 +11,10 @@
                 Case 3 : AlertsColour.Add(n, ConsoleColor.White)
             End Select
         Next
+
+        For Each t In MapLocationTypes
+            MapLocations.Add(t, New List(Of iMapLocation))
+        Next
     End Sub
     Public Shared Function Construct() As World
         Const siteNum As Integer = 10
@@ -65,10 +69,12 @@
         Dim raw As New List(Of String)
         With raw
             .Add(TimeNow.GetSaveString)
-            For Each ml In MapLocations
-                Dim savable As iSaveable = TryCast(ml, iSaveable)
-                If savable Is Nothing Then Continue For
-                'savable.save()
+            For Each t In MapLocations.Keys
+                For Each ml In MapLocations(t)
+                    Dim savable As iSaveable = TryCast(ml, iSaveable)
+                    If savable Is Nothing Then Continue For
+                    'savable.save()
+                Next
             Next
         End With
 
@@ -140,21 +146,32 @@
     Const xMax As Integer = 40
     Const yMax As Integer = 10
 
-    Private MapLocations As New List(Of iMapLocation)
+    Private Shared MapLocationTypes As Type() = {GetType(Settlement), GetType(Village), GetType(SettlementSite)}
+    Private MapLocations As New Dictionary(Of Type, List(Of iMapLocation))
     Private Map(xMax, yMax) As iMapLocation
     Public Sub AddMapLocation(ByVal ml As iMapLocation)
-        MapLocations.Add(ml)
+        Dim t As Type = ml.GetType
+        If MapLocations.ContainsKey(t) = False Then MapLocations.Add(t, New List(Of iMapLocation))
+        MapLocations(t).Add(ml)
         Map(ml.X, ml.Y) = ml
     End Sub
+    Public Function GetMapLocations(ByVal t As Type) As List(Of iMapLocation)
+        If MapLocations.ContainsKey(t) = False Then Return Nothing
+        Return MapLocations(t)
+    End Function
     Public Function GetMapLocations(ByVal flags As String) As List(Of iMapLocation)
         Dim total As New List(Of iMapLocation)
-        For Each ml In MapLocations
-            If ml.CheckFlags(flags) = True Then total.Add(ml)
+        For Each t In MapLocations.Keys
+            For Each ml In MapLocations(t)
+                If ml.CheckFlags(flags) = True Then total.Add(ml)
+            Next
         Next
         Return total
     End Function
     Public Sub RemoveMapLocation(ByVal ml As iMapLocation)
-        If MapLocations.Contains(ml) = False Then Exit Sub
+        If MapLocations.ContainsKey(ml.GetType) = False Then Exit Sub
+        If MapLocations(ml.GetType).Contains(ml) = False Then Exit Sub
+
         MapLocations.Remove(ml)
         Map(ml.X, ml.Y) = Nothing
     End Sub
@@ -189,20 +206,24 @@
     Public Sub Tick(ByVal parent As iTickable) Implements iTickable.Tick
         TimeNow.Tick()
 
-        For n = MapLocations.Count - 1 To 0 Step -1
-            Dim ml As iMapLocation = MapLocations(n)
-            Dim tickable As iTickable = TryCast(ml, iTickable)
-            If tickable Is Nothing = False Then tickable.Tick(Me)
+        For Each t In MapLocationTypes
+            For n = MapLocations(t).Count - 1 To 0 Step -1
+                Dim ml As iMapLocation = MapLocations(t)(n)
+                Dim tickable As iTickable = TryCast(ml, iTickable)
+                If tickable Is Nothing = False Then tickable.Tick(Me)
+            Next
         Next
     End Sub
     Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings
         Dim total As New List(Of Alert)
-        For Each ml In MapLocations
-            Dim tickable As iTickable = TryCast(ml, iTickable)
-            If tickable Is Nothing = False Then Continue For
-            Dim warnings As List(Of Alert) = tickable.GetTickWarnings()
-            If warnings Is Nothing OrElse warnings.Count = 0 Then Continue For
-            total.AddRange(warnings)
+        For Each t In MapLocationTypes
+            For Each ml In MapLocations(t)
+                Dim tickable As iTickable = TryCast(ml, iTickable)
+                If tickable Is Nothing = False Then Continue For
+                Dim warnings As List(Of Alert) = tickable.GetTickWarnings()
+                If warnings Is Nothing OrElse warnings.Count = 0 Then Continue For
+                total.AddRange(warnings)
+            Next
         Next
         Return total
     End Function
