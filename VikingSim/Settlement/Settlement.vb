@@ -1,5 +1,5 @@
 ﻿Public Class Settlement
-    Implements iModifiable, iMapLocation, iHistorable
+    Implements iModifiable, iMapLocation, iTradable, iHistorable
 
 #Region "Constructors"
     Public Sub New()
@@ -108,7 +108,7 @@
 
 #Region "Personal Identifiers"
     Private _Name As String
-    Public ReadOnly Property Name As String Implements iMapLocation.Name, iModifiable.Name
+    Public ReadOnly Property Name As String Implements iMapLocation.Name, iModifiable.Name, iTradable.Name
         Get
             Return _Name
         End Get
@@ -184,8 +184,8 @@
         End Get
     End Property
 
-    Private Property X As Integer Implements iMapLocation.X
-    Private Property Y As Integer Implements iMapLocation.Y
+    Private Property X As Integer Implements iMapLocation.X, iTradable.X
+    Private Property Y As Integer Implements iMapLocation.Y, iTradable.Y
 #End Region
 
 #Region "History"
@@ -374,7 +374,7 @@
         inventory.DumpItems(Me)
     End Sub
 
-    Private Property TradeOutpost As New TradeOutpost(Me) Implements iMapLocation.TradeOutpost
+    Private Property TradeOutpost As New TradeOutpost(Me) Implements iTradable.TradeOutpost
     Private Convoys As New List(Of Convoy)
     Public Sub AddConvoy(ByVal Convoy As Convoy)
         If Convoys.Contains(Convoy) Then Exit Sub

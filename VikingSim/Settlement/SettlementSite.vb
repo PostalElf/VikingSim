@@ -9,7 +9,7 @@
         Return Name
     End Function
 
-    Public Terrain As String
+    Private Terrain As String
     Public LocationList As New List(Of String)
     Public Shared Function Construct(ByVal px As Integer, ByVal py As Integer, Optional ByVal terrain As String = Nothing) As SettlementSite
         'allLocation holds a list of all the different types of locations
@@ -48,8 +48,6 @@
         End With
         Return site
     End Function
-
-    Public Property TradeOutpost As New TradeOutpost(Me) Implements iMapLocation.TradeOutpost
 
 #Region "World Map"
     Private Property X As Integer Implements iMapLocation.X

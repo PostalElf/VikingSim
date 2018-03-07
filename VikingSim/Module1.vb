@@ -429,8 +429,11 @@
     Private Sub MenuTradeConvoy(ByVal world As World, ByVal settlement As Settlement)
         Dim destinations As List(Of iMapLocation) = world.GetMapLocations
         destinations.Remove(settlement)
+        For n = destinations.Count - 1 To 0
+            If TryCast(destinations(n), iTradable) Is Nothing Then destinations.RemoveAt(n)
+        Next
         Dim destination As iMapLocation = Menu.getListChoice(destinations, 0, "Select destination:")
-        If destination Is Nothing Then Exit Sub
+        If destination Is Nothing Then Console.WriteLine("No available trade destinations!") : Exit Sub
 
         Dim leaders As List(Of Person) = settlement.GetResidents("occupation=Trader")
         If leaders.Count = 0 Then Console.WriteLine("No traders available to lead the convoy.") : Console.ReadLine() : Exit Sub

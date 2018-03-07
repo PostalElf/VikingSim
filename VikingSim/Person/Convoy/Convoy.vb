@@ -1,6 +1,6 @@
 ﻿Public MustInherit Class Convoy
 #Region "Constructors"
-    Public Sub New(ByVal _leader As Person, ByVal _people As List(Of Person), ByVal _origin As iMapLocation, ByVal _destination As iMapLocation, _
+    Public Sub New(ByVal _leader As Person, ByVal _people As List(Of Person), ByVal _origin As iTradable, ByVal _destination As iTradable, _
                    ByVal _foodEaten As ResourceDict, ByVal _foodSupply As ResourceDict, Optional ByVal _isRoundtrip As Boolean = False)
         Leader = _leader
         People = _people
@@ -37,8 +37,8 @@
 #End Region
 
 #Region "World Map"
-    Protected Origin As iMapLocation
-    Protected Destination As iMapLocation
+    Protected Origin As iTradable
+    Protected Destination As iTradable
     Protected IsRoundTrip As Boolean
 
     Private TravelSpeed As Integer
