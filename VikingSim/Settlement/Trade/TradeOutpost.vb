@@ -1,14 +1,28 @@
 ﻿Public Class TradeOutpost
+    Implements iTickable
     Private Owner As iMapLocation
     Public Sub New(ByVal _owner As iMapLocation)
         Owner = _owner
     End Sub
 
     Private Money As Integer
-    Private ItemsBuy As New Inventory
+    Private ItemsBuy As New List(Of String)
     Private ItemsSell As New Inventory
     Private ResourcesBuy As New ResourceDict
     Private ResourcesSell As New ResourceDict
+
+    Public Sub AddSaleItem(ByVal r As String, ByVal qty As Integer)
+        ResourcesSell.Add(r, qty)
+    End Sub
+    Public Sub AddSaleItem(ByVal item As Item)
+        ItemsSell.AddItem(item)
+    End Sub
+    Public Sub AddBuyItem(ByVal r As String, ByVal qty As Integer)
+        ResourcesBuy.Add(r, qty)
+    End Sub
+    Public Sub AddBuyItem(ByVal itemName As String)
+        ItemsBuy.Add(itemName)
+    End Sub
 
     Public Function ConvoySellGoodsCheck(ByVal inventory As Inventory, ByVal convoy As ConvoyTrade) As List(Of Alert)
         Dim total As New List(Of Alert)
@@ -30,7 +44,7 @@
         Return total
     End Function
     Private Function ConvoySellGoodCheck(ByVal i As Item) As String
-        If ItemsBuy.CheckItem(i) = False Then Return Owner.Name & " does not wish to purchase " & i.Name & "."
+        If ItemsBuy.Contains(i.Name) = False Then Return Owner.Name & " does not wish to purchase " & i.Name & "."
         If i.Cost > Money Then Return Owner.Name & " does not have enough silver to purchase " & i.Name & "."
         Return Nothing
     End Function
@@ -80,7 +94,7 @@
             ResourcesSell(r) -= qty
             If ResourcesSell(r) <= 0 Then ResourcesSell.RemoveKey(r)
         Next
-        Convoy.addFunds(total)
+        convoy.AddFunds(total)
     End Sub
 
     Public Function ConvoyBuyGoodsCheck(ByVal shoppingList As Inventory, ByVal convoy As ConvoyTrade) As List(Of Alert)
@@ -148,7 +162,10 @@
         Next
     End Sub
 
-    Public Sub Tick()
-
+    Public Sub Tick(ByVal parent As iTickable) Implements iTickable.Tick
+        'do nothing for now
     End Sub
+    Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings
+        Return Nothing
+    End Function
 End Class
