@@ -396,7 +396,7 @@
 
     Public Sub Tick(ByVal parent As iTickable) Implements iTickable.Tick
         TickModifier()
-        TradeOutpost.Tick()
+        TradeOutpost.Tick(Me)
 
         For n = Buildings.Count - 1 To 0 Step -1
             Dim b As Building = Buildings(n)
@@ -410,11 +410,16 @@
     End Sub
     Public Function GetTickWarnings() As List(Of Alert) Implements iTickable.GetTickWarnings
         Dim total As New List(Of Alert)
+
+        Dim tWarnings As List(Of Alert) = TradeOutpost.GetTickWarnings
+        If tWarnings Is Nothing = False Then total.AddRange(tWarnings)
+
         For n = Buildings.Count - 1 To 0 Step -1
             Dim b As Building = Buildings(n)
             Dim bWarnings As List(Of Alert) = b.GetTickWarnings()
             If bWarnings Is Nothing = False Then total.AddRange(bWarnings)
         Next
+
         For n = Convoys.Count - 1 To 0 Step -1
             Dim c As Convoy = Convoys(n)
             Dim cWarnings As List(Of Alert) = c.GetTickWarnings

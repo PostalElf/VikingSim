@@ -57,18 +57,36 @@
         End With
         Return site
     End Function
+    Public Shared Function Construct(ByVal iBuildable As iBuildable) As SettlementSite
+        Dim site As New SettlementSite
+        With site
+            .X = iBuildable.X
+            .Y = iBuildable.Y
+            .Terrain = iBuildable.Terrain
+            .LocationList.AddRange(iBuildable.Locations)
+        End With
+        Return site
+    End Function
 
     Private Shared WeeksSinceLastVillage As Integer = 0
     Private ReadOnly Property ConversionRate(ByVal world As World) As Integer
         Get
+            'every three weeks since a village was last built, increase % by 1
+            'min 1% chance because of ceiling
             Dim total As Integer = Math.Ceiling(WeeksSinceLastVillage / 3)
+
+            'if there's less than 3 villages, +5%; more than 5 villages, -5%
             Dim villages As List(Of iMapLocation) = world.GetMapLocations(GetType(Village))
             Select Case villages.Count
                 Case Is < 3 : total += 5
                 Case Is > 5 : total -= 5
             End Select
+
+            'cap at 1-100
             If total <= 0 Then total = 1
             If total > 100 Then total = 100
+
+            'and done
             Return total
         End Get
     End Property
